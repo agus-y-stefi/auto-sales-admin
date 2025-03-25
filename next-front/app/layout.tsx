@@ -22,10 +22,8 @@ export default function RootLayout({
     <html lang="es">
       <body className={inter.className}>
         <SidebarProvider>
-          <div className="flex h-screen">
-            <Sidebar />
-            <div className="flex-1 overflow-auto">{children}</div>
-          </div>
+          <Sidebar />
+          <main className="transition-all duration-300 min-h-screen">{children}</main>
         </SidebarProvider>
       </body>
     </html>
