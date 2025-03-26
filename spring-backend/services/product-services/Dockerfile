@@ -1,29 +1,26 @@
-# syntax=docker/dockerfile:1
-
-# Stage 1: Build the application
-FROM maven:3-eclipse-temurin-21 AS build
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the Maven project files
-COPY pom.xml .
-COPY src ./src
-
-# Build the application
-RUN mvn clean package -DskipTests
-
-# Stage 2: Create the runtime image
+# Usa la imagen oficial de OpenJDK 21 como base
 FROM openjdk:21-jdk-slim
 
-# Set the working directory
+# Instala Maven
+RUN apt-get update && apt-get install -y maven && apt-get clean
+
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copy the built application from the build stage
-COPY --from=build /app/target/product-services-0.0.1-SNAPSHOT.jar app.jar
+# Copia el archivo pom.xml (esto es importante para la construcción incremental)
+COPY pom.xml .
 
-# Expose the application port
-EXPOSE 8080
+# Descarga las dependencias de Maven
+RUN mvn dependency:go-offline
 
-# Run the application
-CMD ["java", "-jar", "app.jar"]
+# Copia el código fuente del proyecto al contenedor
+COPY src /app/src
+
+# Compila el proyecto
+RUN mvn clean install
+
+# Expone el puerto en el que se ejecutará la aplicación (si es necesario)
+EXPOSE 8081
+
+# Comando para ejecutar la aplicación
+CMD ["mvn", "spring-boot:run"]
