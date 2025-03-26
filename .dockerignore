@@ -1,0 +1,50 @@
+# General patterns
+.git/
+.gitignore
+*.swp
+*.swo
+.idea/
+.vscode/
+*.log
+*.tmp
+*.local
+*.env*
+*.pem
+*.key
+*.crt
+
+# Node.js specific
+node_modules/
+npm-debug.log
+yarn-debug.log
+
+# Java specific
+target/
+*.class
+.gradle/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Documentation
+*.md
+README*
+
+# Temporary files
+tmp/
+temp/
+
+# Docker files
+Dockerfile*
+docker-compose*
+
+# Project-specific
+.next/
+public/
+
+# Java project-specific
+.mvn/
+mvnw
+mvnw.cmd
