@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  productos-service:
+    image: maven:3.8.4-openjdk-17
+    container_name: productos-service
+    working_dir: /app
+    volumes:
+      - ./services/product-services:/app
+      - ~/.m2:/root/.m2  # Cache de Maven para no descargar dependencias siempre
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://productos-db:5432/ms_productos_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - productos-db
+    command: ["mvn", "spring-boot:run"]
+
+  productos-db:
+    image: postgres:15
+    container_name: productos-db
+    restart: always
+    environment:
+      POSTGRES_DB: ms_productos_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - productos-data:/var/lib/postgresql/data
+
+  ordenes-db:
+    image: postgres:15
+    container_name: ordenes-db
+    restart: always
+    environment:
+      POSTGRES_DB: ordenes
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - ordenes-data:/var/lib/postgresql/data
+
+  empleados-db:
+    image: postgres:15
+    container_name: empleados-db
+    restart: always
+    environment:
+      POSTGRES_DB: empleados
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+    volumes:
+      - empleados-data:/var/lib/postgresql/data
+
+volumes:
+  productos-data:
+  ordenes-data:
+  empleados-data:
