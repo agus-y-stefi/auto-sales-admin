@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./", // Esto permite usar rutas relativas desde la raíz (puede no ir)
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
