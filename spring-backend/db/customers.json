@@ -1,0 +1,1222 @@
+[
+  {
+    "customer_number": 103,
+    "customer_name": "Atelier graphique",
+    "contact_lastname": "Schmitt",
+    "contact_firstname": "Carine ",
+    "phone": "40.32.2555",
+    "city": "Nantes",
+    "country": "France",
+    "credit_limit": 21000.00
+  },
+  {
+    "customer_number": 112,
+    "customer_name": "Signal Gift Stores",
+    "contact_lastname": "King",
+    "contact_firstname": "Jean",
+    "phone": "7025551838",
+    "city": "Las Vegas",
+    "country": "USA",
+    "credit_limit": 71800.00
+  },
+  {
+    "customer_number": 114,
+    "customer_name": "Australian Collectors, Co.",
+    "contact_lastname": "Ferguson",
+    "contact_firstname": "Peter",
+    "phone": "03 9520 4555",
+    "city": "Melbourne",
+    "country": "Australia",
+    "credit_limit": 117300.00
+  },
+  {
+    "customer_number": 119,
+    "customer_name": "La Rochelle Gifts",
+    "contact_lastname": "Labrune",
+    "contact_firstname": "Janine ",
+    "phone": "40.67.8555",
+    "city": "Nantes",
+    "country": "France",
+    "credit_limit": 118200.00
+  },
+  {
+    "customer_number": 121,
+    "customer_name": "Baane Mini Imports",
+    "contact_lastname": "Bergulfsen",
+    "contact_firstname": "Jonas ",
+    "phone": "07-98 9555",
+    "city": "Stavern",
+    "country": "Norway",
+    "credit_limit": 81700.00
+  },
+  {
+    "customer_number": 124,
+    "customer_name": "Mini Gifts Distributors Ltd.",
+    "contact_lastname": "Nelson",
+    "contact_firstname": "Susan",
+    "phone": "4155551450",
+    "city": "San Rafael",
+    "country": "USA",
+    "credit_limit": 210500.00
+  },
+  {
+    "customer_number": 125,
+    "customer_name": "Havel & Zbyszek Co",
+    "contact_lastname": "Piestrzeniewicz",
+    "contact_firstname": "Zbyszek ",
+    "phone": "(26) 642-7555",
+    "city": "Warszawa",
+    "country": "Poland",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 128,
+    "customer_name": "Blauer See Auto, Co.",
+    "contact_lastname": "Keitel",
+    "contact_firstname": "Roland",
+    "phone": "+49 69 66 90 2555",
+    "city": "Frankfurt",
+    "country": "Germany",
+    "credit_limit": 59700.00
+  },
+  {
+    "customer_number": 129,
+    "customer_name": "Mini Wheels Co.",
+    "contact_lastname": "Murphy",
+    "contact_firstname": "Julie",
+    "phone": "6505555787",
+    "city": "San Francisco",
+    "country": "USA",
+    "credit_limit": 64600.00
+  },
+  {
+    "customer_number": 131,
+    "customer_name": "Land of Toys Inc.",
+    "contact_lastname": "Lee",
+    "contact_firstname": "Kwai",
+    "phone": "2125557818",
+    "city": "NYC",
+    "country": "USA",
+    "credit_limit": 114900.00
+  },
+  {
+    "customer_number": 141,
+    "customer_name": "Euro+ Shopping Channel",
+    "contact_lastname": "Freyre",
+    "contact_firstname": "Diego ",
+    "phone": "(91) 555 94 44",
+    "city": "Madrid",
+    "country": "Spain",
+    "credit_limit": 227600.00
+  },
+  {
+    "customer_number": 144,
+    "customer_name": "Volvo Model Replicas, Co",
+    "contact_lastname": "Berglund",
+    "contact_firstname": "Christina ",
+    "phone": "0921-12 3555",
+    "city": "Luleå",
+    "country": "Sweden",
+    "credit_limit": 53100.00
+  },
+  {
+    "customer_number": 145,
+    "customer_name": "Danish Wholesale Imports",
+    "contact_lastname": "Petersen",
+    "contact_firstname": "Jytte ",
+    "phone": "31 12 3555",
+    "city": "Kobenhavn",
+    "country": "Denmark",
+    "credit_limit": 83400.00
+  },
+  {
+    "customer_number": 146,
+    "customer_name": "Saveley & Henriot, Co.",
+    "contact_lastname": "Saveley",
+    "contact_firstname": "Mary ",
+    "phone": "78.32.5555",
+    "city": "Lyon",
+    "country": "France",
+    "credit_limit": 123900.00
+  },
+  {
+    "customer_number": 148,
+    "customer_name": "Dragon Souveniers, Ltd.",
+    "contact_lastname": "Natividad",
+    "contact_firstname": "Eric",
+    "phone": "+65 221 7555",
+    "city": "Singapore",
+    "country": "Singapore",
+    "credit_limit": 103800.00
+  },
+  {
+    "customer_number": 151,
+    "customer_name": "Muscle Machine Inc",
+    "contact_lastname": "Young",
+    "contact_firstname": "Jeff",
+    "phone": "2125557413",
+    "city": "NYC",
+    "country": "USA",
+    "credit_limit": 138500.00
+  },
+  {
+    "customer_number": 157,
+    "customer_name": "Diecast Classics Inc.",
+    "contact_lastname": "Leong",
+    "contact_firstname": "Kelvin",
+    "phone": "2155551555",
+    "city": "Allentown",
+    "country": "USA",
+    "credit_limit": 100600.00
+  },
+  {
+    "customer_number": 161,
+    "customer_name": "Technics Stores Inc.",
+    "contact_lastname": "Hashimoto",
+    "contact_firstname": "Juri",
+    "phone": "6505556809",
+    "city": "Burlingame",
+    "country": "USA",
+    "credit_limit": 84600.00
+  },
+  {
+    "customer_number": 166,
+    "customer_name": "Handji Gifts& Co",
+    "contact_lastname": "Victorino",
+    "contact_firstname": "Wendy",
+    "phone": "+65 224 1555",
+    "city": "Singapore",
+    "country": "Singapore",
+    "credit_limit": 97900.00
+  },
+  {
+    "customer_number": 167,
+    "customer_name": "Herkku Gifts",
+    "contact_lastname": "Oeztan",
+    "contact_firstname": "Veysel",
+    "phone": "+47 2267 3215",
+    "city": "Bergen",
+    "country": "Norway  ",
+    "credit_limit": 96800.00
+  },
+  {
+    "customer_number": 168,
+    "customer_name": "American Souvenirs Inc",
+    "contact_lastname": "Franco",
+    "contact_firstname": "Keith",
+    "phone": "2035557845",
+    "city": "New Haven",
+    "country": "USA",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 169,
+    "customer_name": "Porto Imports Co.",
+    "contact_lastname": "de Castro",
+    "contact_firstname": "Isabel ",
+    "phone": "(1) 356-5555",
+    "city": "Lisboa",
+    "country": "Portugal",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 171,
+    "customer_name": "Daedalus Designs Imports",
+    "contact_lastname": "Rancé",
+    "contact_firstname": "Martine ",
+    "phone": "20.16.1555",
+    "city": "Lille",
+    "country": "France",
+    "credit_limit": 82900.00
+  },
+  {
+    "customer_number": 172,
+    "customer_name": "La Corne Dabondance, Co.",
+    "contact_lastname": "Bertrand",
+    "contact_firstname": "Marie",
+    "phone": "(1) 42.34.2555",
+    "city": "Paris",
+    "country": "France",
+    "credit_limit": 84300.00
+  },
+  {
+    "customer_number": 173,
+    "customer_name": "Cambridge Collectables Co.",
+    "contact_lastname": "Tseng",
+    "contact_firstname": "Jerry",
+    "phone": "6175555555",
+    "city": "Cambridge",
+    "country": "USA",
+    "credit_limit": 43400.00
+  },
+  {
+    "customer_number": 175,
+    "customer_name": "Gift Depot Inc.",
+    "contact_lastname": "King",
+    "contact_firstname": "Julie",
+    "phone": "2035552570",
+    "city": "Bridgewater",
+    "country": "USA",
+    "credit_limit": 84300.00
+  },
+  {
+    "customer_number": 177,
+    "customer_name": "Osaka Souveniers Co.",
+    "contact_lastname": "Kentary",
+    "contact_firstname": "Mory",
+    "phone": "+81 06 6342 5555",
+    "city": "Kita-ku",
+    "country": "Japan",
+    "credit_limit": 81200.00
+  },
+  {
+    "customer_number": 181,
+    "customer_name": "Vitachrome Inc.",
+    "contact_lastname": "Frick",
+    "contact_firstname": "Michael",
+    "phone": "2125551500",
+    "city": "NYC",
+    "country": "USA",
+    "credit_limit": 76400.00
+  },
+  {
+    "customer_number": 186,
+    "customer_name": "Toys of Finland, Co.",
+    "contact_lastname": "Karttunen",
+    "contact_firstname": "Matti",
+    "phone": "90-224 8555",
+    "city": "Helsinki",
+    "country": "Finland",
+    "credit_limit": 96500.00
+  },
+  {
+    "customer_number": 187,
+    "customer_name": "AV Stores, Co.",
+    "contact_lastname": "Ashworth",
+    "contact_firstname": "Rachel",
+    "phone": "(171) 555-1555",
+    "city": "Manchester",
+    "country": "UK",
+    "credit_limit": 136800.00
+  },
+  {
+    "customer_number": 189,
+    "customer_name": "Clover Collections, Co.",
+    "contact_lastname": "Cassidy",
+    "contact_firstname": "Dean",
+    "phone": "+353 1862 1555",
+    "city": "Dublin",
+    "country": "Ireland",
+    "credit_limit": 69400.00
+  },
+  {
+    "customer_number": 198,
+    "customer_name": "Auto-Moto Classics Inc.",
+    "contact_lastname": "Taylor",
+    "contact_firstname": "Leslie",
+    "phone": "6175558428",
+    "city": "Brickhaven",
+    "country": "USA",
+    "credit_limit": 23000.00
+  },
+  {
+    "customer_number": 201,
+    "customer_name": "UK Collectables, Ltd.",
+    "contact_lastname": "Devon",
+    "contact_firstname": "Elizabeth",
+    "phone": "(171) 555-2282",
+    "city": "Liverpool",
+    "country": "UK",
+    "credit_limit": 92700.00
+  },
+  {
+    "customer_number": 202,
+    "customer_name": "Canadian Gift Exchange Network",
+    "contact_lastname": "Tamuri",
+    "contact_firstname": "Yoshi ",
+    "phone": "(604) 555-3392",
+    "city": "Vancouver",
+    "country": "Canada",
+    "credit_limit": 90300.00
+  },
+  {
+    "customer_number": 204,
+    "customer_name": "Online Mini Collectables",
+    "contact_lastname": "Barajas",
+    "contact_firstname": "Miguel",
+    "phone": "6175557555",
+    "city": "Brickhaven",
+    "country": "USA",
+    "credit_limit": 68700.00
+  },
+  {
+    "customer_number": 205,
+    "customer_name": "Toys4GrownUps.com",
+    "contact_lastname": "Young",
+    "contact_firstname": "Julie",
+    "phone": "6265557265",
+    "city": "Pasadena",
+    "country": "USA",
+    "credit_limit": 90700.00
+  },
+  {
+    "customer_number": 206,
+    "customer_name": "Asian Shopping Network, Co",
+    "contact_lastname": "Walker",
+    "contact_firstname": "Brydey",
+    "phone": "+612 9411 1555",
+    "city": "Singapore",
+    "country": "Singapore",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 209,
+    "customer_name": "Mini Caravy",
+    "contact_lastname": "Citeaux",
+    "contact_firstname": "Frédérique ",
+    "phone": "88.60.1555",
+    "city": "Strasbourg",
+    "country": "France",
+    "credit_limit": 53800.00
+  },
+  {
+    "customer_number": 211,
+    "customer_name": "King Kong Collectables, Co.",
+    "contact_lastname": "Gao",
+    "contact_firstname": "Mike",
+    "phone": "+852 2251 1555",
+    "city": "Central Hong Kong",
+    "country": "Hong Kong",
+    "credit_limit": 58600.00
+  },
+  {
+    "customer_number": 216,
+    "customer_name": "Enaco Distributors",
+    "contact_lastname": "Saavedra",
+    "contact_firstname": "Eduardo ",
+    "phone": "(93) 203 4555",
+    "city": "Barcelona",
+    "country": "Spain",
+    "credit_limit": 60300.00
+  },
+  {
+    "customer_number": 219,
+    "customer_name": "Boards & Toys Co.",
+    "contact_lastname": "Young",
+    "contact_firstname": "Mary",
+    "phone": "3105552373",
+    "city": "Glendale",
+    "country": "USA",
+    "credit_limit": 11000.00
+  },
+  {
+    "customer_number": 223,
+    "customer_name": "Natürlich Autos",
+    "contact_lastname": "Kloss",
+    "contact_firstname": "Horst ",
+    "phone": "0372-555188",
+    "city": "Cunewalde",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 227,
+    "customer_name": "Heintze Collectables",
+    "contact_lastname": "Ibsen",
+    "contact_firstname": "Palle",
+    "phone": "86 21 3555",
+    "city": "Århus",
+    "country": "Denmark",
+    "credit_limit": 120800.00
+  },
+  {
+    "customer_number": 233,
+    "customer_name": "Québec Home Shopping Network",
+    "contact_lastname": "Fresnière",
+    "contact_firstname": "Jean ",
+    "phone": "(514) 555-8054",
+    "city": "Montréal",
+    "country": "Canada",
+    "credit_limit": 48700.00
+  },
+  {
+    "customer_number": 237,
+    "customer_name": "ANG Resellers",
+    "contact_lastname": "Camino",
+    "contact_firstname": "Alejandra ",
+    "phone": "(91) 745 6555",
+    "city": "Madrid",
+    "country": "Spain",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 239,
+    "customer_name": "Collectable Mini Designs Co.",
+    "contact_lastname": "Thompson",
+    "contact_firstname": "Valarie",
+    "phone": "7605558146",
+    "city": "San Diego",
+    "country": "USA",
+    "credit_limit": 105000.00
+  },
+  {
+    "customer_number": 240,
+    "customer_name": "giftsbymail.co.uk",
+    "contact_lastname": "Bennett",
+    "contact_firstname": "Helen ",
+    "phone": "(198) 555-8888",
+    "city": "Cowes",
+    "country": "UK",
+    "credit_limit": 93900.00
+  },
+  {
+    "customer_number": 242,
+    "customer_name": "Alpha Cognac",
+    "contact_lastname": "Roulet",
+    "contact_firstname": "Annette ",
+    "phone": "61.77.6555",
+    "city": "Toulouse",
+    "country": "France",
+    "credit_limit": 61100.00
+  },
+  {
+    "customer_number": 247,
+    "customer_name": "Messner Shopping Network",
+    "contact_lastname": "Messner",
+    "contact_firstname": "Renate ",
+    "phone": "069-0555984",
+    "city": "Frankfurt",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 249,
+    "customer_name": "Amica Models & Co.",
+    "contact_lastname": "Accorti",
+    "contact_firstname": "Paolo ",
+    "phone": "011-4988555",
+    "city": "Torino",
+    "country": "Italy",
+    "credit_limit": 113000.00
+  },
+  {
+    "customer_number": 250,
+    "customer_name": "Lyon Souveniers",
+    "contact_lastname": "Da Silva",
+    "contact_firstname": "Daniel",
+    "phone": "+33 1 46 62 7555",
+    "city": "Paris",
+    "country": "France",
+    "credit_limit": 68100.00
+  },
+  {
+    "customer_number": 256,
+    "customer_name": "Auto Associés & Cie.",
+    "contact_lastname": "Tonini",
+    "contact_firstname": "Daniel ",
+    "phone": "30.59.8555",
+    "city": "Versailles",
+    "country": "France",
+    "credit_limit": 77900.00
+  },
+  {
+    "customer_number": 259,
+    "customer_name": "Toms Spezialitäten, Ltd",
+    "contact_lastname": "Pfalzheim",
+    "contact_firstname": "Henriette ",
+    "phone": "0221-5554327",
+    "city": "Köln",
+    "country": "Germany",
+    "credit_limit": 120400.00
+  },
+  {
+    "customer_number": 260,
+    "customer_name": "Royal Canadian Collectables, Ltd.",
+    "contact_lastname": "Lincoln",
+    "contact_firstname": "Elizabeth ",
+    "phone": "(604) 555-4555",
+    "city": "Tsawassen",
+    "country": "Canada",
+    "credit_limit": 89600.00
+  },
+  {
+    "customer_number": 273,
+    "customer_name": "Franken Gifts, Co",
+    "contact_lastname": "Franken",
+    "contact_firstname": "Peter ",
+    "phone": "089-0877555",
+    "city": "München",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 276,
+    "customer_name": "Annas Decorations, Ltd",
+    "contact_lastname": "OHara",
+    "contact_firstname": "Anna",
+    "phone": "02 9936 8555",
+    "city": "North Sydney",
+    "country": "Australia",
+    "credit_limit": 107800.00
+  },
+  {
+    "customer_number": 278,
+    "customer_name": "Rovelli Gifts",
+    "contact_lastname": "Rovelli",
+    "contact_firstname": "Giovanni ",
+    "phone": "035-640555",
+    "city": "Bergamo",
+    "country": "Italy",
+    "credit_limit": 119600.00
+  },
+  {
+    "customer_number": 282,
+    "customer_name": "Souveniers And Things Co.",
+    "contact_lastname": "Huxley",
+    "contact_firstname": "Adrian",
+    "phone": "+61 2 9495 8555",
+    "city": "Chatswood",
+    "country": "Australia",
+    "credit_limit": 93300.00
+  },
+  {
+    "customer_number": 286,
+    "customer_name": "Martas Replicas Co.",
+    "contact_lastname": "Hernandez",
+    "contact_firstname": "Marta",
+    "phone": "6175558555",
+    "city": "Cambridge",
+    "country": "USA",
+    "credit_limit": 123700.00
+  },
+  {
+    "customer_number": 293,
+    "customer_name": "BG&E Collectables",
+    "contact_lastname": "Harrison",
+    "contact_firstname": "Ed",
+    "phone": "+41 26 425 50 01",
+    "city": "Fribourg",
+    "country": "Switzerland",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 298,
+    "customer_name": "Vida Sport, Ltd",
+    "contact_lastname": "Holz",
+    "contact_firstname": "Mihael",
+    "phone": "0897-034555",
+    "city": "Genève",
+    "country": "Switzerland",
+    "credit_limit": 141300.00
+  },
+  {
+    "customer_number": 299,
+    "customer_name": "Norway Gifts By Mail, Co.",
+    "contact_lastname": "Klaeboe",
+    "contact_firstname": "Jan",
+    "phone": "+47 2212 1555",
+    "city": "Oslo",
+    "country": "Norway  ",
+    "credit_limit": 95100.00
+  },
+  {
+    "customer_number": 303,
+    "customer_name": "Schuyler Imports",
+    "contact_lastname": "Schuyler",
+    "contact_firstname": "Bradley",
+    "phone": "+31 20 491 9555",
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 307,
+    "customer_name": "Der Hund Imports",
+    "contact_lastname": "Andersen",
+    "contact_firstname": "Mel",
+    "phone": "030-0074555",
+    "city": "Berlin",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 311,
+    "customer_name": "Oulu Toy Supplies, Inc.",
+    "contact_lastname": "Koskitalo",
+    "contact_firstname": "Pirkko",
+    "phone": "981-443655",
+    "city": "Oulu",
+    "country": "Finland",
+    "credit_limit": 90500.00
+  },
+  {
+    "customer_number": 314,
+    "customer_name": "Petit Auto",
+    "contact_lastname": "Dewey",
+    "contact_firstname": "Catherine ",
+    "phone": "(02) 5554 67",
+    "city": "Bruxelles",
+    "country": "Belgium",
+    "credit_limit": 79900.00
+  },
+  {
+    "customer_number": 319,
+    "customer_name": "Mini Classics",
+    "contact_lastname": "Frick",
+    "contact_firstname": "Steve",
+    "phone": "9145554562",
+    "city": "White Plains",
+    "country": "USA",
+    "credit_limit": 102700.00
+  },
+  {
+    "customer_number": 320,
+    "customer_name": "Mini Creations Ltd.",
+    "contact_lastname": "Huang",
+    "contact_firstname": "Wing",
+    "phone": "5085559555",
+    "city": "New Bedford",
+    "country": "USA",
+    "credit_limit": 94500.00
+  },
+  {
+    "customer_number": 321,
+    "customer_name": "Corporate Gift Ideas Co.",
+    "contact_lastname": "Brown",
+    "contact_firstname": "Julie",
+    "phone": "6505551386",
+    "city": "San Francisco",
+    "country": "USA",
+    "credit_limit": 105000.00
+  },
+  {
+    "customer_number": 323,
+    "customer_name": "Down Under Souveniers, Inc",
+    "contact_lastname": "Graham",
+    "contact_firstname": "Mike",
+    "phone": "+64 9 312 5555",
+    "city": "Auckland  ",
+    "country": "New Zealand",
+    "credit_limit": 88000.00
+  },
+  {
+    "customer_number": 324,
+    "customer_name": "Stylish Desk Decors, Co.",
+    "contact_lastname": "Brown",
+    "contact_firstname": "Ann ",
+    "phone": "(171) 555-0297",
+    "city": "London",
+    "country": "UK",
+    "credit_limit": 77000.00
+  },
+  {
+    "customer_number": 328,
+    "customer_name": "Tekni Collectables Inc.",
+    "contact_lastname": "Brown",
+    "contact_firstname": "William",
+    "phone": "2015559350",
+    "city": "Newark",
+    "country": "USA",
+    "credit_limit": 43000.00
+  },
+  {
+    "customer_number": 333,
+    "customer_name": "Australian Gift Network, Co",
+    "contact_lastname": "Calaghan",
+    "contact_firstname": "Ben",
+    "phone": "61-7-3844-6555",
+    "city": "South Brisbane",
+    "country": "Australia",
+    "credit_limit": 51600.00
+  },
+  {
+    "customer_number": 334,
+    "customer_name": "Suominen Souveniers",
+    "contact_lastname": "Suominen",
+    "contact_firstname": "Kalle",
+    "phone": "+358 9 8045 555",
+    "city": "Espoo",
+    "country": "Finland",
+    "credit_limit": 98800.00
+  },
+  {
+    "customer_number": 335,
+    "customer_name": "Cramer Spezialitäten, Ltd",
+    "contact_lastname": "Cramer",
+    "contact_firstname": "Philip ",
+    "phone": "0555-09555",
+    "city": "Brandenburg",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 339,
+    "customer_name": "Classic Gift Ideas, Inc",
+    "contact_lastname": "Cervantes",
+    "contact_firstname": "Francisca",
+    "phone": "2155554695",
+    "city": "Philadelphia",
+    "country": "USA",
+    "credit_limit": 81100.00
+  },
+  {
+    "customer_number": 344,
+    "customer_name": "CAF Imports",
+    "contact_lastname": "Fernandez",
+    "contact_firstname": "Jesus",
+    "phone": "+34 913 728 555",
+    "city": "Madrid",
+    "country": "Spain",
+    "credit_limit": 59600.00
+  },
+  {
+    "customer_number": 347,
+    "customer_name": "Men R US Retailers, Ltd.",
+    "contact_lastname": "Chandler",
+    "contact_firstname": "Brian",
+    "phone": "2155554369",
+    "city": "Los Angeles",
+    "country": "USA",
+    "credit_limit": 57700.00
+  },
+  {
+    "customer_number": 348,
+    "customer_name": "Asian Treasures, Inc.",
+    "contact_lastname": "McKenna",
+    "contact_firstname": "Patricia ",
+    "phone": "2967 555",
+    "city": "Cork",
+    "country": "Ireland",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 350,
+    "customer_name": "Marseille Mini Autos",
+    "contact_lastname": "Lebihan",
+    "contact_firstname": "Laurence ",
+    "phone": "91.24.4555",
+    "city": "Marseille",
+    "country": "France",
+    "credit_limit": 65000.00
+  },
+  {
+    "customer_number": 353,
+    "customer_name": "Reims Collectables",
+    "contact_lastname": "Henriot",
+    "contact_firstname": "Paul ",
+    "phone": "26.47.1555",
+    "city": "Reims",
+    "country": "France",
+    "credit_limit": 81100.00
+  },
+  {
+    "customer_number": 356,
+    "customer_name": "SAR Distributors, Co",
+    "contact_lastname": "Kuger",
+    "contact_firstname": "Armand",
+    "phone": "+27 21 550 3555",
+    "city": "Hatfield",
+    "country": "South Africa",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 357,
+    "customer_name": "GiftsForHim.com",
+    "contact_lastname": "MacKinlay",
+    "contact_firstname": "Wales",
+    "phone": "64-9-3763555",
+    "city": "Auckland",
+    "country": "New Zealand",
+    "credit_limit": 77700.00
+  },
+  {
+    "customer_number": 361,
+    "customer_name": "Kommission Auto",
+    "contact_lastname": "Josephs",
+    "contact_firstname": "Karin",
+    "phone": "0251-555259",
+    "city": "Münster",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 362,
+    "customer_name": "Gifts4AllAges.com",
+    "contact_lastname": "Yoshido",
+    "contact_firstname": "Juri",
+    "phone": "6175559555",
+    "city": "Boston",
+    "country": "USA",
+    "credit_limit": 41900.00
+  },
+  {
+    "customer_number": 363,
+    "customer_name": "Online Diecast Creations Co.",
+    "contact_lastname": "Young",
+    "contact_firstname": "Dorothy",
+    "phone": "6035558647",
+    "city": "Nashua",
+    "country": "USA",
+    "credit_limit": 114200.00
+  },
+  {
+    "customer_number": 369,
+    "customer_name": "Lisboa Souveniers, Inc",
+    "contact_lastname": "Rodriguez",
+    "contact_firstname": "Lino ",
+    "phone": "(1) 354-2555",
+    "city": "Lisboa",
+    "country": "Portugal",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 376,
+    "customer_name": "Precious Collectables",
+    "contact_lastname": "Urs",
+    "contact_firstname": "Braun",
+    "phone": "0452-076555",
+    "city": "Bern",
+    "country": "Switzerland",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 379,
+    "customer_name": "Collectables For Less Inc.",
+    "contact_lastname": "Nelson",
+    "contact_firstname": "Allen",
+    "phone": "6175558555",
+    "city": "Brickhaven",
+    "country": "USA",
+    "credit_limit": 70700.00
+  },
+  {
+    "customer_number": 381,
+    "customer_name": "Royale Belge",
+    "contact_lastname": "Cartrain",
+    "contact_firstname": "Pascale ",
+    "phone": "(071) 23 67 2555",
+    "city": "Charleroi",
+    "country": "Belgium",
+    "credit_limit": 23500.00
+  },
+  {
+    "customer_number": 382,
+    "customer_name": "Salzburg Collectables",
+    "contact_lastname": "Pipps",
+    "contact_firstname": "Georg ",
+    "phone": "6562-9555",
+    "city": "Salzburg",
+    "country": "Austria",
+    "credit_limit": 71700.00
+  },
+  {
+    "customer_number": 385,
+    "customer_name": "Cruz & Sons Co.",
+    "contact_lastname": "Cruz",
+    "contact_firstname": "Arnold",
+    "phone": "+63 2 555 3587",
+    "city": "Makati City",
+    "country": "Philippines",
+    "credit_limit": 81500.00
+  },
+  {
+    "customer_number": 386,
+    "customer_name": "Lordine Souveniers",
+    "contact_lastname": "Moroni",
+    "contact_firstname": "Maurizio ",
+    "phone": "0522-556555",
+    "city": "Reggio Emilia",
+    "country": "Italy",
+    "credit_limit": 121400.00
+  },
+  {
+    "customer_number": 398,
+    "customer_name": "Tokyo Collectables, Ltd",
+    "contact_lastname": "Shimamura",
+    "contact_firstname": "Akiko",
+    "phone": "+81 3 3584 0555",
+    "city": "Minato-ku",
+    "country": "Japan",
+    "credit_limit": 94400.00
+  },
+  {
+    "customer_number": 406,
+    "customer_name": "Auto Canal+ Petit",
+    "contact_lastname": "Perrier",
+    "contact_firstname": "Dominique",
+    "phone": "(1) 47.55.6555",
+    "city": "Paris",
+    "country": "France",
+    "credit_limit": 95000.00
+  },
+  {
+    "customer_number": 409,
+    "customer_name": "Stuttgart Collectable Exchange",
+    "contact_lastname": "Müller",
+    "contact_firstname": "Rita ",
+    "phone": "0711-555361",
+    "city": "Stuttgart",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 412,
+    "customer_name": "Extreme Desk Decorations, Ltd",
+    "contact_lastname": "McRoy",
+    "contact_firstname": "Sarah",
+    "phone": "04 499 9555",
+    "city": "Wellington",
+    "country": "New Zealand",
+    "credit_limit": 86800.00
+  },
+  {
+    "customer_number": 415,
+    "customer_name": "Bavarian Collectables Imports, Co.",
+    "contact_lastname": "Donnermeyer",
+    "contact_firstname": "Michael",
+    "phone": " +49 89 61 08 9555",
+    "city": "Munich",
+    "country": "Germany",
+    "credit_limit": 77000.00
+  },
+  {
+    "customer_number": 424,
+    "customer_name": "Classic Legends Inc.",
+    "contact_lastname": "Hernandez",
+    "contact_firstname": "Maria",
+    "phone": "2125558493",
+    "city": "NYC",
+    "country": "USA",
+    "credit_limit": 67500.00
+  },
+  {
+    "customer_number": 443,
+    "customer_name": "Feuer Online Stores, Inc",
+    "contact_lastname": "Feuer",
+    "contact_firstname": "Alexander ",
+    "phone": "0342-555176",
+    "city": "Leipzig",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 447,
+    "customer_name": "Gift Ideas Corp.",
+    "contact_lastname": "Lewis",
+    "contact_firstname": "Dan",
+    "phone": "2035554407",
+    "city": "Glendale",
+    "country": "USA",
+    "credit_limit": 49700.00
+  },
+  {
+    "customer_number": 448,
+    "customer_name": "Scandinavian Gift Ideas",
+    "contact_lastname": "Larsson",
+    "contact_firstname": "Martha",
+    "phone": "0695-34 6555",
+    "city": "Bräcke",
+    "country": "Sweden",
+    "credit_limit": 116400.00
+  },
+  {
+    "customer_number": 450,
+    "customer_name": "The Sharp Gifts Warehouse",
+    "contact_lastname": "Frick",
+    "contact_firstname": "Sue",
+    "phone": "4085553659",
+    "city": "San Jose",
+    "country": "USA",
+    "credit_limit": 77600.00
+  },
+  {
+    "customer_number": 452,
+    "customer_name": "Mini Auto Werke",
+    "contact_lastname": "Mendel",
+    "contact_firstname": "Roland ",
+    "phone": "7675-3555",
+    "city": "Graz",
+    "country": "Austria",
+    "credit_limit": 45300.00
+  },
+  {
+    "customer_number": 455,
+    "customer_name": "Super Scale Inc.",
+    "contact_lastname": "Murphy",
+    "contact_firstname": "Leslie",
+    "phone": "2035559545",
+    "city": "New Haven",
+    "country": "USA",
+    "credit_limit": 95400.00
+  },
+  {
+    "customer_number": 456,
+    "customer_name": "Microscale Inc.",
+    "contact_lastname": "Choi",
+    "contact_firstname": "Yu",
+    "phone": "2125551957",
+    "city": "NYC",
+    "country": "USA",
+    "credit_limit": 39800.00
+  },
+  {
+    "customer_number": 458,
+    "customer_name": "Corrida Auto Replicas, Ltd",
+    "contact_lastname": "Sommer",
+    "contact_firstname": "Martín ",
+    "phone": "(91) 555 22 82",
+    "city": "Madrid",
+    "country": "Spain",
+    "credit_limit": 104600.00
+  },
+  {
+    "customer_number": 459,
+    "customer_name": "Warburg Exchange",
+    "contact_lastname": "Ottlieb",
+    "contact_firstname": "Sven ",
+    "phone": "0241-039123",
+    "city": "Aachen",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 462,
+    "customer_name": "FunGiftIdeas.com",
+    "contact_lastname": "Benitez",
+    "contact_firstname": "Violeta",
+    "phone": "5085552555",
+    "city": "New Bedford",
+    "country": "USA",
+    "credit_limit": 85800.00
+  },
+  {
+    "customer_number": 465,
+    "customer_name": "Anton Designs, Ltd.",
+    "contact_lastname": "Anton",
+    "contact_firstname": "Carmen",
+    "phone": "+34 913 728555",
+    "city": "Madrid",
+    "country": "Spain",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 471,
+    "customer_name": "Australian Collectables, Ltd",
+    "contact_lastname": "Clenahan",
+    "contact_firstname": "Sean",
+    "phone": "61-9-3844-6555",
+    "city": "Glen Waverly",
+    "country": "Australia",
+    "credit_limit": 60300.00
+  },
+  {
+    "customer_number": 473,
+    "customer_name": "Frau da Collezione",
+    "contact_lastname": "Ricotti",
+    "contact_firstname": "Franco",
+    "phone": "+39 022515555",
+    "city": "Milan",
+    "country": "Italy",
+    "credit_limit": 34800.00
+  },
+  {
+    "customer_number": 475,
+    "customer_name": "West Coast Collectables Co.",
+    "contact_lastname": "Thompson",
+    "contact_firstname": "Steve",
+    "phone": "3105553722",
+    "city": "Burbank",
+    "country": "USA",
+    "credit_limit": 55400.00
+  },
+  {
+    "customer_number": 477,
+    "customer_name": "Mit Vergnügen & Co.",
+    "contact_lastname": "Moos",
+    "contact_firstname": "Hanna ",
+    "phone": "0621-08555",
+    "city": "Mannheim",
+    "country": "Germany",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 480,
+    "customer_name": "Kremlin Collectables, Co.",
+    "contact_lastname": "Semenov",
+    "contact_firstname": "Alexander ",
+    "phone": "+7 812 293 0521",
+    "city": "Saint Petersburg",
+    "country": "Russia",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 481,
+    "customer_name": "Raanan Stores, Inc",
+    "contact_lastname": "Altagar,G M",
+    "contact_firstname": "Raanan",
+    "phone": "+ 972 9 959 8555",
+    "city": "Herzlia",
+    "country": "Israel",
+    "credit_limit": 0.00
+  },
+  {
+    "customer_number": 484,
+    "customer_name": "Iberia Gift Imports, Corp.",
+    "contact_lastname": "Roel",
+    "contact_firstname": "José Pedro ",
+    "phone": "(95) 555 82 82",
+    "city": "Sevilla",
+    "country": "Spain",
+    "credit_limit": 65700.00
+  },
+  {
+    "customer_number": 486,
+    "customer_name": "Motor Mint Distributors Inc.",
+    "contact_lastname": "Salazar",
+    "contact_firstname": "Rosa",
+    "phone": "2155559857",
+    "city": "Philadelphia",
+    "country": "USA",
+    "credit_limit": 72600.00
+  },
+  {
+    "customer_number": 487,
+    "customer_name": "Signal Collectibles Ltd.",
+    "contact_lastname": "Taylor",
+    "contact_firstname": "Sue",
+    "phone": "4155554312",
+    "city": "Brisbane",
+    "country": "USA",
+    "credit_limit": 60300.00
+  },
+  {
+    "customer_number": 489,
+    "customer_name": "Double Decker Gift Stores, Ltd",
+    "contact_lastname": "Smith",
+    "contact_firstname": "Thomas ",
+    "phone": "(171) 555-7555",
+    "city": "London",
+    "country": "UK",
+    "credit_limit": 43300.00
+  },
+  {
+    "customer_number": 495,
+    "customer_name": "Diecast Collectables",
+    "contact_lastname": "Franco",
+    "contact_firstname": "Valarie",
+    "phone": "6175552555",
+    "city": "Boston",
+    "country": "USA",
+    "credit_limit": 85100.00
+  },
+  {
+    "customer_number": 496,
+    "customer_name": "Kellys Gift Shop",
+    "contact_lastname": "Snowden",
+    "contact_firstname": "Tony",
+    "phone": "+64 9 5555500",
+    "city": "Auckland  ",
+    "country": "New Zealand",
+    "credit_limit": 110000.00
+  }
+]
