@@ -189,7 +189,7 @@ export function UsersTable({ users }: { users: UserType[] }) {
         },
       }}
       classNames={classNames}
-      selectionMode="multiple"
+      selectionMode="none"
       sortDescriptor={sortDescriptor}
       topContent={
         <TableTopContent
