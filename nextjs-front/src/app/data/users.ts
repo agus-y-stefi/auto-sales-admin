@@ -27,7 +27,7 @@ export const customers: Customer[] = [
   { customerNumber: 1001, name: "Alice Johnson" },
 ];
 
-export const users: Order[] = [
+export const orders: Order[] = [
   {
     orderNumber: 10101,
     date: "2003-01-09",

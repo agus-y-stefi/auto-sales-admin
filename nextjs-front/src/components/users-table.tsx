@@ -32,7 +32,7 @@ const statusColorMap = {
 
 const INITIAL_VISIBLE_COLUMNS = ["orderNumber", "date", "customer", "status", "total", "actions"]
 
-export function UsersTable({users}: { users: Order[] }) {
+export function OrdersTable({orders}: { orders: Order[] }) {
     const [filterValue, setFilterValue] = React.useState("")
     const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS))
     const [statusFilter, setStatusFilter] = React.useState("all")
@@ -43,7 +43,7 @@ export function UsersTable({users}: { users: Order[] }) {
     })
     const [page, setPage] = React.useState(1)
 
-    const pages = Math.ceil(users.length / rowsPerPage)
+    const pages = Math.ceil(orders.length / rowsPerPage)
 
     const hasSearchFilter = Boolean(filterValue)
 
@@ -52,10 +52,10 @@ export function UsersTable({users}: { users: Order[] }) {
         return columns.filter((column) => Array.from(visibleColumns).includes(column.uid))
     }, [visibleColumns])
 
-    console.log(users)
+    console.log(orders)
 
     const filteredItems = React.useMemo(() => {
-        let filteredUsers = [...users]
+        let filteredUsers = [...orders]
 
         if (hasSearchFilter) {
             filteredUsers = filteredUsers.filter((user) => user.orderNumber.toString().includes(filterValue.toLowerCase()))
@@ -65,7 +65,7 @@ export function UsersTable({users}: { users: Order[] }) {
         }
 
         return filteredUsers
-    }, [users, filterValue, statusFilter])
+    }, [orders, filterValue, statusFilter])
 
 
     const items = React.useMemo(() => {
@@ -208,7 +208,7 @@ export function UsersTable({users}: { users: Order[] }) {
           setStatusFilter={setStatusFilter}
           setVisibleColumns={setVisibleColumns}
           onRowsPerPageChange={onRowsPerPageChange}
-          usersLength={users.length}
+          usersLength={orders.length}
         />
       }
       topContentPlacement="outside"
@@ -225,7 +225,7 @@ export function UsersTable({users}: { users: Order[] }) {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
+      <TableBody emptyContent={"No clients found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.orderNumber}>{(columnKey) => <TableCell>{renderCell(item, columnKey as string)}</TableCell>}</TableRow>
         )}
