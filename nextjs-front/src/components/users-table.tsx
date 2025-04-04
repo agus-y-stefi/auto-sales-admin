@@ -18,7 +18,8 @@ import {
 } from "@heroui/react"
 import { columns, statusOptions } from "@/app/data/table-config"
 import type { SortDescriptor } from "@heroui/react"
-import type { UserType } from "@/types/user"
+import type { Order } from "@/types/user"
+import {Customer} from "@/types/user"
 import { TableTopContent } from "./table-top-content"
 import { TableBottomContent } from "./table-bottom-content"
 import { VerticalDotsIcon } from "./icons/index"
@@ -29,9 +30,9 @@ const statusColorMap = {
   vacation: "warning",
 }
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"]
+const INITIAL_VISIBLE_COLUMNS = ["orderNumber", "date", "customer", "status", "total", "actions"]
 
-export function UsersTable({ users }: { users: UserType[] }) {
+export function UsersTable({ users }: { users: Order[] }) {
   const [filterValue, setFilterValue] = React.useState("")
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS))
   const [statusFilter, setStatusFilter] = React.useState("all")
@@ -81,8 +82,8 @@ export function UsersTable({ users }: { users: UserType[] }) {
     })
   }, [sortDescriptor, items])
 
-  const renderCell = React.useCallback((user: UserType, columnKey: string) => {
-      const cellValue = user[columnKey as keyof UserType]
+  const renderCell = React.useCallback((user: Order, columnKey: string) => {
+      const cellValue = user[columnKey as keyof Order]
 
     switch (columnKey) {
       case "name":
@@ -126,9 +127,9 @@ export function UsersTable({ users }: { users: UserType[] }) {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
+                <DropdownItem key="view">Ver</DropdownItem>
+                <DropdownItem key="edit">Editar</DropdownItem>
+                <DropdownItem key="delete">Eliminar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
