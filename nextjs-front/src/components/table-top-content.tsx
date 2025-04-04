@@ -25,7 +25,6 @@ export function TableTopContent({
   onSearchChange,
   setFilterValue,
   setStatusFilter,
-  setVisibleColumns,
   onRowsPerPageChange,
   usersLength,
 }: TableTopContentProps) {
@@ -80,7 +79,6 @@ export function TableTopContent({
               closeOnSelect={false}
               selectedKeys={visibleColumns}
               selectionMode="multiple"
-              onSelectionChange={setVisibleColumns}
             >
               {columns.map((column) => (
                 <DropdownItem key={column.uid} className="capitalize">

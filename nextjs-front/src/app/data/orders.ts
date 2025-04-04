@@ -10,10 +10,6 @@
   [key: string]: any
 }
 */
-export interface Customer {
-  customerNumber: number
-  name: string
-}
 
 export interface Order {
   orderNumber: number

@@ -29,7 +29,7 @@ const statusColorMap = {
     vacation: "warning",
 }
 
-const INITIAL_VISIBLE_COLUMNS = ["orderNumber", "date", "customer", "status", "total", "actions"]
+const INITIAL_VISIBLE_COLUMNS = ["orderNumber", "date", "customerName", "status", "total", "actions"]
 
 export function OrdersTable({orders}: { orders: Order[] }) {
     const [filterValue, setFilterValue] = React.useState("")
@@ -185,10 +185,10 @@ export function OrdersTable({orders}: { orders: Order[] }) {
           onSearchChange={onSearchChange}
           setFilterValue={setFilterValue}
           setStatusFilter={setStatusFilter}
-          setVisibleColumns={setVisibleColumns}
           onRowsPerPageChange={onRowsPerPageChange}
-          usersLength={orders.length}
-        />
+          usersLength={orders.length} setVisibleColumns={function (value: any): void {
+            throw new Error("Function not implemented.")
+          } }        />
       }
       topContentPlacement="outside"
       onSortChange={setSortDescriptor}
