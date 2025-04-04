@@ -2,171 +2,177 @@
 
 import React from "react"
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Chip,
-  User,
+    Table,
+    TableHeader,
+    TableColumn,
+    TableBody,
+    TableRow,
+    TableCell,
+    Button,
+    DropdownTrigger,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
+    Chip,
+    User,
 } from "@heroui/react"
-import { columns, statusOptions } from "@/app/data/table-config"
-import type { SortDescriptor } from "@heroui/react"
-import type { Order } from "@/types/user"
+import {columns, statusOptions} from "@/app/data/table-config"
+import type {SortDescriptor} from "@heroui/react"
+import type {Order} from "@/types/user"
 import {Customer} from "@/types/user"
-import { TableTopContent } from "./table-top-content"
-import { TableBottomContent } from "./table-bottom-content"
-import { VerticalDotsIcon } from "./icons/index"
+import {TableTopContent} from "./table-top-content"
+import {TableBottomContent} from "./table-bottom-content"
+import {VerticalDotsIcon} from "./icons/index"
 
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+    active: "success",
+    paused: "danger",
+    vacation: "warning",
 }
 
 const INITIAL_VISIBLE_COLUMNS = ["orderNumber", "date", "customer", "status", "total", "actions"]
 
-export function UsersTable({ users }: { users: Order[] }) {
-  const [filterValue, setFilterValue] = React.useState("")
-  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS))
-  const [statusFilter, setStatusFilter] = React.useState("all")
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
-    column: "age",
-    direction: "ascending",
-  })
-  const [page, setPage] = React.useState(1)
-
-  const pages = Math.ceil(users.length / rowsPerPage)
-
-  const hasSearchFilter = Boolean(filterValue)
-
-  const headerColumns = React.useMemo(() => {
-    if (visibleColumns.size === columns.length && columns.every(column => visibleColumns.has(column.uid))) return columns
-    return columns.filter((column) => Array.from(visibleColumns).includes(column.uid))
-  }, [visibleColumns])
-
-  const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users]
-
-    if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(filterValue.toLowerCase()))
-    }
-    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredUsers = filteredUsers.filter((user) => Array.from(statusFilter).includes(user.status))
-    }
-
-    return filteredUsers
-  }, [users, filterValue, statusFilter])
-
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage
-    const end = start + rowsPerPage
-
-    return filteredItems.slice(start, end)
-  }, [page, filteredItems, rowsPerPage])
-
-  const sortedItems = React.useMemo(() => {
-    return [...items].sort((a, b) => {
-      const first = a[sortDescriptor.column]
-      const second = b[sortDescriptor.column]
-      const cmp = first < second ? -1 : first > second ? 1 : 0
-
-      return sortDescriptor.direction === "descending" ? -cmp : cmp
+export function UsersTable({users}: { users: Order[] }) {
+    const [filterValue, setFilterValue] = React.useState("")
+    const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS))
+    const [statusFilter, setStatusFilter] = React.useState("all")
+    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
+        column: "age",
+        direction: "ascending",
     })
-  }, [sortDescriptor, items])
+    const [page, setPage] = React.useState(1)
 
-  const renderCell = React.useCallback((user: Order, columnKey: string) => {
-      const cellValue = user[columnKey as keyof Order]
+    const pages = Math.ceil(users.length / rowsPerPage)
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "full", size: "sm", src: user.avatar }}
-            classNames={{
-              description: "text-default-500",
-            }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        )
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-500">{user.team}</p>
-          </div>
-        )
-      case "status":
-        return (
-          <Chip
-            className="capitalize border-none gap-1 text-default-600"
-            color={(statusColorMap[user.status as keyof typeof statusColorMap] ?? "default") as "success" | "danger" | "warning" | "default" | "primary" | "secondary"}
-            size="sm"
-            variant="dot"
-          >
-            {cellValue}
-          </Chip>
-        )
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown className="bg-background border-1 border-default-200">
-              <DropdownTrigger>
-                <Button isIconOnly radius="full" size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-400" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem key="view">Ver</DropdownItem>
-                <DropdownItem key="edit">Editar</DropdownItem>
-                <DropdownItem key="delete">Eliminar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        )
-      default:
-        return cellValue
-    }
-  }, [])
+    const hasSearchFilter = Boolean(filterValue)
 
-  const onRowsPerPageChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRowsPerPage(Number(e.target.value))
-    setPage(1)
-  }, [])
+    const headerColumns = React.useMemo(() => {
+        if (visibleColumns.size === columns.length && columns.every(column => visibleColumns.has(column.uid))) return columns
+        return columns.filter((column) => Array.from(visibleColumns).includes(column.uid))
+    }, [visibleColumns])
 
-  const onSearchChange = React.useCallback((value: string) => {
-    if (value) {
-      setFilterValue(value)
-      setPage(1)
-    } else {
-      setFilterValue("")
-    }
-  }, [])
+    console.log(users)
 
-  const classNames = React.useMemo(
-    () => ({
-      wrapper: ["max-h-[382px]", "max-w-3xl"],
-      th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-      td: [
-        "group-data-[first=true]/tr:first:before:rounded-none",
-        "group-data-[first=true]/tr:last:before:rounded-none",
-        "group-data-[middle=true]/tr:before:rounded-none",
-        "group-data-[last=true]/tr:first:before:rounded-none",
-        "group-data-[last=true]/tr:last:before:rounded-none",
-      ],
-    }),
-    [],
-  )
+    const filteredItems = React.useMemo(() => {
+        let filteredUsers = [...users]
+
+        if (hasSearchFilter) {
+            filteredUsers = filteredUsers.filter((user) => user.orderNumber.toString().includes(filterValue.toLowerCase()))
+        }
+        if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
+            filteredUsers = filteredUsers.filter((user) => Array.from(statusFilter).includes(user.status))
+        }
+
+        return filteredUsers
+    }, [users, filterValue, statusFilter])
+
+
+    const items = React.useMemo(() => {
+        const start = (page - 1) * rowsPerPage
+        const end = start + rowsPerPage
+
+        return filteredItems.slice(start, end)
+    }, [page, filteredItems, rowsPerPage])
+
+
+    const sortedItems = React.useMemo(() => {
+        return [...items].sort((a, b) => {
+            const first = a[sortDescriptor.column]
+            const second = b[sortDescriptor.column]
+            const cmp = first < second ? -1 : first > second ? 1 : 0
+
+            return sortDescriptor.direction === "descending" ? -cmp : cmp
+        })
+    }, [sortDescriptor, items])
+
+
+    const renderCell = React.useCallback((user: Order, columnKey: string) => {
+
+        const cellValue = user[columnKey as keyof Order]
+
+        switch (columnKey) {
+            case "name":
+                return (
+                    <User
+                        avatarProps={{radius: "full", size: "sm", src: user.avatar}}
+                        classNames={{
+                            description: "text-default-500",
+                        }}
+                        description={user.email}
+                        name={cellValue}
+                    >
+                        {user.email}
+                    </User>
+                )
+            case "role":
+                return (
+                    <div className="flex flex-col">
+                        <p className="text-bold text-small capitalize">{cellValue}</p>
+                        <p className="text-bold text-tiny capitalize text-default-500">{user.team}</p>
+                    </div>
+                )
+            case "status":
+                return (
+                    <Chip
+                        className="capitalize border-none gap-1 text-default-600"
+                        color={(statusColorMap[user.status as keyof typeof statusColorMap] ?? "default") as "success" | "danger" | "warning" | "default" | "primary" | "secondary"}
+                        size="sm"
+                        variant="dot"
+                    >
+                        {cellValue}
+                    </Chip>
+                )
+            case "actions":
+                return (
+                    <div className="relative flex justify-end items-center gap-2">
+                        <Dropdown className="bg-background border-1 border-default-200">
+                            <DropdownTrigger>
+                                <Button isIconOnly radius="full" size="sm" variant="light">
+                                    <VerticalDotsIcon className="text-default-400"/>
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu>
+                                <DropdownItem key="view">Ver</DropdownItem>
+                                <DropdownItem key="edit">Editar</DropdownItem>
+                                <DropdownItem key="delete">Eliminar</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
+                )
+            default:
+                return cellValue
+        }
+    }, [])
+
+    const onRowsPerPageChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+        setRowsPerPage(Number(e.target.value))
+        setPage(1)
+    }, [])
+
+    const onSearchChange = React.useCallback((value: string) => {
+        if (value) {
+            setFilterValue(value)
+            setPage(1)
+        } else {
+            setFilterValue("")
+        }
+    }, [])
+
+    const classNames = React.useMemo(
+        () => ({
+            wrapper: ["max-h-[382px]", "max-w-3xl"],
+            th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
+            td: [
+                "group-data-[first=true]/tr:first:before:rounded-none",
+                "group-data-[first=true]/tr:last:before:rounded-none",
+                "group-data-[middle=true]/tr:before:rounded-none",
+                "group-data-[last=true]/tr:first:before:rounded-none",
+                "group-data-[last=true]/tr:last:before:rounded-none",
+            ],
+        }),
+        [],
+    )
 
   return (
     <Table
@@ -221,10 +227,9 @@ export function UsersTable({ users }: { users: Order[] }) {
       </TableHeader>
       <TableBody emptyContent={"No users found"} items={sortedItems}>
         {(item) => (
-          <TableRow key={item.id}>{(columnKey) => <TableCell>{renderCell(item, columnKey as string)}</TableCell>}</TableRow>
+          <TableRow key={item.orderNumber}>{(columnKey) => <TableCell>{renderCell(item, columnKey as string)}</TableCell>}</TableRow>
         )}
       </TableBody>
     </Table>
   )
 }
-
