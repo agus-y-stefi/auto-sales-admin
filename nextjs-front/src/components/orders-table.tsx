@@ -18,8 +18,7 @@ import {
 } from "@heroui/react"
 import {columns, statusOptions} from "@/app/data/table-config"
 import type {SortDescriptor} from "@heroui/react"
-import type {Order} from "@/types/user"
-import {Customer} from "@/types/user"
+import type {Order} from "@/app/data/orders"
 import {TableTopContent} from "./table-top-content"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
@@ -34,7 +33,7 @@ const INITIAL_VISIBLE_COLUMNS = ["orderNumber", "date", "customer", "status", "t
 
 export function OrdersTable({orders}: { orders: Order[] }) {
     const [filterValue, setFilterValue] = React.useState("")
-    const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS))
+    const visibleColumns = new Set(INITIAL_VISIBLE_COLUMNS)
     const [statusFilter, setStatusFilter] = React.useState("all")
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
@@ -78,8 +77,8 @@ export function OrdersTable({orders}: { orders: Order[] }) {
 
     const sortedItems = React.useMemo(() => {
         return [...items].sort((a, b) => {
-            const first = a[sortDescriptor.column]
-            const second = b[sortDescriptor.column]
+            const first = a[sortDescriptor.column as keyof Order]
+            const second = b[sortDescriptor.column as keyof Order]
             const cmp = first < second ? -1 : first > second ? 1 : 0
 
             return sortDescriptor.direction === "descending" ? -cmp : cmp
@@ -92,26 +91,6 @@ export function OrdersTable({orders}: { orders: Order[] }) {
         const cellValue = user[columnKey as keyof Order]
 
         switch (columnKey) {
-            case "name":
-                return (
-                    <User
-                        avatarProps={{radius: "full", size: "sm", src: user.avatar}}
-                        classNames={{
-                            description: "text-default-500",
-                        }}
-                        description={user.email}
-                        name={cellValue}
-                    >
-                        {user.email}
-                    </User>
-                )
-            case "role":
-                return (
-                    <div className="flex flex-col">
-                        <p className="text-bold text-small capitalize">{cellValue}</p>
-                        <p className="text-bold text-tiny capitalize text-default-500">{user.team}</p>
-                    </div>
-                )
             case "status":
                 return (
                     <Chip

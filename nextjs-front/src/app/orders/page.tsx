@@ -1,6 +1,6 @@
 "use client"
-import { OrdersTable } from "@/components/users-table";
-import { orders } from "@/app/data/users";
+import { OrdersTable } from "@/components/orders-table";
+import { orders } from "@/app/data/orders";
 
 
 export default function Page() {
