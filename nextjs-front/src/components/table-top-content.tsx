@@ -9,25 +9,21 @@ import { capitalize } from "./utils/helpers"
 interface TableTopContentProps {
   filterValue: string
   statusFilter: string
-  visibleColumns: Set<string>
   onSearchChange: (value: string) => void
   setFilterValue: (value: string) => void
   setStatusFilter: (value: any) => void
-  setVisibleColumns: (value: any) => void
   onRowsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  usersLength: number
+  ordersLength: number
 }
 
 export function TableTopContent({
   filterValue,
   statusFilter,
-  visibleColumns,
   onSearchChange,
   setFilterValue,
   setStatusFilter,
-  setVisibleColumns,
   onRowsPerPageChange,
-  usersLength,
+  ordersLength,
 }: TableTopContentProps) {
   return (
     <div className="flex flex-col gap-4">
@@ -68,34 +64,13 @@ export function TableTopContent({
               ))}
             </DropdownMenu>
           </Dropdown>
-          <Dropdown>
-            <DropdownTrigger className="hidden sm:flex">
-              <Button endContent={<ChevronDownIcon className="text-small" />} size="sm" variant="flat">
-                Columns
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              disallowEmptySelection
-              aria-label="Table Columns"
-              closeOnSelect={false}
-              selectedKeys={visibleColumns}
-              selectionMode="multiple"
-              onSelectionChange={setVisibleColumns}
-            >
-              {columns.map((column) => (
-                <DropdownItem key={column.uid} className="capitalize">
-                  {capitalize(column.name)}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
           <Button className="bg-foreground text-background" endContent={<PlusIcon width={16} height={16} />} size="sm">
             Add New
           </Button>
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-default-400 text-small">Total {usersLength} users</span>
+        <span className="text-default-400 text-small">Total {ordersLength} users</span>
         <label className="flex items-center text-default-400 text-small">
           Rows per page:
           <select className="bg-transparent outline-none text-default-400 text-small" onChange={onRowsPerPageChange}>
