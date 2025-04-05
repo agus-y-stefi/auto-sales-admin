@@ -29,11 +29,9 @@ const statusColorMap = {
     vacation: "warning",
 }
 
-const INITIAL_VISIBLE_COLUMNS = ["orderNumber", "date", "customerName", "status", "total", "actions"]
 
 export function OrdersTable({orders}: { orders: Order[] }) {
     const [filterValue, setFilterValue] = React.useState("")
-    const visibleColumns = new Set(INITIAL_VISIBLE_COLUMNS)
     const [statusFilter, setStatusFilter] = React.useState("all")
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
@@ -46,24 +44,17 @@ export function OrdersTable({orders}: { orders: Order[] }) {
 
     const hasSearchFilter = Boolean(filterValue)
 
-    const headerColumns = React.useMemo(() => {
-        if (visibleColumns.size === columns.length && columns.every(column => visibleColumns.has(column.uid))) return columns
-        return columns.filter((column) => Array.from(visibleColumns).includes(column.uid))
-    }, [visibleColumns])
-
-    console.log(orders)
-
     const filteredItems = React.useMemo(() => {
-        let filteredUsers = [...orders]
+        let filteredOrders = [...orders]
 
         if (hasSearchFilter) {
-            filteredUsers = filteredUsers.filter((user) => user.orderNumber.toString().includes(filterValue.toLowerCase()))
+            filteredOrders = filteredOrders.filter((order) => order.orderNumber.toString().includes(filterValue.toLowerCase()))
         }
         if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-            filteredUsers = filteredUsers.filter((user) => Array.from(statusFilter).includes(user.status))
+            filteredOrders = filteredOrders.filter((order) => Array.from(statusFilter).includes(order.status))
         }
 
-        return filteredUsers
+        return filteredOrders
     }, [orders, filterValue, statusFilter])
 
 
@@ -86,16 +77,16 @@ export function OrdersTable({orders}: { orders: Order[] }) {
     }, [sortDescriptor, items])
 
 
-    const renderCell = React.useCallback((user: Order, columnKey: string) => {
+    const renderCell = React.useCallback((order: Order, columnKey: string) => {
 
-        const cellValue = user[columnKey as keyof Order]
+        const cellValue = order[columnKey as keyof Order]
 
         switch (columnKey) {
             case "status":
                 return (
                     <Chip
                         className="capitalize border-none gap-1 text-default-600"
-                        color={(statusColorMap[user.status as keyof typeof statusColorMap] ?? "default") as "success" | "danger" | "warning" | "default" | "primary" | "secondary"}
+                        color={(statusColorMap[order.status as keyof typeof statusColorMap] ?? "default") as "success" | "danger" | "warning" | "default" | "primary" | "secondary"}
                         size="sm"
                         variant="dot"
                     >
@@ -181,19 +172,17 @@ export function OrdersTable({orders}: { orders: Order[] }) {
         <TableTopContent
           filterValue={filterValue}
           statusFilter={statusFilter}
-          visibleColumns={visibleColumns}
           onSearchChange={onSearchChange}
           setFilterValue={setFilterValue}
           setStatusFilter={setStatusFilter}
           onRowsPerPageChange={onRowsPerPageChange}
-          usersLength={orders.length} setVisibleColumns={function (value: any): void {
-            throw new Error("Function not implemented.")
-          } }        />
+          ordersLength={orders.length}
+        />
       }
       topContentPlacement="outside"
       onSortChange={setSortDescriptor}
     >
-      <TableHeader columns={headerColumns}>
+      <TableHeader columns={columns}>
         {(column) => (
           <TableColumn
             key={column.uid}
