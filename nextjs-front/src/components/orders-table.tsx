@@ -38,6 +38,7 @@ export function OrdersTable({orders}: { orders: Order[] }) {
         column: "age",
         direction: "ascending",
     })
+
     const [page, setPage] = React.useState(1)
 
     const pages = Math.ceil(orders.length / rowsPerPage)

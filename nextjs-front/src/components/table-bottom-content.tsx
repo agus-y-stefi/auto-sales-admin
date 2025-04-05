@@ -32,9 +32,6 @@ export function TableBottomContent({
         variant="light"
         onChange={setPage}
       />
-      <span className="text-small text-default-400">
-        {selectedKeys.size === items.length ? "All items selected" : `${selectedKeys.size} of ${items.length} selected`}
-      </span>
     </div>
   )
 }
