@@ -1,6 +1,5 @@
 package org.code.productservices.controllers;
 
-import org.code.productservices.dto.products.ProductsRequest;
 import org.code.productservices.dto.products.ProductsResponse;
 import org.code.productservices.services.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/")
 public class ProductsController {
 
     private final ProductsService productsService;
@@ -22,32 +21,17 @@ public class ProductsController {
 
 
     @GetMapping
-    public ResponseEntity<List<ProductsResponse>> getProducts() {
-        return ResponseEntity.ok(productsService.getProducts());
+    public ResponseEntity<List<ProductsResponse>> getProducts(
+            @RequestParam(required = false) String q,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(required = false) Integer size
+    ) {
+        return ResponseEntity.ok(productsService.getProducts(q, page, size));
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductsResponse> getProduct(@PathVariable Integer productId) {
+    public ResponseEntity<ProductsResponse> getProduct(@PathVariable String productId) {
         return ResponseEntity.ok(productsService.getProduct(productId));
     }
-
-    @PostMapping
-    public ResponseEntity<ProductsResponse> createProduct(@RequestBody ProductsRequest productsRequest) {
-        return ResponseEntity.ok(productsService.createProduct(productsRequest));
-    }
-
-    @PutMapping("/{productId}")
-    public ResponseEntity<ProductsResponse> updateProduct(@PathVariable Integer productId, @RequestBody ProductsRequest productsRequest) {
-        return ResponseEntity.ok(productsService.updateProduct(productId, productsRequest));
-    }
-
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Integer productId) {
-        productsService.deleteProduct(productId);
-        return ResponseEntity.noContent().build();
-    }
-
-
-
 
 }

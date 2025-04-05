@@ -26,7 +26,7 @@ public class ProductsMapper {
                 productsResponse.getQuantityInStock(),
                 productsResponse.getBuyPrice(),
                 productsResponse.getMSRP(),
-                productsLinesMapper.toResponse(productsResponse.getProductsLines())
+                productsLinesMapper.toResponse(productsResponse.getProductsLine())
         );
     }
 

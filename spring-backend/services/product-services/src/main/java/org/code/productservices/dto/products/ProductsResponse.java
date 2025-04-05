@@ -13,6 +13,6 @@ public record ProductsResponse(
         Integer quantityInStock,
         BigDecimal buyPrice,
         BigDecimal MSRP,
-        ProductsLinesResponse productsLines
+        ProductsLinesResponse productsLine
 ) {
 }

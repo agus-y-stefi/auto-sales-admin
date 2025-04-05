@@ -9,6 +9,9 @@ import org.code.productservices.models.ProductsLines;
 import org.code.productservices.repositories.ProductsLinesRepository;
 import org.code.productservices.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,32 +31,30 @@ public class ProductsService {
         this.productsRepository = productsRepository;
     }
 
-    public List<ProductsResponse> getProducts() {
-        return productsRepository.findAll()
-                .stream()
-                .map(productsMapper::toResponse)
-                .toList();
+    public List<ProductsResponse> getProducts(String q, Integer page, Integer size) {
+        boolean isPageable = size != null && size > 0;
+        boolean isQ = q != null && !q.isEmpty();
+
+        List<Products> productsPage;
+
+        if (isPageable && isQ)
+            productsPage = productsRepository.findByProductNameContainingIgnoreCase(q, PageRequest.of(page, size)).getContent();
+        else if (isPageable)
+            productsPage = productsRepository.findAll(PageRequest.of(page, size)).getContent();
+        else if (isQ)
+            productsPage = productsRepository.findByProductNameContainingIgnoreCase(q);
+        else
+            productsPage = productsRepository.findAll();
+
+        return productsPage.stream()
+                .map(productsMapper::toResponse).toList();
+
     }
 
-    public ProductsResponse getProduct(Integer productId) {
+    public ProductsResponse getProduct(String productId) {
         return productsMapper.toResponse(
                 productsRepository.findById(productId)
                         .orElseThrow(() -> new RuntimeException("Product not found"))
         );
-    }
-
-    public ProductsResponse updateProduct(Integer productId, ProductsRequest productsRequest) {
-        Products p = productsRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-        return null;
-    }
-
-    public void deleteProduct(Integer productId) {
-        productsRepository.deleteById(productId);
-    }
-
-
-    public ProductsResponse createProduct(ProductsRequest productsRequest) {
-        return null;
     }
 }

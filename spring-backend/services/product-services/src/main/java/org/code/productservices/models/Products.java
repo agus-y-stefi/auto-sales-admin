@@ -41,7 +41,7 @@ public class Products {
 
     @ManyToOne
     @JoinColumn(name = "product_line", nullable = false)
-    private ProductsLines productsLines;
+    private ProductsLines productsLine;
 
 
 }
