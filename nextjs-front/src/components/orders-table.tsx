@@ -16,12 +16,11 @@ import {
     Chip,
     User,
 } from "@heroui/react"
-import {columns, statusOptions} from "@/app/data/table-config"
 import type {SortDescriptor} from "@heroui/react"
-import type {Order} from "@/app/data/orders"
 import {TableTopContent} from "./table-top-content"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
+import {Order} from "@/app/lib/definitions";
 
 const statusColorMap = {
     active: "success",
@@ -29,6 +28,20 @@ const statusColorMap = {
     vacation: "warning",
 }
 
+export const columns = [
+    { name: "N° de orden", uid: "orderNumber", sortable: true },
+    { name: "Fecha", uid: "orderDate", sortable: true },
+    { name: "Cliente", uid: "customerName", sortable: true },
+    { name: "Precio total", uid: "total", sortable: true },
+    { name: "Estado", uid: "status", sortable: true },
+    { name: "Acciones", uid: "actions" },
+]
+
+export const statusOptions = [
+    { name: "Active", uid: "active" },
+    { name: "Paused", uid: "paused" },
+    { name: "Vacation", uid: "vacation" },
+]
 
 export function OrdersTable({orders}: { orders: Order[] }) {
     const [filterValue, setFilterValue] = React.useState("")
@@ -49,7 +62,7 @@ export function OrdersTable({orders}: { orders: Order[] }) {
         let filteredOrders = [...orders]
 
         if (hasSearchFilter) {
-            filteredOrders = filteredOrders.filter((order) => order.orderNumber.toString().includes(filterValue.toLowerCase()))
+            filteredOrders = filteredOrders.filter((order) => order.customerName.toLowerCase().includes(filterValue.toLowerCase()))
         }
         if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
             filteredOrders = filteredOrders.filter((order) => Array.from(statusFilter).includes(order.status))
@@ -178,6 +191,7 @@ export function OrdersTable({orders}: { orders: Order[] }) {
           setStatusFilter={setStatusFilter}
           onRowsPerPageChange={onRowsPerPageChange}
           ordersLength={orders.length}
+          statusOptions={statusOptions}
         />
       }
       topContentPlacement="outside"

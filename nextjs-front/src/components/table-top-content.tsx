@@ -3,7 +3,6 @@
 import type React from "react"
 import { Input, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react"
 import { SearchIcon, ChevronDownIcon, PlusIcon } from "./icons"
-import { columns, statusOptions } from "@/app/data/table-config"
 import { capitalize } from "./utils/helpers"
 
 interface TableTopContentProps {
@@ -13,7 +12,8 @@ interface TableTopContentProps {
   setFilterValue: (value: string) => void
   setStatusFilter: (value: any) => void
   onRowsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  ordersLength: number
+  ordersLength: number,
+    statusOptions: { uid: string; name: string }[]
 }
 
 export function TableTopContent({
@@ -24,6 +24,7 @@ export function TableTopContent({
   setStatusFilter,
   onRowsPerPageChange,
   ordersLength,
+    statusOptions,
 }: TableTopContentProps) {
   return (
     <div className="flex flex-col gap-4">

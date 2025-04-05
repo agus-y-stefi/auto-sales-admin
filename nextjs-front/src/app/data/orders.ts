@@ -1,18 +1,12 @@
-export interface Order {
-  orderNumber: number
-  orderDate: string
-  customerName: string
-  status: string
-  total: number
-}
+import {Order} from "@/app/lib/definitions";
 
 export const orders: Order[] = [
   {
     orderNumber: 10101,
     orderDate: "2003-01-09",
-    customerName: "Alice Johnson",
+    customerName: "Alice Johnson", // TODO: De la tabla customers usando un JOIN
     status: "completed",
     total: 250.0,
-  },
+  }
 ];
 
