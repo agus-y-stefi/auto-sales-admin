@@ -1,11 +1,8 @@
 package org.code.productservices.dto.products;
 
-import org.code.productservices.dto.products_lines.ProductsLinesRequest;
-import org.code.productservices.dto.products_lines.ProductsLinesResponse;
-
 import java.math.BigDecimal;
 
-public record ProductsRequest(
+public record ProductsCreateRequest(
         String productCode,
         String productName,
         String productScale,
