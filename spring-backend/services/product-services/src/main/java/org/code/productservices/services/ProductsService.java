@@ -1,17 +1,12 @@
 package org.code.productservices.services;
 
-import org.code.productservices.dto.products.ProductsRequest;
 import org.code.productservices.dto.products.ProductsResponse;
-import org.code.productservices.dto.products_lines.ProductsLinesResponse;
 import org.code.productservices.mappers.ProductsMapper;
 import org.code.productservices.models.Products;
-import org.code.productservices.models.ProductsLines;
 import org.code.productservices.repositories.ProductsLinesRepository;
 import org.code.productservices.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
