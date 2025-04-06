@@ -38,9 +38,13 @@ export const columns = [
 ]
 
 export const statusOptions = [
-    { name: "Active", uid: "active" },
-    { name: "Paused", uid: "paused" },
-    { name: "Vacation", uid: "vacation" },
+    { name: "Enviado", uid: "sent" },
+    { name: "En proceso", uid: "inProgress" },
+    { name: "Pendiente", uid: "pending" },
+    { name: "Entregado", uid: "delivered" },
+    { name: "Cancelado", uid: "canceled" },
+    { name: "Devuelto", uid: "returned" },
+    { name: "Reembolsado", uid: "refunded" },
 ]
 
 export function OrdersTable({orders}: { orders: Order[] }) {

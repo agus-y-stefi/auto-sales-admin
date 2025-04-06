@@ -35,7 +35,7 @@ export function TableTopContent({
             base: "w-full sm:max-w-[44%]",
             inputWrapper: "border-1",
           }}
-          placeholder="Search by name..."
+          placeholder="Buscar por cliente..."
           size="sm"
           startContent={<SearchIcon className="text-default-300" />}
           value={filterValue}
@@ -47,7 +47,7 @@ export function TableTopContent({
           <Dropdown>
             <DropdownTrigger className="hidden sm:flex">
               <Button endContent={<ChevronDownIcon className="text-small" />} size="sm" variant="flat">
-                Status
+                Estado
               </Button>
             </DropdownTrigger>
             <DropdownMenu
@@ -66,14 +66,14 @@ export function TableTopContent({
             </DropdownMenu>
           </Dropdown>
           <Button className="bg-foreground text-background" endContent={<PlusIcon width={16} height={16} />} size="sm">
-            Add New
+            Nueva Orden
           </Button>
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-default-400 text-small">Total {ordersLength} users</span>
+        <span className="text-default-400 text-small">Total {ordersLength} de ordenes</span>
         <label className="flex items-center text-default-400 text-small">
-          Rows per page:
+          Filas por página:
           <select className="bg-transparent outline-none text-default-400 text-small" onChange={onRowsPerPageChange}>
             <option value="5">5</option>
             <option value="10">10</option>
