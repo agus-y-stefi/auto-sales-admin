@@ -1,6 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import PersistentDrawerLeft from "@/components/sidebar";
+import { Box } from '@mui/material';
 
 import "./styles/globals.css"
 
@@ -18,8 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>    
+      <PersistentDrawerLeft>
+      {/* Your page content will be rendered inside the Main component of the sidebar */}
+      {children}
+      </PersistentDrawerLeft>
+      </body>
     </html>
   )
 }
-

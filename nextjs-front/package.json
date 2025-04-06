@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@heroui/react": "^2.6.14",
     "@heroui/shared-icons": "^2.1.2",
+    "@mui/icons-material": "^7.0.1",
+    "@mui/material": "^7.0.1",
     "antd": "^5.24.6",
     "framer-motion": "^12.4.3",
     "lucide-react": "^0.475.0",
