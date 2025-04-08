@@ -55,7 +55,7 @@ public class ProductsService {
     public ProductsResponse getProduct(String productId) {
         return productsMapper.toResponse(
                 productsRepository.findById(productId)
-                        .orElseThrow(() -> new RuntimeException("Product not found"))
+                        .orElseThrow(() -> new EntityNotFoundException("Product not found"))
         );
     }
 
