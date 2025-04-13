@@ -20,8 +20,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: ms_ordenes_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5434:5432"
     volumes:
