@@ -19,7 +19,7 @@ services:
     container_name: ordenes-db
     restart: always
     environment:
-      POSTGRES_DB: ordenes
+      POSTGRES_DB: ms_ordenes_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
@@ -32,7 +32,7 @@ services:
     container_name: empleados-db
     restart: always
     environment:
-      POSTGRES_DB: empleados
+      POSTGRES_DB: ms_empleados_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
