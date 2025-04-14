@@ -35,4 +35,12 @@ public class PaymentsId implements Serializable {
     public int hashCode() {
         return Objects.hash(customerNumber, checkNumber);
     }
+
+    @Override
+    public String toString() {
+        return "PaymentsId{" +
+                "customerNumber=" + customerNumber +
+                ", checkNumber='" + checkNumber + '\'' +
+                '}';
+    }
 }
