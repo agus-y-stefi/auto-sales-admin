@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import {
     Table,
     TableHeader,
@@ -14,7 +14,6 @@ import {
     DropdownMenu,
     DropdownItem,
     Chip,
-    User,
 } from "@heroui/react"
 import type {SortDescriptor} from "@heroui/react"
 import {TableTopContent} from "./table-top-content"
@@ -22,10 +21,14 @@ import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
 import {Order} from "@/app/lib/definitions";
 
-const statusColorMap = {
-    active: "success",
-    paused: "danger",
-    vacation: "warning",
+const statusColorMap: Record<string, "success" | "warning" | "danger" | "default" | "secondary" | "primary"> = {
+  sent: "success",
+  inProgress: "primary",
+  pending: "warning",
+  delivered: "success",
+  canceled: "danger",
+  returned: "default",
+  refunded: "secondary",
 }
 
 export const columns = [
@@ -38,18 +41,20 @@ export const columns = [
 ]
 
 export const statusOptions = [
-    { name: "Enviado", uid: "sent" },
-    { name: "En proceso", uid: "inProgress" },
-    { name: "Pendiente", uid: "pending" },
-    { name: "Entregado", uid: "delivered" },
-    { name: "Cancelado", uid: "canceled" },
-    { name: "Devuelto", uid: "returned" },
-    { name: "Reembolsado", uid: "refunded" },
+  { name: "Enviado", uid: "sent" },
+  { name: "En proceso", uid: "inProgress" },
+  { name: "Pendiente", uid: "pending" },
+  { name: "Entregado", uid: "delivered" },
+  { name: "Cancelado", uid: "canceled" },
+  { name: "Devuelto", uid: "returned" },
+  { name: "Reembolsado", uid: "refunded" },
 ]
+
 
 export function OrdersTable({orders}: { orders: Order[] }) {
     const [filterValue, setFilterValue] = React.useState("")
-    const [statusFilter, setStatusFilter] = React.useState("all")
+    const [statusFilter, setStatusFilter] = useState<Set<string>>(new Set());
+
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
         column: "age",
@@ -63,18 +68,25 @@ export function OrdersTable({orders}: { orders: Order[] }) {
     const hasSearchFilter = Boolean(filterValue)
 
     const filteredItems = React.useMemo(() => {
-        let filteredOrders = [...orders]
-
-        if (hasSearchFilter) {
-            filteredOrders = filteredOrders.filter((order) => order.customerName.toLowerCase().includes(filterValue.toLowerCase()))
-        }
-        if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-            filteredOrders = filteredOrders.filter((order) => Array.from(statusFilter).includes(order.status))
-        }
-
-        return filteredOrders
+      let filteredOrders = [...orders]
+    
+      if (hasSearchFilter) {
+        filteredOrders = filteredOrders.filter((order) =>
+          order.customerName.toLowerCase().includes(filterValue.toLowerCase())
+        )
+      }
+    
+      if (statusFilter.size > 0) {
+        filteredOrders = filteredOrders.filter((order) => {
+          const statusUid = statusOptions.find(opt => opt.name === order.status)?.uid
+          return statusUid && statusFilter.has(statusUid)
+        })
+      }
+      
+    
+      return filteredOrders
     }, [orders, filterValue, statusFilter])
-
+    
 
     const items = React.useMemo(() => {
         const start = (page - 1) * rowsPerPage
@@ -100,17 +112,22 @@ export function OrdersTable({orders}: { orders: Order[] }) {
         const cellValue = order[columnKey as keyof Order]
 
         switch (columnKey) {
-            case "status":
-                return (
-                    <Chip
-                        className="capitalize border-none gap-1 text-default-600"
-                        color={(statusColorMap[order.status as keyof typeof statusColorMap] ?? "default") as "success" | "danger" | "warning" | "default" | "primary" | "secondary"}
-                        size="sm"
-                        variant="dot"
-                    >
-                        {cellValue}
-                    </Chip>
-                )
+          case "status":
+            const statusName = order.status
+            const statusUid = statusOptions.find(option => option.name === statusName)?.uid || statusName
+            const statusColor = statusColorMap[statusUid] ?? "default"
+        
+            return (
+                <Chip
+                    className="capitalize border-none gap-1 text-default-600"
+                    color={statusColor}
+                    size="sm"
+                    variant="flat"
+                >
+                    {statusName}
+                </Chip>
+            )
+               
             case "actions":
                 return (
                     <div className="relative flex justify-end items-center gap-2">
@@ -121,7 +138,7 @@ export function OrdersTable({orders}: { orders: Order[] }) {
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu>
-                                <DropdownItem key="view">Ver</DropdownItem>
+                                <DropdownItem key="view">Ver Detalles</DropdownItem>
                                 <DropdownItem key="edit">Editar</DropdownItem>
                                 <DropdownItem key="delete">Eliminar</DropdownItem>
                             </DropdownMenu>

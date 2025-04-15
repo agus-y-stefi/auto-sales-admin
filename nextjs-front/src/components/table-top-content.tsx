@@ -1,16 +1,18 @@
 "use client"
 
 import type React from "react"
-import { Input, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react"
+import { Input, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, useDisclosure } from "@heroui/react"
 import { SearchIcon, ChevronDownIcon, PlusIcon } from "./icons"
 import { capitalize } from "./utils/helpers"
+import type { Selection } from "@heroui/react";
+import { ModalNewOrder } from "./modal-new-order";
 
 interface TableTopContentProps {
   filterValue: string
-  statusFilter: string
+  statusFilter: Set<string> // CAMBIADO: era string
   onSearchChange: (value: string) => void
   setFilterValue: (value: string) => void
-  setStatusFilter: (value: any) => void
+  setStatusFilter: (value: Set<string>) => void // CAMBIADO: era any
   onRowsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
   ordersLength: number,
     statusOptions: { uid: string; name: string }[]
@@ -24,11 +26,13 @@ export function TableTopContent({
   setStatusFilter,
   onRowsPerPageChange,
   ordersLength,
-    statusOptions,
+  statusOptions,
 }: TableTopContentProps) {
+   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between gap-3 items-end">
+    <><ModalNewOrder isOpen={isOpen} onOpenChange={onOpenChange} /><div className={"flex flex-col gap-4"}>
+      <div className={"flex justify-between gap-3 items-end"}>
+        {/* barra de busqueda */}
         <Input
           isClearable
           classNames={{
@@ -36,17 +40,17 @@ export function TableTopContent({
             inputWrapper: "border-1",
           }}
           placeholder="Buscar por cliente..."
-          size="sm"
+          size="md"
           startContent={<SearchIcon className="text-default-300" />}
           value={filterValue}
           variant="bordered"
           onClear={() => setFilterValue("")}
-          onValueChange={onSearchChange}
-        />
+          onValueChange={onSearchChange} />
         <div className="flex gap-3">
+          {/* boton de estado */}
           <Dropdown>
             <DropdownTrigger className="hidden sm:flex">
-              <Button endContent={<ChevronDownIcon className="text-small" />} size="sm" variant="flat">
+              <Button endContent={<ChevronDownIcon className="text-small" />} size="md" variant="flat">
                 Estado
               </Button>
             </DropdownTrigger>
@@ -54,9 +58,11 @@ export function TableTopContent({
               disallowEmptySelection
               aria-label="Table Columns"
               closeOnSelect={false}
-              selectedKeys={statusFilter}
+              selectedKeys={statusFilter as Selection}
+
               selectionMode="multiple"
-              onSelectionChange={setStatusFilter}
+
+              onSelectionChange={(keys: Selection) => setStatusFilter(new Set(keys as Set<string>))}
             >
               {statusOptions.map((status) => (
                 <DropdownItem key={status.uid} className="capitalize">
@@ -65,7 +71,8 @@ export function TableTopContent({
               ))}
             </DropdownMenu>
           </Dropdown>
-          <Button className="bg-foreground text-background" endContent={<PlusIcon width={16} height={16} />} size="sm">
+          {/* boton de nueva orden */}
+          <Button className="bg-foreground text-background" onPress={onOpen} endContent={<PlusIcon width={16} height={16} />} size="md">
             Nueva Orden
           </Button>
         </div>
@@ -81,7 +88,7 @@ export function TableTopContent({
           </select>
         </label>
       </div>
-    </div>
+    </div></>
   )
 }
 

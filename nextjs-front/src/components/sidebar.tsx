@@ -1,15 +1,12 @@
+"use client"
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
@@ -18,6 +15,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { PanelRight } from 'lucide-react';
 
 const drawerWidth = 240;
 
@@ -92,6 +90,7 @@ interface PersistentDrawerLeftProps {
 export default function PersistentDrawerLeft({ children }: PersistentDrawerLeftProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -104,36 +103,32 @@ export default function PersistentDrawerLeft({ children }: PersistentDrawerLeftP
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        {/* AppBar content remains the same */}
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                mr: 2,
-              },
-              open && { display: 'none' },
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
+   <IconButton
+  color="inherit"
+  aria-label="open drawer"
+  onClick={handleDrawerOpen}
+  edge="start"
+  sx={{
+    position: "fixed",
+    top: 20,
+    left: 26,
+    zIndex: 1100, // similar al AppBar para que quede arriba
+  }}
+  >
+<PanelRight color='#404040' size={30} strokeWidth={2.2} />
+  </IconButton>
+
       <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
+          width: drawerWidth,
+          boxSizing: 'border-box',
+          backgroundColor: '#171717', // Cambiá este color como prefieras
+          color: '#fff', // texto blanco
+        },
+
         }}
         variant="persistent"
         anchor="left"
@@ -141,39 +136,51 @@ export default function PersistentDrawerLeft({ children }: PersistentDrawerLeftP
       >
         {/* Drawer content remains the same */}
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
+        <IconButton onClick={handleDrawerClose}>
+          {theme.direction === 'ltr' ? (
+            <ChevronLeftIcon sx={{ color: 'white' }} />
+          ) : (
+            <ChevronRightIcon sx={{ color: 'white' }} />
+          )}
+        </IconButton>
+
+
         </DrawerHeader>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <DrawerHeader />
+<List>
+  {['Ordenes', 'Productos', 'Clientes'].map((text, index) => (
+    <ListItem key={text} disablePadding sx={{ px: 1 }}>
+      <ListItemButton
+        selected={selectedIndex === index}
+        onClick={() => setSelectedIndex(index)}
+        sx={{
+          borderRadius: '12px',
+          px: 2,
+          '&:hover': {
+            backgroundColor: '#222223',
+            color: '#ffffff',
+          },
+          '&.Mui-selected': {
+            backgroundColor: '#404040',
+            color: '#ffffff',
+          },
+          '&.Mui-selected:hover': {
+            backgroundColor: '#404040',
+            color: '#ffffff',
+          },
+        }}
+      >
+        <ListItemIcon sx={{ color: 'inherit' }}>
+          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+        </ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItemButton>
+    </ListItem>
+  ))}
+</List>
+
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
         {/* Replace the Typography components with children */}
         {children}
       </Main>
