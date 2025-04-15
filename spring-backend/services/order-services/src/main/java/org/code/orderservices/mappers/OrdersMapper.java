@@ -2,9 +2,12 @@ package org.code.orderservices.mappers;
 
 import org.code.orderservices.dto.orders.OrdersCreateRequest;
 import org.code.orderservices.dto.orders.OrdersResponse;
+import org.code.orderservices.dto.orders.OrdersResumeResponse;
 import org.code.orderservices.models.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class OrdersMapper implements IMapper<Orders, OrdersCreateRequest, OrdersResponse> {
@@ -40,6 +43,16 @@ public class OrdersMapper implements IMapper<Orders, OrdersCreateRequest, Orders
                 entity.getComments(),
                 customersMapper.toResponse(entity.getCustomer()),
                 entity.getSaleRepEmployeeNumber()
+        );
+    }
+
+    public OrdersResumeResponse toResumeResponse(Orders orders) {
+        return new OrdersResumeResponse(
+                orders.getOrderNumber(),
+                orders.getOrderDate().toLocalDate(),
+                orders.getCustomer().getCustomerName(),
+                orders.getStatus(),
+                new BigDecimal(0)
         );
     }
 }

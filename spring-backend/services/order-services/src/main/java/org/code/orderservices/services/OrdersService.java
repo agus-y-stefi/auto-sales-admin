@@ -3,6 +3,7 @@ package org.code.orderservices.services;
 import jakarta.persistence.EntityNotFoundException;
 import org.code.orderservices.dto.orders.OrdersCreateRequest;
 import org.code.orderservices.dto.orders.OrdersResponse;
+import org.code.orderservices.dto.orders.OrdersResumeResponse;
 import org.code.orderservices.mappers.OrdersMapper;
 import org.code.orderservices.models.Customers;
 import org.code.orderservices.models.Orders;
@@ -36,10 +37,10 @@ public class OrdersService {
                 .toList();
     }
 
-    public OrdersResponse getOrdersByCustomerId(Integer customerId) {
+    public OrdersResponse getOrdersByCustomerId(Integer orderNumber) {
         return ordersMapper.toResponse(
-                ordersRepository.findById(customerId)
-                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + customerId))
+                ordersRepository.findById(orderNumber)
+                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderNumber))
         );
 
     }
@@ -69,5 +70,11 @@ public class OrdersService {
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
 
         ordersRepository.delete(orders);
+    }
+
+    public List<OrdersResumeResponse> getOrdersResume() {
+        return ordersRepository.findAll()
+                .stream().map(ordersMapper::toResumeResponse)
+                .toList();
     }
 }

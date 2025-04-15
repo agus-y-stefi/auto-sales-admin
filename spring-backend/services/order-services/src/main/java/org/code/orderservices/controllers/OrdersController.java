@@ -2,6 +2,7 @@ package org.code.orderservices.controllers;
 
 import org.code.orderservices.dto.orders.OrdersCreateRequest;
 import org.code.orderservices.dto.orders.OrdersResponse;
+import org.code.orderservices.dto.orders.OrdersResumeResponse;
 import org.code.orderservices.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,15 @@ public class OrdersController {
         return ResponseEntity.ok(ordersService.getOrders());
     }
 
-    @GetMapping("/{customerId}")
-    public ResponseEntity<OrdersResponse> getOrdersByCustomerId(@PathVariable Integer customerId) {
-        return ResponseEntity.ok(ordersService.getOrdersByCustomerId(customerId));
+    @GetMapping("/resume")
+    public ResponseEntity<List<OrdersResumeResponse>> getOrdersResume() {
+        return ResponseEntity.ok(ordersService.getOrdersResume());
+    }
+
+
+    @GetMapping("/{orderNumber}")
+    public ResponseEntity<OrdersResponse> getOrdersByCustomerId(@PathVariable Integer orderNumber) {
+        return ResponseEntity.ok(ordersService.getOrdersByCustomerId(orderNumber));
     }
 
     @PostMapping

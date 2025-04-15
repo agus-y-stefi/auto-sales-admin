@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={inter.className}>    
+      <body className={`${inter.className} min-h-screen`}>
       <PersistentDrawerLeft>
       {/* Your page content will be rendered inside the Main component of the sidebar */}
       {children}
