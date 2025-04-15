@@ -1,7 +1,7 @@
 package org.code.orderservices.controllers;
 
 
-import org.code.orderservices.dto.customers.CustomersRequest;
+import org.code.orderservices.dto.customers.CustomersCreateRequest;
 import org.code.orderservices.dto.customers.CustomersResponse;
 import org.code.orderservices.services.CustomersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +32,12 @@ public class CustomersController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomersResponse> createCustomer(@RequestBody CustomersRequest customersResponse) {
+    public ResponseEntity<CustomersResponse> createCustomer(@RequestBody CustomersCreateRequest customersResponse) {
         return ResponseEntity.status(201).body(customersService.createCustomer(customersResponse));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteCustomer(@RequestParam Integer customerId) {
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Integer customerId) {
         customersService.deleteCustomer(customerId);
         return ResponseEntity.noContent().build();
     }

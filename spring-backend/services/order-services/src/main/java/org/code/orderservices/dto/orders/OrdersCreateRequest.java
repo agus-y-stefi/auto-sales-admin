@@ -1,17 +1,15 @@
 package org.code.orderservices.dto.orders;
 
-import org.code.orderservices.dto.customers.CustomersResponse;
-
 import java.time.LocalDateTime;
 
-public record OrdersResponse(
+public record OrdersCreateRequest(
         Integer orderNumber,
         LocalDateTime orderDate,
         LocalDateTime requiredDate,
         LocalDateTime shippedDate,
         String status,
         String comments,
-        CustomersResponse customersResponse,
+        Integer customerNumber,
         Integer saleRepEmployeeNumber
 ) {
 }

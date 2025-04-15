@@ -2,8 +2,6 @@ package org.code.orderservices.controllers;
 
 import org.code.orderservices.dto.payments.PaymentsRequest;
 import org.code.orderservices.dto.payments.PaymentsResponse;
-import org.code.orderservices.models.Payments;
-import org.code.orderservices.models.serializers.PaymentsId;
 import org.code.orderservices.services.PaymentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +25,11 @@ public class PaymentsController {
         return ResponseEntity.ok(paymentsService.getAllPayments());
     }
 
-    @GetMapping("/{paymentId}")
-    public ResponseEntity<PaymentsResponse> getPaymentById(@PathVariable PaymentsId paymentId) {
-        return ResponseEntity.ok(paymentsService.getPaymentById(paymentId));
+    @GetMapping("/{customer_number}/{check_number}")
+    public ResponseEntity<PaymentsResponse> getPaymentById(
+            @PathVariable("customer_number") Integer customerNumber,
+            @PathVariable("check_number") String checkNumber) {
+        return ResponseEntity.ok(paymentsService.getPaymentById(customerNumber, checkNumber));
     }
 
     @PostMapping
@@ -38,9 +38,11 @@ public class PaymentsController {
                 .body(paymentsService.createPayment(paymentsRequest));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deletePayment(@RequestParam PaymentsId paymentId) {
-        paymentsService.deletePayment(paymentId);
+    @DeleteMapping("/{customer_number}/{check_number}")
+    public ResponseEntity<Void> deletePayment(
+            @PathVariable("customer_number") Integer customerNumber,
+            @PathVariable("check_number") String checkNumber) {
+        paymentsService.deletePayment(customerNumber, checkNumber);
         return ResponseEntity.noContent().build();
     }
 

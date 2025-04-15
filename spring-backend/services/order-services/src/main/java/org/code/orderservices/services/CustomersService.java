@@ -1,13 +1,15 @@
 package org.code.orderservices.services;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.code.orderservices.dto.customers.CustomersRequest;
+import org.code.orderservices.dto.customers.CustomersCreateRequest;
 import org.code.orderservices.dto.customers.CustomersResponse;
 import org.code.orderservices.mappers.CustomersMapper;
 import org.code.orderservices.models.Customers;
 import org.code.orderservices.repositories.CustomersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,7 +40,11 @@ public class CustomersService {
     }
 
 
-    public CustomersResponse createCustomer(CustomersRequest customersResponse) {
+    public CustomersResponse createCustomer(CustomersCreateRequest customersResponse) {
+
+        if (customersRepository.existsById(customersResponse.customerNumber()))
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer already exists with id: " + customersResponse.customerNumber());
+
         return customersMapper.toResponse(
                 customersRepository.save(
                         customersMapper.toEntity(customersResponse)

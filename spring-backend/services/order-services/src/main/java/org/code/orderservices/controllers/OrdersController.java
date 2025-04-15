@@ -1,7 +1,6 @@
 package org.code.orderservices.controllers;
 
-import org.code.orderservices.dto.customers.CustomersResponse;
-import org.code.orderservices.dto.orders.OrdersRequest;
+import org.code.orderservices.dto.orders.OrdersCreateRequest;
 import org.code.orderservices.dto.orders.OrdersResponse;
 import org.code.orderservices.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +22,23 @@ public class OrdersController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrdersResponse>> getOrders(){
+    public ResponseEntity<List<OrdersResponse>> getOrders() {
         return ResponseEntity.ok(ordersService.getOrders());
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<OrdersResponse> getOrdersByCustomerId(@PathVariable Integer customerId){
+    public ResponseEntity<OrdersResponse> getOrdersByCustomerId(@PathVariable Integer customerId) {
         return ResponseEntity.ok(ordersService.getOrdersByCustomerId(customerId));
     }
 
     @PostMapping
-    public ResponseEntity<OrdersResponse> createOrder(@RequestBody OrdersRequest ordersRequest){
+    public ResponseEntity<OrdersResponse> createOrder(@RequestBody OrdersCreateRequest ordersCreateRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ordersService.createOrder(ordersRequest));
+                .body(ordersService.createOrder(ordersCreateRequest));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteOrder(@RequestParam Integer orderId){
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Integer orderId) {
         ordersService.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
     }

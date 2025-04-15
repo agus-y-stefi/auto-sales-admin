@@ -2,7 +2,7 @@ package org.code.orderservices.dto.customers;
 
 import java.math.BigDecimal;
 
-public record CustomersResponse(
+public record CustomersCreateRequest(
         Integer customerNumber,
         String customerName,
         String contactLastName,

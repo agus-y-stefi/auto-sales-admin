@@ -1,4 +1,12 @@
 package org.code.orderservices.dto.payments;
 
-public record PaymentsRequest() {
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+public record PaymentsRequest(
+        Integer customerNumber,
+        String checkNumber,
+        LocalDateTime paymentDate,
+        BigDecimal amount
+) {
 }

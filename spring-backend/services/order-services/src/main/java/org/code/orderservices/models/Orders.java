@@ -35,7 +35,7 @@ public class Orders {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_number", referencedColumnName = "customer_number", nullable = false)
-    private Customers customerNumber;
+    private Customers customer;
 
     @Column(name = "sales_rep_employee_number")
     private Integer saleRepEmployeeNumber;
