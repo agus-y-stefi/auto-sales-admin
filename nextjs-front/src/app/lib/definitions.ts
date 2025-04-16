@@ -1,4 +1,4 @@
-export interface Order {
+export interface FormattedOrderTableHome {
     orderNumber: number
     orderDate: string
     status: string

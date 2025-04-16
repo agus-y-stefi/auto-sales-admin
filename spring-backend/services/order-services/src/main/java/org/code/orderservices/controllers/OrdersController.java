@@ -28,8 +28,12 @@ public class OrdersController {
     }
 
     @GetMapping("/resume")
-    public ResponseEntity<List<OrdersResumeResponse>> getOrdersResume() {
-        return ResponseEntity.ok(ordersService.getOrdersResume());
+    public ResponseEntity<List<OrdersResumeResponse>> getOrdersResume(
+            @RequestParam(required = false) String q,
+            @RequestParam(defaultValue = "15") Integer limit,
+            @RequestParam(defaultValue = "0") Integer page
+    ) {
+        return ResponseEntity.ok(ordersService.getOrdersResume(q, limit, page));
     }
 
 

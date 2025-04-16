@@ -10,10 +10,12 @@ import org.code.orderservices.models.Orders;
 import org.code.orderservices.repositories.CustomersRepository;
 import org.code.orderservices.repositories.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -72,9 +74,26 @@ public class OrdersService {
         ordersRepository.delete(orders);
     }
 
-    public List<OrdersResumeResponse> getOrdersResume() {
-        return ordersRepository.findAll()
-                .stream().map(ordersMapper::toResumeResponse)
-                .toList();
+    public List<OrdersResumeResponse> getOrdersResume(String q, Integer limit, Integer page) {
+
+
+        boolean isPageable = limit != null && limit > 0;
+        boolean isQ = q != null && !q.isEmpty();
+
+        List<Orders> ordersPage;
+
+        if (isPageable && isQ)
+            ordersPage = ordersRepository.findByCustomer_CustomerNameContain(q, PageRequest.of(page, limit)).getContent();
+        else if (isPageable)
+            ordersPage = ordersRepository.findAll(PageRequest.of(page, limit)).getContent();
+        else if (isQ)
+            ordersPage = ordersRepository.findByCustomer_CustomerNameContain(q)
+                    .orElse(List.of());
+        else
+            ordersPage = ordersRepository.findAll();
+
+        return ordersPage.stream()
+                .map(ordersMapper::toResumeResponse).toList();
+
     }
 }

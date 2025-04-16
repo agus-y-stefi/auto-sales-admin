@@ -1,38 +1,48 @@
 "use client"
-import { Pagination } from "@heroui/react"
+import {Pagination} from "@heroui/react"
+import {useDebouncedCallback} from "use-debounce";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 interface TableBottomContentProps {
-  selectedKeys: Set<string | number>
-  items: any[]
-  page: number
-  pages: number
-  hasSearchFilter: boolean
-  setPage: (page: number) => void
+    pages: number
 }
 
 export function TableBottomContent({
-  selectedKeys,
-  items,
-  page,
-  pages,
-  hasSearchFilter,
-  setPage,
-}: TableBottomContentProps) {
-  return (
-    <div className="py-2 px-2 flex justify-between items-center">
-      <Pagination
-        showControls
-        classNames={{
-          cursor: "bg-foreground text-background",
-        }}
-        color="default"
-        isDisabled={hasSearchFilter}
-        page={page}
-        total={pages}
-        variant="light"
-        onChange={setPage}
-      />
-    </div>
-  )
+                                       pages,
+                                   }: TableBottomContentProps) {
+
+    const pathname = usePathname();
+    const {replace} = useRouter()
+    const searchParams = useSearchParams();
+
+    const page = Number(searchParams.get('page')) || 1;
+
+    const handlePageChange = (page: number) => {
+        const param = new URLSearchParams(searchParams);
+
+        if (page)
+            param.set('page', page.toString());
+        else
+            param.delete('page', '1');
+
+        replace(`${pathname}?${param.toString()}`);
+
+    }
+
+    return (
+        <div className="py-2 px-2 flex justify-between items-center">
+            <Pagination
+                showControls
+                classNames={{
+                    cursor: "bg-foreground text-background",
+                }}
+                color="default"
+                page={page}
+                total={pages}
+                variant="light"
+                onChange={handlePageChange}
+            />
+        </div>
+    )
 }
 
