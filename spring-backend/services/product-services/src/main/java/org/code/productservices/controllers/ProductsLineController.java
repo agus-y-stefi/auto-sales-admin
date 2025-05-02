@@ -45,8 +45,4 @@ public class ProductsLineController {
         productsLinesService.deleteProductsLine(product_line);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
 }

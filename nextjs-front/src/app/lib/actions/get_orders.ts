@@ -6,13 +6,19 @@ export const getOrders = async (
     filterValue: string,
 ) => {
 
-    const hasQueryStr = (page || rowsPerPage || filterValue) ? "?" : "";
+    console.log("filterValue", filterValue);
 
-    const rowsPerPageQ = rowsPerPage ? `limit=${rowsPerPage}` : "15";
-    const pageNumberQ = page ? `&page=${page}` : "1";
-    const filterQ = filterValue ? `&q=${filterValue}` : "";
+    let queryString = new URLSearchParams({
+        limit: rowsPerPage,
+        page: page,
+    }).toString();
 
-    const res = await fetch(`${URL_ORDERS}/resume${hasQueryStr}${rowsPerPageQ}${pageNumberQ}${filterQ}`)
+    if (filterValue)
+        queryString += `&query=${filterValue}`;
+
+    console.log(queryString);
+
+    const res = await fetch(`${URL_ORDERS}/resume?${queryString}`)
     if (!res.ok){
         console.log(await res.json())
         throw new Error("Failed to fetch data");

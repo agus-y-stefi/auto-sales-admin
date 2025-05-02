@@ -1,6 +1,7 @@
 package org.code.orderservices.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.code.orderservices.clients.IProductsClient;
 import org.code.orderservices.dto.orders.OrdersCreateRequest;
 import org.code.orderservices.dto.orders.OrdersResponse;
 import org.code.orderservices.dto.orders.OrdersResumeResponse;
@@ -9,14 +10,21 @@ import org.code.orderservices.models.Customers;
 import org.code.orderservices.models.Orders;
 import org.code.orderservices.repositories.CustomersRepository;
 import org.code.orderservices.repositories.OrdersRepository;
+import org.code.productservices.dto.orders_details.OrderNumberSumPriceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.awt.print.Pageable;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdersService {

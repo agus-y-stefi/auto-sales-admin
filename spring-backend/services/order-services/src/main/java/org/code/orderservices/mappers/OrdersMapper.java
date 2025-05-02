@@ -52,7 +52,18 @@ public class OrdersMapper implements IMapper<Orders, OrdersCreateRequest, Orders
                 orders.getOrderDate().toLocalDate(),
                 orders.getCustomer().getCustomerName(),
                 orders.getStatus(),
-                new BigDecimal(0)
+                BigDecimal.ZERO
         );
     }
+
+    public OrdersResumeResponse toResumeResponse(Orders orders, BigDecimal sumPrice) {
+        return new OrdersResumeResponse(
+                orders.getOrderNumber(),
+                orders.getOrderDate().toLocalDate(),
+                orders.getCustomer().getCustomerName(),
+                orders.getStatus(),
+                sumPrice
+        );
+    }
+
 }

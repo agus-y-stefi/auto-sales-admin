@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useState} from "react"
+import React, {JSX, useState} from "react"
 import {
     Table,
     TableHeader,
@@ -20,16 +20,8 @@ import {TableTopContent} from "./table-top-content"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
 import {FormattedOrderTableHome} from "@/app/lib/definitions";
+import {tableClassNames} from "@/app/styles/tableStyles";
 
-const statusColorMap: Record<string, "success" | "warning" | "danger" | "default" | "secondary" | "primary"> = {
-    sent: "success",
-    inProgress: "primary",
-    pending: "warning",
-    delivered: "success",
-    canceled: "danger",
-    returned: "default",
-    refunded: "secondary",
-}
 
 export const columns = [
     {name: "N° de orden", uid: "orderNumber", sortable: true},
@@ -40,22 +32,64 @@ export const columns = [
     {name: "Acciones", uid: "actions"},
 ]
 
-export const statusOptions = [
-    {name: "Enviado", uid: "sent"},
-    {name: "En proceso", uid: "inProgress"},
-    {name: "Pendiente", uid: "pending"},
-    {name: "Entregado", uid: "delivered"},
-    {name: "Cancelado", uid: "canceled"},
-    {name: "Devuelto", uid: "returned"},
-    {name: "Reembolsado", uid: "refunded"},
+export const statusOptions: Array<{
+    name: string,
+    uid: string,
+    color: "success" | "primary" | "warning" | "danger" | "default" | "secondary"
+}> = [
+    {name: "Enviado", uid: "sent", color: "success"},
+    {name: "En proceso", uid: "inProgress", color: "primary"},
+    {name: "Pendiente", uid: "pending", color: "warning"},
+    {name: "Entregado", uid: "delivered", color: "success"},
+    {name: "Cancelado", uid: "canceled", color: "danger"},
+    {name: "Devuelto", uid: "returned", color: "default"},
+    {name: "Reembolsado", uid: "refunded", color: "secondary"}
 ]
 
+type CellKey = (typeof columns[number])["uid"];
+
+const renderCell = (uid: CellKey, item: FormattedOrderTableHome): JSX.Element => {
+    if (uid === "actions") {
+        return (
+            <div className="relative flex justify-end items-center gap-2">
+                <Dropdown className="bg-background border-1 border-default-200">
+                    <DropdownTrigger>
+                        <Button isIconOnly radius="full" size="sm" variant="light">
+                            <VerticalDotsIcon className="text-default-400"/>
+                        </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu>
+                        <DropdownItem key="view">Ver Detalles</DropdownItem>
+                        <DropdownItem key="edit">Editar</DropdownItem>
+                        <DropdownItem key="delete">Eliminar</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
+        );
+    }
+
+    if (uid === "status") {
+        const status = statusOptions.find(option => option.name === item.status);
+        return (
+            <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={status?.color ?? "default"}
+                size="sm"
+                variant="flat"
+            >
+                {item.status}
+            </Chip>
+        );
+    }
+
+    return <span className="text-default-500">{item[uid as keyof FormattedOrderTableHome] ?? ""}</span>;
+};
 
 export function OrdersTable({orders, rowsPerPage}: { orders: FormattedOrderTableHome[], rowsPerPage: number }) {
     const [statusFilter, setStatusFilter] = useState<Set<string>>(new Set());
 
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
-        column: "age",
+        column: "customerName",
         direction: "ascending",
     })
 
@@ -71,64 +105,6 @@ export function OrdersTable({orders, rowsPerPage}: { orders: FormattedOrderTable
         })
     }, [sortDescriptor, orders])
 
-
-    const renderCell = React.useCallback((order: FormattedOrderTableHome, columnKey: string) => {
-
-        const cellValue = order[columnKey as keyof FormattedOrderTableHome]
-
-        switch (columnKey) {
-            case "status":
-                const statusName = order.status
-                const statusUid = statusOptions.find(option => option.name === statusName)?.uid || statusName
-                const statusColor = statusColorMap[statusUid] ?? "default"
-
-                return (
-                    <Chip
-                        className="capitalize border-none gap-1 text-default-600"
-                        color={statusColor}
-                        size="sm"
-                        variant="flat"
-                    >
-                        {statusName}
-                    </Chip>
-                )
-
-            case "actions":
-                return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <Dropdown className="bg-background border-1 border-default-200">
-                            <DropdownTrigger>
-                                <Button isIconOnly radius="full" size="sm" variant="light">
-                                    <VerticalDotsIcon className="text-default-400"/>
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownItem key="view">Ver Detalles</DropdownItem>
-                                <DropdownItem key="edit">Editar</DropdownItem>
-                                <DropdownItem key="delete">Eliminar</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                )
-            default:
-                return cellValue
-        }
-    }, [])
-
-    const classNames = React.useMemo(
-        () => ({
-            wrapper: ["max-h-[382px]", "max-w-3xl"],
-            th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-            td: [
-                "group-data-[first=true]/tr:first:before:rounded-none",
-                "group-data-[first=true]/tr:last:before:rounded-none",
-                "group-data-[middle=true]/tr:before:rounded-none",
-                "group-data-[last=true]/tr:first:before:rounded-none",
-                "group-data-[last=true]/tr:last:before:rounded-none",
-            ],
-        }),
-        [],
-    )
 
     return (
         <Table
@@ -146,7 +122,7 @@ export function OrdersTable({orders, rowsPerPage}: { orders: FormattedOrderTable
                     wrapper: "after:bg-foreground after:text-background text-background",
                 },
             }}
-            classNames={classNames}
+            classNames={tableClassNames}
             selectionMode="none"
             sortDescriptor={sortDescriptor}
             topContent={
@@ -174,7 +150,8 @@ export function OrdersTable({orders, rowsPerPage}: { orders: FormattedOrderTable
             <TableBody emptyContent={"No clients found"} items={sortedItems}>
                 {(item) => (
                     <TableRow key={item.orderNumber}>{(columnKey) =>
-                        <TableCell>{renderCell(item, columnKey as string)}</TableCell>}</TableRow>
+                        <TableCell>{renderCell(columnKey as string, item)}</TableCell>}
+                    </TableRow>
                 )}
             </TableBody>
         </Table>
