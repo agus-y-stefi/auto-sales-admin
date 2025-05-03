@@ -1,7 +1,7 @@
 package org.code.orderservices.clients;
 
 
-import org.code.productservices.dto.orders_details.OrderNumberSumPriceResponse;
+import org.code.orderservices.dto.orders.OrderNumberSumPriceResponse;
 import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.List;

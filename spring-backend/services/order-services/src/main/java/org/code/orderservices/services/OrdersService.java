@@ -10,7 +10,6 @@ import org.code.orderservices.models.Customers;
 import org.code.orderservices.models.Orders;
 import org.code.orderservices.repositories.CustomersRepository;
 import org.code.orderservices.repositories.OrdersRepository;
-import org.code.productservices.dto.orders_details.OrderNumberSumPriceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
