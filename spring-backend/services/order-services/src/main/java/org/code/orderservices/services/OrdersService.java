@@ -11,6 +11,7 @@ import org.code.orderservices.models.Orders;
 import org.code.orderservices.repositories.CustomersRepository;
 import org.code.orderservices.repositories.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -81,26 +82,27 @@ public class OrdersService {
         ordersRepository.delete(orders);
     }
 
-    public List<OrdersResumeResponse> getOrdersResume(String q, Integer limit, Integer page) {
-
+    public Page<OrdersResumeResponse> getOrdersResume(String q, Integer limit, Integer page) {
 
         boolean isPageable = limit != null && limit > 0;
         boolean isQ = q != null && !q.isEmpty();
 
-        List<Orders> ordersPage;
+        Page<Orders> ordersPage;
+        int pageCount = (isPageable) ? limit : Integer.MAX_VALUE;
 
-        if (isPageable && isQ)
-            ordersPage = ordersRepository.findByCustomer_CustomerNameContain(q, PageRequest.of(page, limit)).getContent();
-        else if (isPageable)
-            ordersPage = ordersRepository.findAll(PageRequest.of(page, limit)).getContent();
-        else if (isQ)
-            ordersPage = ordersRepository.findByCustomer_CustomerNameContain(q)
-                    .orElse(List.of());
-        else
-            ordersPage = ordersRepository.findAll();
+        page = Math.max(page, 0);
 
-        return ordersPage.stream()
-                .map(ordersMapper::toResumeResponse).toList();
+        if (isPageable && isQ) {
+            ordersPage = ordersRepository.findByCustomer_CustomerNameContain(q, PageRequest.of(page, pageCount));
+        } else if (isPageable) {
+            ordersPage = ordersRepository.findAll(PageRequest.of(page, limit));
+        } else if (isQ) {
+            ordersPage = ordersRepository.findByCustomer_CustomerNameContain(q, PageRequest.of(0, pageCount));
+        } else {
+            ordersPage = ordersRepository.findAll(PageRequest.of(0, pageCount));
+        }
 
+        return ordersPage.map(ordersMapper::toResumeResponse); // Usamos map() para devolver un Page<OrdersResumeResponse>
     }
+
 }

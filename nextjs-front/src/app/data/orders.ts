@@ -1,6 +1,6 @@
-import {FormattedOrderTableHome} from "@/app/lib/definitions";
+import {FormattedOrderTableHomePage} from "@/app/lib/definitions";
 
-export const orders: FormattedOrderTableHome[] = [
+export const orders: FormattedOrderTableHomePage[] = [
   {
     orderNumber: 10101,
     orderDate: "2023-01-09",

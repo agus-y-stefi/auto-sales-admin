@@ -5,6 +5,7 @@ import org.code.orderservices.dto.orders.OrdersResponse;
 import org.code.orderservices.dto.orders.OrdersResumeResponse;
 import org.code.orderservices.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class OrdersController {
     }
 
     @GetMapping("/resume")
-    public ResponseEntity<List<OrdersResumeResponse>> getOrdersResume(
+    public ResponseEntity<Page<OrdersResumeResponse>> getOrdersResume(
             @RequestParam(required = false) String q,
             @RequestParam(defaultValue = "15") Integer limit,
             @RequestParam(defaultValue = "0") Integer page

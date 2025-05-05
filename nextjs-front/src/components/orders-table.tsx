@@ -19,7 +19,7 @@ import type {SortDescriptor} from "@heroui/react"
 import {TableTopContent} from "./table-top-content"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
-import {FormattedOrderTableHome} from "@/app/lib/definitions";
+import {FormattedOrderTableHome, Page} from "@/app/lib/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
 
 
@@ -85,15 +85,13 @@ const renderCell = (uid: CellKey, item: FormattedOrderTableHome): JSX.Element =>
     return <span className="text-default-500">{item[uid as keyof FormattedOrderTableHome] ?? ""}</span>;
 };
 
-export function OrdersTable({orders, rowsPerPage}: { orders: FormattedOrderTableHome[], rowsPerPage: number }) {
-    const [statusFilter, setStatusFilter] = useState<Set<string>>(new Set());
+export function OrdersTable({ordersPage}: { ordersPage: Page<FormattedOrderTableHome>}) {
+    const orders = ordersPage.content;
 
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
         column: "customerName",
         direction: "ascending",
     })
-
-    const pages = Math.ceil(orders.length / rowsPerPage)
 
     const sortedItems = React.useMemo(() => {
         return [...orders].sort((a, b) => {
@@ -113,7 +111,7 @@ export function OrdersTable({orders, rowsPerPage}: { orders: FormattedOrderTable
             aria-label="User management table with custom cells, pagination and sorting"
             bottomContent={
                 <TableBottomContent
-                    pages={pages}
+                    pages={ordersPage.totalPages}
                 />
             }
             bottomContentPlacement="outside"
@@ -127,8 +125,6 @@ export function OrdersTable({orders, rowsPerPage}: { orders: FormattedOrderTable
             sortDescriptor={sortDescriptor}
             topContent={
                 <TableTopContent
-                    statusFilter={statusFilter}
-                    setStatusFilter={setStatusFilter}
                     ordersLength={orders.length}
                     statusOptions={statusOptions}
                 />

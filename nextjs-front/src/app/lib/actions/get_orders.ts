@@ -1,4 +1,4 @@
-import {URL_ORDERS, FormattedOrderTableHome} from "@/app/lib/definitions";
+import {URL_ORDERS, FormattedOrderTableHome, Page } from "@/app/lib/definitions";
 
 export const getOrders = async (
     page: string,
@@ -16,7 +16,6 @@ export const getOrders = async (
     if (filterValue)
         queryString += `&query=${filterValue}`;
 
-    console.log(queryString);
 
     const res = await fetch(`${URL_ORDERS}/resume?${queryString}`)
     if (!res.ok){
@@ -24,7 +23,7 @@ export const getOrders = async (
         throw new Error("Failed to fetch data");
     }
 
-    const data : FormattedOrderTableHome[] = await res.json();
+    const data : Page<FormattedOrderTableHome> = await res.json();
 
     const statusMap: { [key: string]: string } = {
         "Shipped": "Enviado",
@@ -36,7 +35,7 @@ export const getOrders = async (
     };
 
     // Map the status to the Spanish equivalent
-    data.forEach(order =>
+    data.content.forEach(order =>
         order.status = statusMap[order.status] || order.status
     );
 

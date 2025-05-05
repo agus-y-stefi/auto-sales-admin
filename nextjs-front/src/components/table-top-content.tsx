@@ -1,6 +1,6 @@
 "use client"
 
-import type React from "react"
+import React, {useMemo} from "react"
 import {Input, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, useDisclosure} from "@heroui/react"
 import {SearchIcon, ChevronDownIcon, PlusIcon} from "./icons"
 import {capitalize} from "./utils/helpers"
@@ -10,15 +10,11 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useDebouncedCallback} from "use-debounce";
 
 interface TableTopContentProps {
-    statusFilter: Set<string> // CAMBIADO: era string
-    setStatusFilter: (value: Set<string>) => void // CAMBIADO: era any
     ordersLength: number,
     statusOptions: { uid: string; name: string }[]
 }
 
 export function TableTopContent({
-                                    statusFilter,
-                                    setStatusFilter,
                                     ordersLength,
                                     statusOptions,
                                 }: TableTopContentProps) {
@@ -27,6 +23,9 @@ export function TableTopContent({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const {replace} = useRouter()
+
+    const statusParam = searchParams.get('status');
+    const statusFilter = useMemo(() => new Set(statusParam?.split(',') ?? []), [statusParam]);
 
 
     const handleSearch = useDebouncedCallback((term: string) => {
@@ -52,6 +51,21 @@ export function TableTopContent({
 
         replace(`${pathname}?${param.toString()}`);
     }
+
+    const handleStatusFilter = (keys: Selection) => {
+        const newStatusFilter = new Set(keys as Set<string>);
+
+        const param = new URLSearchParams(searchParams);
+        param.set('page', '1');
+
+        if (newStatusFilter.size > 0) {
+            param.set('status', Array.from(newStatusFilter).join(','));
+        } else {
+            param.delete('status');
+        }
+
+        replace(`${pathname}?${param.toString()}`);
+    };
 
 
     return (
@@ -85,9 +99,9 @@ export function TableTopContent({
                                 disallowEmptySelection
                                 aria-label="Table Columns"
                                 closeOnSelect={false}
-                                selectedKeys={statusFilter as Selection}
                                 selectionMode="multiple"
-                                onSelectionChange={(keys: Selection) => setStatusFilter(new Set(keys as Set<string>))}
+                                selectedKeys={statusFilter}
+                                onSelectionChange={handleStatusFilter}
                             >
                                 {statusOptions.map((status) => (
                                     <DropdownItem key={status.uid} className="capitalize">
@@ -108,6 +122,7 @@ export function TableTopContent({
                     <label className="flex items-center text-default-400 text-small">
                         Filas por página:
                         <select className="bg-transparent outline-none text-default-400 text-small"
+                                defaultValue={searchParams.get('limit')?.toString() || "5"}
                                 onChange={(e) => handleLimitPage(parseInt(e.target.value))}>
                             <option value="5">5</option>
                             <option value="10">10</option>
