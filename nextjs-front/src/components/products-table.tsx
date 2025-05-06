@@ -16,17 +16,17 @@ import {
     Chip,
 } from "@heroui/react"
 import type {SortDescriptor} from "@heroui/react"
-import {TableTopContent} from "./table-top-content"
+import {TableTopContent} from "./table-top-content-products"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
+import {Page} from "@/app/lib/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
 
-// Definición del tipo de producto
-export interface FormattedProductTable {
+export interface FormattedProductTableHome {
     productCode: string;
     productName: string;
     productLine: string;
-    productVendor: string; // Añadido campo para proveedor
+    productVendor: string;
     quantityInStock: number;
     buyPrice: number;
     MSRP: number;
@@ -37,7 +37,7 @@ export const columns = [
     {name: "Código", uid: "productCode", sortable: true},
     {name: "Nombre", uid: "productName", sortable: true},
     {name: "Línea", uid: "productLine", sortable: true},
-    {name: "Proveedor", uid: "productVendor", sortable: true}, // Añadida columna de proveedor
+    {name: "Proveedor", uid: "productVendor", sortable: true},
     {name: "Stock", uid: "quantityInStock", sortable: true},
     {name: "Precio Compra", uid: "buyPrice", sortable: true},
     {name: "MSRP", uid: "MSRP", sortable: true},
@@ -60,7 +60,7 @@ export const statusOptions: Array<{
 
 type CellKey = (typeof columns[number])["uid"];
 
-const renderCell = (uid: CellKey, item: FormattedProductTable): JSX.Element => {
+const renderCell = (uid: CellKey, item: FormattedProductTableHome): JSX.Element => {
     if (uid === "actions") {
         return (
             <div className="relative flex justify-end items-center gap-2">
@@ -102,7 +102,7 @@ const renderCell = (uid: CellKey, item: FormattedProductTable): JSX.Element => {
         return <span className="text-default-500">{item[uid].toLocaleString()}</span>;
     }
 
-    return <span className="text-default-500">{item[uid as keyof FormattedProductTable] ?? ""}</span>;
+    return <span className="text-default-500">{item[uid as keyof FormattedProductTableHome] ?? ""}</span>;
 };
 
 // Función para formatear moneda
@@ -113,20 +113,18 @@ const formatCurrency = (amount: number) => {
     }).format(amount);
 };
 
-export function ProductsTable({products, rowsPerPage}: { products: FormattedProductTable[], rowsPerPage: number }) {
-    const [statusFilter, setStatusFilter] = useState<Set<string>>(new Set());
+export function ProductsTable({productsPage}: { productsPage: Page<FormattedProductTableHome>}) {
+    const products = productsPage.content;
 
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
         column: "productName",
         direction: "ascending",
     })
 
-    const pages = Math.ceil(products.length / rowsPerPage)
-
     const sortedItems = React.useMemo(() => {
         return [...products].sort((a, b) => {
-            const first = a[sortDescriptor.column as keyof FormattedProductTable]
-            const second = b[sortDescriptor.column as keyof FormattedProductTable]
+            const first = a[sortDescriptor.column as keyof FormattedProductTableHome]
+            const second = b[sortDescriptor.column as keyof FormattedProductTableHome]
             const cmp = first < second ? -1 : first > second ? 1 : 0
 
             return sortDescriptor.direction === "descending" ? -cmp : cmp
@@ -141,7 +139,7 @@ export function ProductsTable({products, rowsPerPage}: { products: FormattedProd
             aria-label="Tabla de productos con celdas personalizadas, paginación y ordenamiento"
             bottomContent={
                 <TableBottomContent
-                    pages={pages}
+                    pages={productsPage.totalPages}
                 />
             }
             bottomContentPlacement="outside"
@@ -155,8 +153,6 @@ export function ProductsTable({products, rowsPerPage}: { products: FormattedProd
             sortDescriptor={sortDescriptor}
             topContent={
                 <TableTopContent
-                    statusFilter={statusFilter}
-                    setStatusFilter={setStatusFilter}
                     productsLength={products.length}
                     statusOptions={statusOptions}
                 />
