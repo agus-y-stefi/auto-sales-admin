@@ -6,20 +6,15 @@ on:
   pull_request:
     branches: [ DevOps ]
 
-jobs:
-  test-frontnext:
+  test:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: nextjs-front
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
     - name: Use Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v3
       with:
         node-version: '18'
 
