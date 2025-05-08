@@ -1,0 +1,30 @@
+name: Frontnext CI
+
+on:
+  push:
+    branches: [ DevOps ]
+  pull_request:
+    branches: [ DevOps ]
+
+jobs:
+  test-frontnext:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: nextjs-front
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test -- --watchAll=false
