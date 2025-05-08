@@ -16,6 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import {PanelRight} from 'lucide-react';
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -100,6 +101,12 @@ export default function PersistentDrawerLeft({children}: PersistentDrawerLeftPro
         setOpen(false);
     };
 
+    const sideBarItems : {text: string, url: string}[] = [
+        {text: 'Ordenes', url: '/orders'},
+        {text: 'Productos', url: '/products'},
+        {text: 'Clientes', url: '/customers'},
+    ]
+
     return (
         <Box sx={{display: 'flex', minHeight: '100vh'}}>
             <CssBaseline/>
@@ -148,8 +155,9 @@ export default function PersistentDrawerLeft({children}: PersistentDrawerLeftPro
                 </DrawerHeader>
                 <DrawerHeader/>
                 <List>
-                    {['Ordenes', 'Productos', 'Clientes'].map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{px: 1}}>
+                    {sideBarItems.map((element, index) => (
+                        <ListItem key={element.text} disablePadding sx={{px: 1}}>
+                            <Link href={element.url} className='w-full'>
                             <ListItemButton
                                 selected={selectedIndex === index}
                                 onClick={() => setSelectedIndex(index)}
@@ -173,9 +181,11 @@ export default function PersistentDrawerLeft({children}: PersistentDrawerLeftPro
                                 <ListItemIcon sx={{color: 'inherit'}}>
                                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
                                 </ListItemIcon>
-                                <ListItemText primary={text}/>
+                                <ListItemText primary={element.text}/>
                             </ListItemButton>
+                            </Link>
                         </ListItem>
+                        
                     ))}
                 </List>
 

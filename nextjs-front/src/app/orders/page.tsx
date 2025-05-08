@@ -1,7 +1,6 @@
 import {OrdersTable} from "@/components/orders-table";
-import {orders} from "@/app/data/orders";
-
-import {getOrders} from "@/app/lib/actions/get_orders";
+import { getOrdersMock } from "../data/orders";
+// import {getOrders} from "@/app/lib/actions/get_orders"; // DEPENDE DEL BACKEND
 
 
 export default async function Page(props: {
@@ -20,8 +19,8 @@ export default async function Page(props: {
         status: ""
     };
 
-
-    const orders = await getOrders(page, limit, query);
+    const orders = getOrdersMock(page, limit, query);
+    //const products = await getProducts(page, limit, query);
 
     const numberOFPages = Number(limit);
     return (
