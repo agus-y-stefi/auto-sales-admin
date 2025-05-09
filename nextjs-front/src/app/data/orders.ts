@@ -7,7 +7,7 @@
       {
         orderNumber: 10103,
         orderDate: "2024-03-22",
-        customerName: "Emma Wilson",
+        customerName: "Emma Wil",
         status: "Enviado",
         total: 475.75,
       },
