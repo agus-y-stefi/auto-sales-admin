@@ -22,7 +22,7 @@ import {VerticalDotsIcon} from "./icons/index"
 import {Page} from "@/app/lib/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
 
-export interface FormattedCustomerTableHome {
+export interface FormattedCustomerTableHom {
     customerNumber: number;
     customerName: string;
     contactName: string;
