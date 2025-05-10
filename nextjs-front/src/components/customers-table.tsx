@@ -16,31 +16,31 @@ import {
     Chip,
 } from "@heroui/react"
 import type {SortDescriptor} from "@heroui/react"
-import {TableTopContent} from "./table-top-content-products"
+import {TableTopContent} from "./table-top-content-customers"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
 import {Page} from "@/app/lib/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
 
-export interface FormattedProductTableHome {
-    productCode: string;
-    productName: string;
-    productLine: string;
-    productVendor: string;
-    quantityInStock: number;
-    buyPrice: number;
-    MSRP: number;
+export interface FormattedCustomerTableHome {
+    customerNumber: number;
+    customerName: string;
+    contactName: string;
+    phone: string;
+    city: string;
+    country: string;
+    creditLimit: number;
     status: string;
 }
 
 export const columns = [
-    {name: "Código", uid: "productCode", sortable: true},
-    {name: "Nombre", uid: "productName", sortable: true},
-    {name: "Línea", uid: "productLine", sortable: true},
-    {name: "Proveedor", uid: "productVendor", sortable: true},
-    {name: "Stock", uid: "quantityInStock", sortable: true},
-    {name: "Precio Compra", uid: "buyPrice", sortable: true},
-    {name: "MSRP", uid: "MSRP", sortable: true},
+    {name: "Nº Cliente", uid: "customerNumber", sortable: true},
+    {name: "Nombre", uid: "customerName", sortable: true},
+    {name: "Contacto", uid: "contactName", sortable: true},
+    {name: "Teléfono", uid: "phone", sortable: true},
+    {name: "Ciudad", uid: "city", sortable: true},
+    {name: "País", uid: "country", sortable: true},
+    {name: "Límite Crédito", uid: "creditLimit", sortable: true},
     {name: "Estado", uid: "status", sortable: true},
     {name: "Acciones", uid: "actions"},
 ]
@@ -50,17 +50,17 @@ export const statusOptions: Array<{
     uid: string,
     color: "success" | "primary" | "warning" | "danger" | "default" | "secondary"
 }> = [
-    {name: "En stock", uid: "inStock", color: "success"},
-    {name: "Stock bajo", uid: "lowStock", color: "warning"},
-    {name: "Sin stock", uid: "outOfStock", color: "danger"},
-    {name: "Descontinuado", uid: "discontinued", color: "default"},
-    {name: "Nuevo", uid: "new", color: "primary"},
-    {name: "En oferta", uid: "onSale", color: "secondary"}
+    {name: "Activo", uid: "active", color: "success"},
+    {name: "Inactivo", uid: "inactive", color: "default"},
+    {name: "VIP", uid: "vip", color: "primary"},
+    {name: "Moroso", uid: "overdue", color: "danger"},
+    {name: "Nuevo", uid: "new", color: "secondary"},
+    {name: "En revisión", uid: "review", color: "warning"}
 ]
 
 type CellKey = (typeof columns[number])["uid"];
 
-const renderCell = (uid: CellKey, item: FormattedProductTableHome): JSX.Element => {
+const renderCell = (uid: CellKey, item: FormattedCustomerTableHome): JSX.Element => {
     if (uid === "actions") {
         return (
             <div className="relative flex justify-end items-center gap-2">
@@ -71,7 +71,6 @@ const renderCell = (uid: CellKey, item: FormattedProductTableHome): JSX.Element 
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu>
-                        <DropdownItem key="view">Ver Detalles</DropdownItem>
                         <DropdownItem key="edit">Editar</DropdownItem>
                         <DropdownItem key="delete">Eliminar</DropdownItem>
                     </DropdownMenu>
@@ -94,15 +93,15 @@ const renderCell = (uid: CellKey, item: FormattedProductTableHome): JSX.Element 
         );
     }
 
-    if (uid === "buyPrice" || uid === "MSRP") {
+    if (uid === "creditLimit") {
         return <span className="text-default-500">{formatCurrency(item[uid])}</span>;
     }
 
-    if (uid === "quantityInStock") {
-        return <span className="text-default-500">{item[uid].toLocaleString()}</span>;
+    if (uid === "customerNumber") {
+        return <span className="text-default-500 font-medium">{item[uid]}</span>;
     }
 
-    return <span className="text-default-700">{item[uid as keyof FormattedProductTableHome] ?? ""}</span>;
+    return <span className="text-default-700">{item[uid as keyof FormattedCustomerTableHome] ?? ""}</span>;
 };
 
 // Función para formatear moneda
@@ -113,33 +112,33 @@ const formatCurrency = (amount: number) => {
     }).format(amount);
 };
 
-export function ProductsTable({productsPage}: { productsPage: Page<FormattedProductTableHome>}) {
-    const products = productsPage.content;
+export function CustomersTable({customersPage}: { customersPage: Page<FormattedCustomerTableHome>}) {
+    const customers = customersPage.content;
 
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
-        column: "productName",
+        column: "customerName",
         direction: "ascending",
     })
 
     const sortedItems = React.useMemo(() => {
-        return [...products].sort((a, b) => {
-            const first = a[sortDescriptor.column as keyof FormattedProductTableHome]
-            const second = b[sortDescriptor.column as keyof FormattedProductTableHome]
+        return [...customers].sort((a, b) => {
+            const first = a[sortDescriptor.column as keyof FormattedCustomerTableHome]
+            const second = b[sortDescriptor.column as keyof FormattedCustomerTableHome]
             const cmp = first < second ? -1 : first > second ? 1 : 0
 
             return sortDescriptor.direction === "descending" ? -cmp : cmp
         })
-    }, [sortDescriptor, products])
+    }, [sortDescriptor, customers])
 
 
     return (
         <Table
             isCompact
             removeWrapper
-            aria-label="Tabla de productos con celdas personalizadas, paginación y ordenamiento"
+            aria-label="Tabla de clientes con celdas personalizadas, paginación y ordenamiento"
             bottomContent={
                 <TableBottomContent
-                    pages={productsPage.totalPages}
+                    pages={customersPage.totalPages}
                 />
             }
             bottomContentPlacement="outside"
@@ -153,7 +152,7 @@ export function ProductsTable({productsPage}: { productsPage: Page<FormattedProd
             sortDescriptor={sortDescriptor}
             topContent={
                 <TableTopContent
-                    productsLength={products.length}
+                    customersLength={customers.length}
                     statusOptions={statusOptions}
                 />
             }
@@ -171,9 +170,9 @@ export function ProductsTable({productsPage}: { productsPage: Page<FormattedProd
                     </TableColumn>
                 )}
             </TableHeader>
-            <TableBody emptyContent={"No se encontraron productos"} items={sortedItems}>
+            <TableBody emptyContent={"No se encontraron clientes"} items={sortedItems}>
                 {(item) => (
-                    <TableRow key={item.productCode}>{(columnKey) =>
+                    <TableRow key={item.customerNumber}>{(columnKey) =>
                         <TableCell>{renderCell(columnKey as string, item)}</TableCell>}
                     </TableRow>
                 )}

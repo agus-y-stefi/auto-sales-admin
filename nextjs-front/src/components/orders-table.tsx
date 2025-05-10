@@ -16,7 +16,7 @@ import {
     Chip,
 } from "@heroui/react"
 import type {SortDescriptor} from "@heroui/react"
-import {TableTopContent} from "./table-top-content"
+import {TableTopContent} from "./table-top-content-orders"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
 import {FormattedOrderTableHome, Page} from "@/app/lib/definitions";
@@ -82,7 +82,7 @@ const renderCell = (uid: CellKey, item: FormattedOrderTableHome): JSX.Element =>
         );
     }
 
-    return <span className="text-default-500">{item[uid as keyof FormattedOrderTableHome] ?? ""}</span>;
+    return <span className="text-default-700">{item[uid as keyof FormattedOrderTableHome] ?? ""}</span>;
 };
 
 export function OrdersTable({ordersPage}: { ordersPage: Page<FormattedOrderTableHome>}) {
@@ -105,7 +105,7 @@ export function OrdersTable({ordersPage}: { ordersPage: Page<FormattedOrderTable
 
 
     return (
-        <Table
+        <Table 
             isCompact
             removeWrapper
             aria-label="User management table with custom cells, pagination and sorting"

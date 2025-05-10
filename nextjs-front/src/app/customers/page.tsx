@@ -1,6 +1,6 @@
-import {OrdersTable} from "@/components/orders-table";
-import { getOrdersMock } from "../data/orders";
-// import {getOrders} from "@/app/lib/actions/get_orders"; // DEPENDE DEL BACKEND
+import {CustomersTable} from "@/components/customers-table";
+import { getCustomersMock } from "../data/customers";
+// import {getCustomers} from "@/app/lib/actions/get_customers"; // DEPENDE DEL BACKEND
 
 
 export default async function Page(props: {
@@ -19,16 +19,15 @@ export default async function Page(props: {
         status: ""
     };
 
-    const orders = getOrdersMock(page, limit, query);
-    //const products = await getProducts(page, limit, query);
+    const customers = getCustomersMock(page, limit, query);
+    //const customers = await getCustomers(page, limit, query);
 
     const numberOFPages = Number(limit);
     return (
         <div className="container mx-auto p-10">
             <h1 className="text-2xl font-bold my-5 ">Gestor de Ventas Scale Cars</h1>
-            <h2 className="text-xl font-bold my-5 ">Ordenes</h2>
-            <OrdersTable ordersPage={orders}/>
+            <h2 className="text-xl font-bold my-5 ">Clientes</h2>
+            <CustomersTable customersPage={customers}/>
         </div>
     )
 }
-

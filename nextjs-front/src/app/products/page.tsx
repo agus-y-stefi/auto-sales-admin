@@ -24,6 +24,7 @@ export default async function Page(props: {
     return (
         <div className="container mx-auto p-10">
             <h1 className="text-2xl font-bold my-5 ">Gestor de Productos Scale Cars</h1>
+            <h2 className="text-xl font-bold my-5 ">Productos</h2>
             <ProductsTable productsPage={products}/>
         </div>
     )
