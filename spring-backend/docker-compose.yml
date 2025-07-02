@@ -29,10 +29,10 @@ services:
 
   empleados-db:
     image: postgres:15
-    container_name: empleados-db
+    container_name: personas-db
     restart: always
     environment:
-      POSTGRES_DB: ms_empleados_db
+      POSTGRES_DB: ms_personas_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
