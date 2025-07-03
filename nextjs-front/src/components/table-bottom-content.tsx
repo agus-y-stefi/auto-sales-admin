@@ -29,6 +29,7 @@ export function TableBottomContent({
 
     }
 
+
     return (
         <div className="py-2 px-2 flex justify-between items-center">
             <Pagination
@@ -38,7 +39,7 @@ export function TableBottomContent({
                 }}
                 color="default"
                 page={page}
-                total={pages}
+                total={Math.floor(pages)}
                 variant="light"
                 onChange={handlePageChange}
             />

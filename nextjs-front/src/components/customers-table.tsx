@@ -16,49 +16,15 @@ import {
     Chip,
 } from "@heroui/react"
 import type {SortDescriptor} from "@heroui/react"
+
 import {TableTopContent} from "./table-top-content-customers"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
-import {Page} from "@/app/lib/definitions";
+import {Page} from "@/app/lib/definitions/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
+import {formatCurrency} from "@/app/lib/utils/format";
+import {CellKey, columnsCustomersTableHome, FormattedCustomerTableHome, statusOptionsTableHome} from "@/app/lib/definitions/customers/table_ui";
 
-export interface FormattedCustomerTableHome {
-    customerNumber: number;
-    customerName: string;
-    contactName: string;
-    phone: string;
-    city: string;
-    country: string;
-    creditLimit: number;
-    status: string;
-}
-
-export const columns = [
-    {name: "Nº Cliente", uid: "customerNumber", sortable: true},
-    {name: "Nombre", uid: "customerName", sortable: true},
-    {name: "Contacto", uid: "contactName", sortable: true},
-    {name: "Teléfono", uid: "phone", sortable: true},
-    {name: "Ciudad", uid: "city", sortable: true},
-    {name: "País", uid: "country", sortable: true},
-    {name: "Límite Crédito", uid: "creditLimit", sortable: true},
-    {name: "Estado", uid: "status", sortable: true},
-    {name: "Acciones", uid: "actions"},
-]
-
-export const statusOptions: Array<{
-    name: string,
-    uid: string,
-    color: "success" | "primary" | "warning" | "danger" | "default" | "secondary"
-}> = [
-    {name: "Activo", uid: "active", color: "success"},
-    {name: "Inactivo", uid: "inactive", color: "default"},
-    {name: "VIP", uid: "vip", color: "primary"},
-    {name: "Moroso", uid: "overdue", color: "danger"},
-    {name: "Nuevo", uid: "new", color: "secondary"},
-    {name: "En revisión", uid: "review", color: "warning"}
-]
-
-type CellKey = (typeof columns[number])["uid"];
 
 const renderCell = (uid: CellKey, item: FormattedCustomerTableHome): JSX.Element => {
     if (uid === "actions") {
@@ -80,7 +46,7 @@ const renderCell = (uid: CellKey, item: FormattedCustomerTableHome): JSX.Element
     }
 
     if (uid === "status") {
-        const status = statusOptions.find(option => option.name === item.status);
+        const status = statusOptionsTableHome.find(option => option.name === item.status);
         return (
             <Chip
                 className="capitalize border-none gap-1 text-default-600"
@@ -104,14 +70,6 @@ const renderCell = (uid: CellKey, item: FormattedCustomerTableHome): JSX.Element
     return <span className="text-default-700">{item[uid as keyof FormattedCustomerTableHome] ?? ""}</span>;
 };
 
-// Función para formatear moneda
-const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-ES', {
-        style: 'currency',
-        currency: 'EUR'
-    }).format(amount);
-};
-
 export function CustomersTable({customersPage}: { customersPage: Page<FormattedCustomerTableHome>}) {
     const customers = customersPage.content;
 
@@ -130,7 +88,6 @@ export function CustomersTable({customersPage}: { customersPage: Page<FormattedC
         })
     }, [sortDescriptor, customers])
 
-
     return (
         <Table
             isCompact
@@ -138,7 +95,7 @@ export function CustomersTable({customersPage}: { customersPage: Page<FormattedC
             aria-label="Tabla de clientes con celdas personalizadas, paginación y ordenamiento"
             bottomContent={
                 <TableBottomContent
-                    pages={customersPage.totalPages}
+                    pages={customersPage.totalElementsWithoutFilter / customersPage.size}
                 />
             }
             bottomContentPlacement="outside"
@@ -153,13 +110,13 @@ export function CustomersTable({customersPage}: { customersPage: Page<FormattedC
             topContent={
                 <TableTopContent
                     customersLength={customers.length}
-                    statusOptions={statusOptions}
+                    statusOptions={statusOptionsTableHome}
                 />
             }
             topContentPlacement="outside"
             onSortChange={setSortDescriptor}
         >
-            <TableHeader columns={columns}>
+            <TableHeader columns={columnsCustomersTableHome}>
                 {(column) => (
                     <TableColumn
                         key={column.uid}
