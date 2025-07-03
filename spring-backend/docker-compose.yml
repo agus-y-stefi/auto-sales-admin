@@ -1,46 +1,16 @@
-version: '3.8'
-
 services:
-  productos-db:
+  customers-db:
     image: postgres:15
-    container_name: productos-db
+    container_name: customers-db
     restart: always
     environment:
-      POSTGRES_DB: ms_productos_db
+      POSTGRES_DB: ms_customers_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5433:5432"
     volumes:
-      - productos-data:/var/lib/postgresql/data
-
-  ordenes-db:
-    image: postgres:15
-    container_name: ordenes-db
-    restart: always
-    environment:
-      POSTGRES_DB: ms_ordenes_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5434:5432"
-    volumes:
-      - ordenes-data:/var/lib/postgresql/data
-
-  empleados-db:
-    image: postgres:15
-    container_name: personas-db
-    restart: always
-    environment:
-      POSTGRES_DB: ms_personas_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5435:5432"
-    volumes:
-      - empleados-data:/var/lib/postgresql/data
+      - customers-data:/var/lib/postgresql/data
 
 volumes:
-  productos-data:
-  ordenes-data:
-  empleados-data:
+  customers-data:

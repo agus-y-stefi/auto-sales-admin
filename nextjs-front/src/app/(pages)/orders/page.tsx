@@ -1,6 +1,7 @@
-import {ProductsTable} from "@/components/products-table";
-import { getProductsMock } from "../data/products";
-// import {getProducts} from "@/app/lib/actions/get_products"; // DEPENDE DEL BACKEND
+import {OrdersTable} from "@/components/orders-table";
+import { getOrdersMock } from "@/app/lib/data/orders";
+// import {getOrders} from "@/app/lib/actions/get_orders"; // DEPENDE DEL BACKEND
+
 
 export default async function Page(props: {
     searchParams?: Promise<{
@@ -18,14 +19,16 @@ export default async function Page(props: {
         status: ""
     };
 
-    const products = getProductsMock(page, limit, query);
+    const orders = getOrdersMock(page, limit, query);
     //const products = await getProducts(page, limit, query);
 
+    const numberOFPages = Number(limit);
     return (
         <div className="container mx-auto p-10">
-            <h1 className="text-2xl font-bold my-5 ">Gestor de Productos Scale Cars</h1>
-            <h2 className="text-xl font-bold my-5 ">Productos</h2>
-            <ProductsTable productsPage={products}/>
+            <h1 className="text-2xl font-bold my-5 ">Gestor de Ventas Scale Cars</h1>
+            <h2 className="text-xl font-bold my-5 ">Ordenes</h2>
+            <OrdersTable ordersPage={orders}/>
         </div>
     )
 }
+

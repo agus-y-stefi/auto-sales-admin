@@ -20,7 +20,7 @@ import type { SortDescriptor } from "@heroui/react"
 import { TableTopContent } from "./table-top-content-orders"
 import { TableBottomContent } from "./table-bottom-content"
 import { VerticalDotsIcon } from "./icons/index"
-import { FormattedOrderTableHome, Page } from "@/app/lib/definitions";
+import { FormattedOrderTableHome, Page } from "@/app/lib/definitions/definitions";
 import { tableClassNames } from "@/app/styles/tableStyles";
 
 export const columns = [

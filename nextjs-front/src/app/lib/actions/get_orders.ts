@@ -1,4 +1,4 @@
-import {URL_ORDERS, FormattedOrderTableHome, Page } from "@/app/lib/definitions";
+import {URL_ORDERS, FormattedOrderTableHome, Page } from "@/app/lib/definitions/definitions";
 
 export const getOrders = async (
     page: string,

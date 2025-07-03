@@ -76,9 +76,9 @@ const mockCustomers = [
 ];
 
 // FUNCIÓN SIMULADA - Reemplaza a getCustomers cuando no hay backend
-export const getCustomersMock = (page: string, limit: string, query: string) => {
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
+export const getCustomersMock = (page?: string, limit?: string, query?: string) => {
+    const pageNum = parseInt(page || "1");
+    const limitNum = parseInt(limit || "5");
     const start = (pageNum - 1) * limitNum;
     const end = start + limitNum;
     

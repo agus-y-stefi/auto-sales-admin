@@ -4,6 +4,8 @@ export interface Page<T> {
     totalPages: number;    // Número total de páginas
     number: number;        // Página actual (0-based)
     size: number;          // Tamaño de la página
+
+    totalElementsWithoutFilter: number; // Total de elementos sin filtro
 }
 
 export interface FormattedOrderTableHome {
@@ -15,7 +17,12 @@ export interface FormattedOrderTableHome {
 }
 
 
+
+
+
 // TODO: Endpoints
+
+export const URL_MS_CUSTOMERS = "http://localhost:8081";
 
 export const URL_MS_ORDERS = "http://localhost:8082";
 

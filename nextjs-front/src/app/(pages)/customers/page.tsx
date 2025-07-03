@@ -1,26 +1,22 @@
 import {CustomersTable} from "@/components/customers-table";
-import { getCustomersMock } from "../data/customers";
-// import {getCustomers} from "@/app/lib/actions/get_customers"; // DEPENDE DEL BACKEND
+import { getCustomersMock } from "@/app/lib/data/customers";
+import { getCustomers } from "../../lib/actions/customers/get_customers_action";
 
 
 export default async function Page(props: {
     searchParams?: Promise<{
-        query: string;
-        page: string;
-        limit: string;
-        status: string
+        query?: string;
+        page?: string;
+        limit?: string;
+        status?: string
     }>;
 }) {
     const searchParams = await props.searchParams;
-    const {page="1", limit="5", query="", status=""} = searchParams || {
-        page: "1",
-        limit: "5",
-        query: "",
-        status: ""
-    };
+    const {page, limit="5", query, status} = searchParams || {};
 
-    const customers = getCustomersMock(page, limit, query);
-    //const customers = await getCustomers(page, limit, query);
+
+    // const customers = getCustomersMock(page, limit, query);
+    const customers = await getCustomers(page, limit, query);
 
     const numberOFPages = Number(limit);
     return (
