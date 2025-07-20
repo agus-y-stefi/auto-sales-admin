@@ -10,7 +10,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - customers-data:/var/lib/postgresql/data
+      - ./db/init/create_tables_customers.sql:/docker-entrypoint-initdb.d/create_tables_customers.sql
 
 volumes:
   customers-data:

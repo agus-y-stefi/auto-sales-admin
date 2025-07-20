@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: classicmodels
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./legacy/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./legacy/classicmodels.sql:/docker-entrypoint-initdb.d/classicmodels.sql
+    networks:
+      - backend
+
+
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: classicmodels_pg
+    ports:
+      - "5438:5432"
+    networks:
+      - backend
+
+  pgloader-runner:
+    build:
+      context: ./pgloader
+    container_name: pgloader-runner
+    depends_on:
+      - mysql-db
+      - postgres-db
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
