@@ -10,5 +10,10 @@ while ! pg_isready -h postgres-db -p 5432 -U postgres; do
   sleep 2
 done
 
-echo "Ambas bases están listas. Ejecutando pgloader..."
+echo "Esperando que Python termine la migración inicial..."
+while [ ! -f /shared/done.flag ]; do
+  sleep 2
+done
+
+echo "✅ Bases listas y Python finalizado. Ejecutando pgloader..."
 pgloader migracion.load

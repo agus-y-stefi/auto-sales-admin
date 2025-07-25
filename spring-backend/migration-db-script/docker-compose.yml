@@ -2,30 +2,37 @@ version: '3.8'
 
 services:
   mysql-db:
-    image: mysql:8.0
+    image: mysql:5.7
     container_name: mysql-db
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: classicmodels
     ports:
       - "3306:3306"
     volumes:
-      - ./legacy/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./legacy/classicmodels.sql:/docker-entrypoint-initdb.d/classicmodels.sql
     networks:
       - backend
 
-
   postgres-db:
     image: postgres:15
     container_name: postgres-db
-    restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: classicmodels_pg
     ports:
       - "5438:5432"
+    networks:
+      - backend
+
+  snake-renamer:
+    build:
+      context: ./python-tools
+    container_name: snake-renamer
+    depends_on:
+      - mysql-db
+    volumes:
+      - shared-data:/shared
     networks:
       - backend
 
@@ -36,9 +43,15 @@ services:
     depends_on:
       - mysql-db
       - postgres-db
+      - snake-renamer
+    volumes:
+      - shared-data:/shared
     networks:
       - backend
 
 networks:
   backend:
     driver: bridge
+
+volumes:
+  shared-data:
