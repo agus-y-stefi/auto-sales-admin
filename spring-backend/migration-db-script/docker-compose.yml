@@ -48,44 +48,6 @@ services:
     networks:
       - backend
 
-  # Nuevo contenedor para distribuir a microservicios
-  pg-splitter:
-    build:
-      context: ./pg-splitter
-    container_name: pg-splitter
-    depends_on:
-      - pgloader-runner
-    environment:
-      # Base de datos fuente (migrada)
-      SOURCE_HOST: postgres-db
-      SOURCE_PORT: 5432
-      SOURCE_DB: classicmodels_pg
-      SOURCE_USER: postgres
-      SOURCE_PASSWORD: postgres
-
-      # Microservicios destino (deben estar ejecutándose externamente)
-      MS_CUSTOMERS_HOST: host.docker.internal
-      MS_CUSTOMERS_PORT: 5439
-      MS_CUSTOMERS_DB: ms-customers-db
-      MS_CUSTOMERS_USER: postgres
-      MS_CUSTOMERS_PASSWORD: postgres
-
-      MS_ORDERS_HOST: host.docker.internal
-      MS_ORDERS_PORT: 5440
-      MS_ORDERS_DB: ms-orders-db
-      MS_ORDERS_USER: postgres
-      MS_ORDERS_PASSWORD: postgres
-
-      MS_PRODUCTS_HOST: host.docker.internal
-      MS_PRODUCTS_PORT: 5441
-      MS_PRODUCTS_DB: ms-products-db
-      MS_PRODUCTS_USER: postgres
-      MS_PRODUCTS_PASSWORD: postgres
-    volumes:
-      - shared-data:/shared
-    networks:
-      - backend
-
 volumes:
   shared-data:
 

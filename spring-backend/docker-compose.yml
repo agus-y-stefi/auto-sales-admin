@@ -7,6 +7,8 @@ services:
       POSTGRES_DB: ms-customers-db
     ports:
       - "5439:5432"
+    volumes:
+      - ./migration-db-script/latest/customers-ms:/docker-entrypoint-initdb.d/
     networks:
       - backend
 
@@ -18,6 +20,8 @@ services:
       POSTGRES_DB: ms-orders-db
     ports:
       - "5440:5432"
+    volumes:
+      - ./migration-db-script/latest/orders-ms:/docker-entrypoint-initdb.d/
     networks:
       - backend
 
@@ -30,6 +34,8 @@ services:
       POSTGRES_DB: ms-products-db
     ports:
       - "5441:5432"
+    volumes:
+      - ./migration-db-script/latest/products-ms:/docker-entrypoint-initdb.d/
     networks:
       - backend
 
