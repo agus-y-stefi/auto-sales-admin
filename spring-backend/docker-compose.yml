@@ -1,16 +1,45 @@
 services:
-  customers-db:
-    image: postgres:15
-    container_name: customers-db
-    restart: always
+  ms-customers-db:
+    image: postgres:17
+    container_name: ms-customers-db
     environment:
-      POSTGRES_DB: ms_customers_db
-      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ms-customers-db
     ports:
-      - "5433:5432"
+      - "5439:5432"
     volumes:
-      - customers-data:/var/lib/postgresql/data
+      - ./migration-db-script/latest/customers-ms:/docker-entrypoint-initdb.d/
+    networks:
+      - backend
 
-volumes:
-  customers-data:
+  ms-orders-db:
+    image: postgres:17
+    container_name: ms-orders-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ms-orders-db
+    ports:
+      - "5440:5432"
+    volumes:
+      - ./migration-db-script/latest/orders-ms:/docker-entrypoint-initdb.d/
+    networks:
+      - backend
+
+
+  ms-products-db:
+    image: postgres:17
+    container_name: ms-products-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ms-products-db
+    ports:
+      - "5441:5432"
+    volumes:
+      - ./migration-db-script/latest/products-ms:/docker-entrypoint-initdb.d/
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    driver: bridge

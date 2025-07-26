@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: classicmodels
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./legacy/classicmodels.sql:/docker-entrypoint-initdb.d/classicmodels.sql
+    networks:
+      - backend
+
+  postgres-db:
+    image: postgres:17
+    container_name: postgres-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: classicmodels_pg
+    ports:
+      - "5438:5432"
+    networks:
+      - backend
+
+  snake-renamer:
+    build:
+      context: ./python-tools
+    container_name: snake-renamer
+    depends_on:
+      - mysql-db
+    volumes:
+      - shared-data:/shared
+    networks:
+      - backend
+
+  pgloader-runner:
+    build:
+      context: ./pgloader
+    container_name: pgloader-runner
+    depends_on:
+      - mysql-db
+      - postgres-db
+      - snake-renamer
+    volumes:
+      - shared-data:/shared
+    networks:
+      - backend
+
+volumes:
+  shared-data:
+
+networks:
+  backend:
+    driver: bridge
