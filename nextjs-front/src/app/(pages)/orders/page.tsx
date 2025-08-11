@@ -1,4 +1,4 @@
-import {OrdersTable} from "@/components/orders-table";
+import {OrdersTable} from "@/app/components/orders-table";
 import { getOrdersMock } from "@/app/lib/data/orders";
 // import {getOrders} from "@/app/lib/actions/get_orders"; // DEPENDE DEL BACKEND
 

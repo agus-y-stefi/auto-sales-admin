@@ -1,4 +1,4 @@
-import {ProductsTable} from "@/components/products-table";
+import {ProductsTable} from "@/app/components/products-table";
 import { getProductsMock } from "@/app/lib/data/products";
 // import {getProducts} from "@/app/lib/actions/get_products"; // DEPENDE DEL BACKEND
 

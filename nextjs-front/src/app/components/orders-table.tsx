@@ -102,7 +102,7 @@ export function OrdersTable({ ordersPage }: { ordersPage: Page<FormattedOrderTab
   const router = useRouter();
 
   const handleViewDetails = (orderNumber: number) => {
-    router.push(`/ordenes/${orderNumber}`);
+    router.push(`/orders/${orderNumber}`);
   };
 
   const handleEditOrder = (orderNumber: number) => {

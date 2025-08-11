@@ -1,5 +1,5 @@
 // app/ordenes/[orderId]/page.tsx
-import OrderDetails from "../../../../components/order-details";
+import OrderDetails from "../../../components/order-details";
 
 type Props = {
   params: {

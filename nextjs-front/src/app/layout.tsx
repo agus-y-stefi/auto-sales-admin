@@ -1,7 +1,7 @@
 import type React from "react"
 import type {Metadata} from "next"
 import {Inter} from "next/font/google"
-import PersistentDrawerLeft from "@/components/sidebar";
+import PersistentDrawerLeft from "@/app/components/sidebar";
 import {Box} from '@mui/material';
 
 import "./styles/globals.css"
