@@ -1,3 +1,9 @@
+import {PageMetadata} from "@/contracts";
+
+export interface IPageCustomers<T> {
+    content: T[];
+    metadata: PageMetadata;
+}
 export interface ICustomersTableHome {
     customerNumber: number;
     customerName: string;

@@ -1,6 +1,13 @@
-import { getAllCustomers } from "@/contracts"
+import {getAllCustomers, getAllCustomersResponse, PagedModelCustomerDto} from "@/contracts"
+import {toCustomersHomeTable} from "@/contracts/adapters/customers-service/mappers/customers.mappers";
 
 export const getCustomersHomeTable = async ()=>{
-    const response = await getAllCustomers()
-    return response
+    const response:getAllCustomersResponse = await getAllCustomers()
+    if (!response || !response.data) {
+        throw new Error("Failed to fetch customers data");
+    }
+
+    const pagedModel: PagedModelCustomerDto = response.data;
+
+    return toCustomersHomeTable(pagedModel);
 }
