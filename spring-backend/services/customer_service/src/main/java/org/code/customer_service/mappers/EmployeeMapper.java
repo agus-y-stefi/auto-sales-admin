@@ -22,13 +22,15 @@ public class EmployeeMapper {
             return null;
         }
 
-        return EmployeeDto.builder()
-                .employeeNumber(employee.getEmployeeNumber())
-                .lastName(employee.getLastName())
-                .firstName(employee.getFirstName())
-                .extension(employee.getExtension())
-                .officeCode(employee.getOffice() != null ? employee.getOffice().getOfficeCode() : null)
-                .build();
+        return new EmployeeDto(
+                employee.getEmployeeNumber(),
+                employee.getLastName(),
+                employee.getFirstName(),
+                employee.getExtension(),
+                employee.getOffice() != null ? employee.getOffice().getOfficeCode() : null
+        );
+
+
     }
 
     public Employee toEntity(EmployeeDto employeeDto) {
