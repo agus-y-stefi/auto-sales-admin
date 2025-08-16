@@ -1,7 +1,7 @@
 import {CustomersTable} from "@/app/components/customers-table";
 import {getCustomersMock} from "@/app/lib/data/customers";
 import {getCustomers} from "../../lib/actions/customers/get_customers_action";
-import {getCustomersHomeTable} from "@/contracts/adapters/customers-service/customers.adapters";
+import {getCustomersHomeTable} from "@/contracts/customer-service/adapters/customers.adapters";
 
 
 export default async function Page(props: {

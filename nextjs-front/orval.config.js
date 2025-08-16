@@ -2,8 +2,8 @@ module.exports = {
     'customer-service': {
         input: 'http://localhost:8081/api-docs',
         output: {
-            target: './src/contracts/generated/customer-service/api.ts',
-            schemas: './src/contracts/generated/customer-service/models.ts',
+            target: './src/contracts/customer-service/generated/api.ts',
+            schemas: './src/contracts/customer-service/generated/models',
             client: 'fetch',
             baseUrl: 'http://localhost:8081',
             override: {
@@ -16,8 +16,8 @@ module.exports = {
     'orders-service': {
         input: 'http://localhost:8082/api-docs',
         output: {
-            target: './src/contracts/generated/orders-service/api.ts',
-            schemas: './src/contracts/generated/orders-service/models.ts',
+            target: './src/contracts/orders-service/generated/api.ts',
+            schemas: './src/contracts/orders-service/generated/models',
             client: 'fetch',
             baseUrl: 'http://localhost:8082',
             override: {
@@ -30,8 +30,8 @@ module.exports = {
     'product-service': {
         input: 'http://localhost:8083/api-docs',
         output: {
-            target: './src/contracts/generated/product-service/api.ts',
-            schemas: './src/contracts/generated/product-service/models.ts',
+            target: './src/contracts/product-service/generated/api.ts',
+            schemas: './src/contracts/product-service/generated/models',
             client: 'fetch',
             baseUrl: 'http://localhost:8083',
             override: {

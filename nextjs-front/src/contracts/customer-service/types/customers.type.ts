@@ -1,4 +1,4 @@
-import {PageMetadata} from "@/contracts";
+import {PageMetadata} from "@/contracts/clients";
 
 export interface IPageCustomers<T> {
     content: T[];

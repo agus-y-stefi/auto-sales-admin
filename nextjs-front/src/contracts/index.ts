@@ -1,11 +1,7 @@
-// Customer Service
-export * from './generated/customer-service/api';
-export * from './generated/customer-service/models.ts';
+export * from "./types/commons.types";
 
-// Orders Service
-export * from './generated/orders-service/api';
-export * from './generated/orders-service/models.ts';
+export * from "./customer-service";
 
-// Product Service
-export * from './generated/product-service/api';
-export * from './generated/product-service/models.ts';
+export * from "./orders-service";
+
+export * from "./product-service";

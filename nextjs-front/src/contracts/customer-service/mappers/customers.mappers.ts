@@ -1,6 +1,5 @@
-import {PagedModelCustomerDto} from "@/contracts";
-import {ICustomersTableHome, IPageCustomers} from "@/types/customers-service/customers.type";
-import {DEFAULT_PAGE_NULL} from "@/types/commons.types";
+import {PagedModelCustomerDto} from "@/contracts/clients";
+import {ICustomersTableHome, IPageCustomers, DEFAULT_PAGE_NULL} from "@/contracts";
 
 export const toCustomersHomeTable = (customers: PagedModelCustomerDto): IPageCustomers<ICustomersTableHome> => {
 

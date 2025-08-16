@@ -21,10 +21,11 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+
       "@/contracts": ["./src/contracts"],
-      "@/contracts/*": ["./src/contracts/*"],
-      "@/types" : ["./src/contracts/types"],
-      "@/types/*" : ["./src/contracts/types/*"],
+
+      "@/clients" : ["./src/contracts/clients"],
+
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

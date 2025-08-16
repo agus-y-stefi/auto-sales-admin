@@ -1,5 +1,5 @@
-import {getAllCustomers, getAllCustomersResponse, PagedModelCustomerDto} from "@/contracts"
-import {toCustomersHomeTable} from "@/contracts/adapters/customers-service/mappers/customers.mappers";
+import {getAllCustomers, getAllCustomersResponse, PagedModelCustomerDto} from "@/clients";
+import {toCustomersHomeTable} from "../mappers/customers.mappers";
 
 export const getCustomersHomeTable = async ()=>{
     const response:getAllCustomersResponse = await getAllCustomers()
