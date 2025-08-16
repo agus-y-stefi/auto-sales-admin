@@ -3,7 +3,9 @@
     // const products = await getOrders(page, limit, query);
 
     // DATOS DE EJEMPLO - Usar estos datos cuando no haya backend disponible
-    const mockOrders = [
+import {IOrderTableHome} from "@/contracts";
+
+const mockOrders:IOrderTableHome[] = [
       {
         orderNumber: 10103,
         orderDate: "2024-03-22",

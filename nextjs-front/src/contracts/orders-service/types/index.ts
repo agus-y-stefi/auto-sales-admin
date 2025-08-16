@@ -1,2 +1,1 @@
-
-export default {};
+export * from "./orders.type";

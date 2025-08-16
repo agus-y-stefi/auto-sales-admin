@@ -2,7 +2,9 @@
 // const customers = await getCustomers(page, limit, query);
 
 // DATOS DE EJEMPLO - Usar estos datos cuando no haya backend disponible
-const mockCustomers = [
+import {ICustomersTableHome} from "@/contracts";
+
+const mockCustomers:ICustomersTableHome[] = [
   {
     customerNumber: 103,
     customerName: "Atelier graphique",

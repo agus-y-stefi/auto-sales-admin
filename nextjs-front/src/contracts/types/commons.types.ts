@@ -1,3 +1,10 @@
+import {PageMetadata} from "@/contracts/customer-service/generated/models";
+
+export interface IPage<T> {
+    content: T[];
+    metadata: PageMetadata;
+}
+
 export const DEFAULT_PAGE_NULL = {
     content: [],
     metadata: {

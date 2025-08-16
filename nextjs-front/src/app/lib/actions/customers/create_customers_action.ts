@@ -2,8 +2,8 @@
 
 
 
-import {ICreateCustomer} from "@/app/lib/definitions/customers/customers";
 import {URL_CUSTOMERS} from "@/app/lib/definitions/customers/customers";
+import {ICreateCustomer} from "@/contracts";
 
 export const createCustomersAction = async (customer: ICreateCustomer) => {
     const res = await fetch(`${URL_CUSTOMERS}`, {

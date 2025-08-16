@@ -1,7 +1,7 @@
 import {PagedModelCustomerDto} from "@/contracts/clients";
-import {ICustomersTableHome, IPageCustomers, DEFAULT_PAGE_NULL} from "@/contracts";
+import {ICustomersTableHome, IPage, DEFAULT_PAGE_NULL} from "@/contracts";
 
-export const toCustomersHomeTable = (customers: PagedModelCustomerDto): IPageCustomers<ICustomersTableHome> => {
+export const toCustomersHomeTable = (customers: PagedModelCustomerDto): IPage<ICustomersTableHome> => {
 
     if (!customers || !customers.content) {
         return DEFAULT_PAGE_NULL;

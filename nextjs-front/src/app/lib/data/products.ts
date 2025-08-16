@@ -2,7 +2,9 @@
     // const products = await getProducts(page, limit, query);
 
     // DATOS DE EJEMPLO - Usar estos datos cuando no haya backend disponible
-    const mockProducts = [
+    import {IProductTableHome} from "@/contracts/product-service/types/products.type";
+
+const mockProducts:IProductTableHome[] = [
         {
             productCode: "S10_1678",
             productName: "1969 Harley Davidson Ultimate Chopper",
