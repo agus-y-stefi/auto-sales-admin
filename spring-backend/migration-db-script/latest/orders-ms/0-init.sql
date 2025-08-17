@@ -1,3 +1,6 @@
+
+SET search_path TO orders_service, public;
+
 create table orders
 (
     order_number              bigint      not null,

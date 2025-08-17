@@ -1,3 +1,5 @@
+SET search_path TO orders_service, public;
+
 insert into payments (check_number, payment_date, amount, order_number)
 values  ('IS232033', '2003-01-16', 10223.83, 10100),
         ('DI925118', '2003-01-28', 10549.01, 10101),

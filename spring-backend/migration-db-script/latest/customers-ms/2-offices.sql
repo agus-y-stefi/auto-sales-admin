@@ -1,3 +1,5 @@
+-- Establecer el schema para customers_service
+SET search_path TO customers_service, public;
 insert into offices (office_code, city, phone, address_line1, address_line2, state, country, postal_code, territory)
 values  ('1', 'San Francisco', '+1 650 219 4782', '100 Market Street', 'Suite 300', 'CA', 'USA', '94080', 'NA'),
         ('2', 'Boston', '+1 215 837 0825', '1550 Court Place', 'Suite 102', 'MA', 'USA', '02107', 'NA'),

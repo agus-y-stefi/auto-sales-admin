@@ -1,3 +1,6 @@
+-- Establecer el schema para customers_service
+SET search_path TO customers_service, public;
+
 create table if not exists customers
 (
     customer_number    int            not null,

@@ -1,3 +1,5 @@
+SET search_path TO orders_service, public;
+
 insert into orderdetails (order_number, product_code, quantity_ordered, price_each)
 values  (10100, 'S18_1749', 30, 136.00),
         (10100, 'S18_2248', 50, 55.09),
