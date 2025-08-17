@@ -1,0 +1,34 @@
+# Entorno virtual de Python
+venv/
+env/
+.env
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+
+# Reportes de pruebas
+reports/
+*.html
+
+# Screenshots de pruebas fallidas
+screenshots/
+*.png
+
+# Archivos de configuración del IDE
+.vscode/
+.idea/
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Archivos de Playwright
+test-results/
+playwright-report/
+playwright/.cache/
