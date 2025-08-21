@@ -1,5 +1,6 @@
 # Archivo de configuración compartida para todas las pruebas
 import pytest
+import os
 from playwright.sync_api import Page, Browser, BrowserContext
 
 # Configuración que se ejecuta antes de cada prueba
