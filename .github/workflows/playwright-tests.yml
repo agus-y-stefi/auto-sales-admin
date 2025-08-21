@@ -70,7 +70,7 @@ jobs:
           
       # 8. Subir reportes HTML si fallan las pruebas
       - name: Subir reportes HTML
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()  # Solo si las pruebas fallan
         with:
           name: playwright-reports-${{ matrix.browser }}
@@ -81,7 +81,7 @@ jobs:
           
       # 9. Subir screenshots si fallan las pruebas
       - name: Subir screenshots de errores
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots-${{ matrix.browser }}
