@@ -59,7 +59,7 @@ jobs:
       # 7. Ejecutar pruebas
       - name: Ejecutar pruebas Playwright
         run: |
-          pytest test-automation/tests/ \
+          pytest tests-automation/tests/ \
             --browser ${{ matrix.browser }} \
             --html=reports/playwright-report-${{ matrix.browser }}.html \
             --self-contained-html \
