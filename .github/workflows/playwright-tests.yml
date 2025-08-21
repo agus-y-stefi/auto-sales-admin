@@ -44,7 +44,7 @@ jobs:
       - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r test-automation/requirements.txt
           
       # 5. Instalar navegadores de Playwright
       - name: Instalar navegadores Playwright
@@ -59,11 +59,12 @@ jobs:
       # 7. Ejecutar pruebas
       - name: Ejecutar pruebas Playwright
         run: |
-          pytest tests/ \
+          pytest test-automation/tests/ \
             --browser ${{ matrix.browser }} \
             --html=reports/playwright-report-${{ matrix.browser }}.html \
             --self-contained-html \
             --junit-xml=test-results/junit-${{ matrix.browser }}.xml
+
         env:
           # Variables de entorno para las pruebas
           CI: true
