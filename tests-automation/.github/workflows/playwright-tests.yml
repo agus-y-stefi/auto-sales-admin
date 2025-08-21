@@ -4,9 +4,9 @@ name: Pruebas de Playwright
 # Cuándo se ejecuta el workflow
 on:
   push:
-    branches: [ main, DevOps ]  # Se ejecuta en push a main o develop
+    branches: [ DevOps ]  # Se ejecuta en push a main o develop
   pull_request:
-    branches: [ main, DevOps ]           # Se ejecuta en PRs hacia main
+    branches: [ DevOps ]           # Se ejecuta en PRs hacia main
 
 # Configuración del job
 jobs:
