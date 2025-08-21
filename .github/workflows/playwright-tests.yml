@@ -3,13 +3,13 @@ name: Pruebas de Playwright
 
 on:
   push:
-    branches: [ DevOps ]
+    branches: [ testing/gitactions ]
     paths:
       - 'test-automation/**'
       - 'src/**'
       - '.github/workflows/playwright-tests.yml'
   pull_request:
-    branches: [ DevOps ]
+    branches: [ testing/gitactions ]
     paths:
       - 'test-automation/**'
       - 'src/**'
