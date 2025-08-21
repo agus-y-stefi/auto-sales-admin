@@ -38,7 +38,7 @@ class TestDashboardVisualization:
         
         # Verificar las columnas esperadas
         expected_columns = [
-            "Nº Orden", 
+            "N° de Orden", 
             "Fecha", 
             "Cliente", 
             "Precio Total", 
@@ -53,22 +53,36 @@ class TestDashboardVisualization:
             expect(column_header).to_be_visible(timeout=10000)
             
     def test_orders_table_has_data(self, page: Page, base_url: str):
-        """
-        Verificar que hay al menos 1 orden visible en la tabla
-        """
         page.goto(f"{base_url}/orders")
-        
-        # Esperar a que los datos se carguen
         page.wait_for_load_state("networkidle")
         
-        # Verificar que existe al menos una fila de datos (excluyendo el header)
-        # Buscar diferentes tipos de filas de tabla
-        data_rows = page.locator("tbody tr, [role='row']:not([role='row']:first-child)")
-        expect(data_rows.first()).to_be_visible(timeout=15000)
+        # 1. Verificar que hay al menos 1 fila
+        data_rows = page.locator("tbody tr")
+        rows_count = data_rows.count()
+        assert rows_count >= 1, "No hay filas en la tabla"
         
-        # Verificar que hay al menos una orden
-        orders_count = data_rows.count()
-        assert orders_count >= 1, f"Se esperaba al menos 1 orden, pero se encontraron {orders_count}"
+        # 2. Verificar que la primera fila tiene datos completos
+        first_row = data_rows.nth(0)
+        cells = first_row.locator("td")
+        
+        # Contar cuántas celdas hay
+        cells_count = cells.count()
+        
+        # Verificar solo las primeras 5 celdas (excluir columna Acciones)
+        data_columns = min(cells_count, 5)
+        
+        for i in range(data_columns):
+            cell = cells.nth(i)
+            cell_text = cell.inner_text().strip()
+            assert len(cell_text) > 0, f"La celda {i+1} está vacía"
+            assert cell_text not in ["", "-", "N/A"], f"La celda {i+1} no tiene datos válidos"
+        
+        # Verificar que la columna de acciones tiene al menos botones/elementos
+        if cells_count >= 6:  # Si existe la columna de acciones
+            actions_cell = cells.nth(5)  # Columna 6 (índice 5)
+            buttons = actions_cell.locator("button, a, [role='button']")
+            buttons_count = buttons.count()
+            assert buttons_count > 0, "La columna de acciones no tiene botones"
         
     def test_table_rows_have_complete_data(self, page: Page, base_url: str):
         """
