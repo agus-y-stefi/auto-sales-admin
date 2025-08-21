@@ -25,7 +25,7 @@ import { tableClassNames } from "@/app/styles/tableStyles";
 
 export const columns = [
   { name: "N° de orden", uid: "orderNumber", sortable: true },
-  { name: "Fecha", uid: "orderDate", sortable: true },
+  { name: "Feha", uid: "orderDate", sortable: true },
   { name: "Cliente", uid: "customerName", sortable: true },
   { name: "Precio total", uid: "total", sortable: true },
   { name: "Estado", uid: "status", sortable: true },
