@@ -4,24 +4,21 @@ name: Pruebas de Playwright
 # Cuándo se ejecuta el workflow
 on:
   push:
-    branches: [ DevOps ]  # Se ejecuta en push a main o develop
+    branches: [ DevOps ]  # Se ejecuta en push a la rama DevOps
   pull_request:
-    branches: [ DevOps ]           # Se ejecuta en PRs hacia main
+    branches: [ DevOps ]  # Se ejecuta en PRs hacia DevOps
 
-# Configuración del job
 jobs:
   test:
-    # Sistema operativo donde se ejecuta
     runs-on: ubuntu-latest
     
-    # Estrategia de matriz para probar en múltiples versiones
     strategy:
       matrix:
         python-version: [3.11]
-        browser: [chromium, firefox]  # Probar en diferentes navegadores
-    
+        browser: [chromium]  # Podés agregar firefox, webkit
+
     steps:
-      # 1. Descargar el código del repositorio
+      # 1. Descargar el código del repo
       - name: Checkout código
         uses: actions/checkout@v4
         
@@ -31,12 +28,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           
-      # 3. Cache para dependencias (acelera builds)
+      # 3. Cache para dependencias pip
       - name: Cache dependencias pip
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('test-automation/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             
@@ -44,56 +41,67 @@ jobs:
       - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r test-automation/requirements.txt  # ⚡ Ajustado path correcto
+
+      # 5. Cache para navegadores Playwright
+      - name: Cache navegadores Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ matrix.browser }}
           
-      # 5. Instalar navegadores de Playwright
+      # 6. Instalar navegadores Playwright si no están en cache
       - name: Instalar navegadores Playwright
-        run: playwright install --with-deps
-        
-      # 6. Crear carpetas necesarias
+        run: |
+          if [ ! -d "$HOME/.cache/ms-playwright" ]; then
+            playwright install --with-deps
+          else
+            echo "Playwright browsers ya están en cache"
+          fi
+          
+      # 7. Crear carpetas de reportes
       - name: Crear carpetas de reportes
         run: |
-          mkdir -p reports
-          mkdir -p test-results
+          mkdir -p test-automation/reports
+          mkdir -p test-automation/test-results
           
-      # 7. Ejecutar pruebas
+      # 8. Ejecutar pruebas
       - name: Ejecutar pruebas Playwright
         run: |
-          pytest tests-automation/tests/ \
+          pytest test-automation/tests/ \
             --browser ${{ matrix.browser }} \
-            --html=reports/playwright-report-${{ matrix.browser }}.html \
+            --html=test-automation/reports/playwright-report-${{ matrix.browser }}.html \
             --self-contained-html \
-            --junit-xml=test-results/junit-${{ matrix.browser }}.xml
-
+            --junit-xml=test-automation/test-results/junit-${{ matrix.browser }}.xml
         env:
-          # Variables de entorno para las pruebas
           CI: true
           
-      # 8. Subir reportes HTML si fallan las pruebas
+      # 9. Subir reportes HTML si fallan las pruebas
       - name: Subir reportes HTML
         uses: actions/upload-artifact@v4
-        if: failure()  # Solo si las pruebas fallan
+        if: failure()  # Solo si fallan
         with:
           name: playwright-reports-${{ matrix.browser }}
           path: |
-            reports/
-            test-results/
+            test-automation/reports/
+            test-automation/test-results/
           retention-days: 30
           
-      # 9. Subir screenshots si fallan las pruebas
+      # 10. Subir screenshots si fallan las pruebas
       - name: Subir screenshots de errores
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots-${{ matrix.browser }}
-          path: reports/screenshot_*.png
+          path: test-automation/reports/screenshot_*.png
           retention-days: 7
           
-      # 10. Publicar resultados de pruebas
+      # 11. Publicar resultados de pruebas en GitHub UI
       - name: Publicar resultados
         uses: dorny/test-reporter@v1
-        if: success() || failure()  # Siempre ejecutar
+        if: success() || failure()
         with:
           name: Resultados Playwright (${{ matrix.browser }})
-          path: test-results/junit-${{ matrix.browser }}.xml
+          path: test-automation/test-results/junit-${{ matrix.browser }}.xml
           reporter: java-junit
+
