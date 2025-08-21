@@ -1,3 +1,7 @@
+CREATE SCHEMA IF NOT EXISTS orders_service AUTHORIZATION postgres;
+
+SET search_path TO orders_service, public;
+
 create table orders
 (
     order_number              bigint      not null,

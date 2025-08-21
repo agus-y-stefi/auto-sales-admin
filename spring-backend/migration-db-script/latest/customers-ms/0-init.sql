@@ -1,3 +1,9 @@
+-- Establecer el schema para customers_service
+-- Crear schema
+CREATE SCHEMA IF NOT EXISTS customers_service AUTHORIZATION postgres;
+
+SET search_path TO customers_service, public;
+
 create table if not exists customers
 (
     customer_number    int            not null,

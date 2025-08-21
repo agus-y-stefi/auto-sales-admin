@@ -1,3 +1,5 @@
+SET search_path TO orders_service, public;
+
 insert into orders (order_number, order_date, required_date, shipped_date, status, comments, customer_number, sales_rep_employee_number)
 values  (10100, '2003-01-06', '2003-01-13', '2003-01-10', 'Shipped', null, 363, 1216),
         (10101, '2003-01-09', '2003-01-18', '2003-01-11', 'Shipped', 'Check on availability.', 128, 1504),
