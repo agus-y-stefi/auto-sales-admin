@@ -36,3 +36,10 @@ def after_each(page: Page, request):
         screenshot_path = f"reports/screenshot_{request.node.name}.png"
         page.screenshot(path=screenshot_path)
         print(f"Screenshot guardado en: {screenshot_path}")
+
+@pytest.fixture(scope="session")
+def base_url():
+    # En CI, usar una URL de testing o mock
+    if os.getenv("CI"):
+        return "http://localhost:3000"  # O tu servidor de testing
+    return "http://localhost:3000"
