@@ -3,6 +3,7 @@
 ## Descripción
 Este proyecto contiene pruebas automatizadas para aplicaciones web utilizando Playwright y Python.
 Las pruebas siguen historias de usuario y criterios de aceptación, con trazabilidad clara para cada test.
+Para consultar las **historias de usuario y criterios de aceptación**, puede seguir este enlace: [Historias de Usuario y Criterios de Aceptación](https://sugary-theater-f73.notion.site/Historias-de-Usuario-y-Criterios-de-Aceptaci-n-del-Gestor-24a23ae68db58018bae7e6986d122e2d?source=copy_link)  
 
 ## Estructura de los scripts
 
