@@ -1,4 +1,4 @@
-import {ICreateCustomer} from "@/app/lib/definitions/customers/customers";
+import {ICreateCustomer} from "@/contracts";
 
 export const customerCreateFormDataTransform = (formData: FormData): ICreateCustomer => {
     const customer: ICreateCustomer = {

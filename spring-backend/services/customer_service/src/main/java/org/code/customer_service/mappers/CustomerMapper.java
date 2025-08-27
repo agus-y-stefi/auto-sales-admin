@@ -16,16 +16,17 @@ public class CustomerMapper {
             return null;
         }
 
-        return CustomerDto.builder()
-                .customerNumber(customer.getCustomerNumber())
-                .customerName(customer.getCustomerName())
-                .contactFirstName(customer.getContactFirstName())
-                .contactLastName(customer.getContactLastName())
-                .phone(customer.getPhone())
-                .city(customer.getCity())
-                .country(customer.getCountry())
-                .creditLimit(customer.getCreditLimit())
-                .build();
+        return new CustomerDto(
+                customer.getCustomerNumber(),
+                customer.getCustomerName(),
+                customer.getContactFirstName(),
+                customer.getContactLastName(),
+                customer.getPhone(),
+                customer.getCity(),
+                customer.getCountry(),
+                customer.getCreditLimit()
+        );
+
     }
 
     public Customer toEntity(CustomerDto customerDto) {

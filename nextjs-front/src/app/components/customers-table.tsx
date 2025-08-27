@@ -20,13 +20,13 @@ import type {SortDescriptor} from "@heroui/react"
 import {TableTopContent} from "./table-top-content-customers"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
-import {Page} from "@/app/lib/definitions/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
 import {formatCurrency} from "@/app/lib/utils/format";
-import {CellKey, columnsCustomersTableHome, FormattedCustomerTableHome, statusOptionsTableHome} from "@/app/lib/definitions/customers/table_ui";
+import {CellKey, columnsCustomersTableHome, statusOptionsTableHome} from "@/app/lib/definitions/customers/table_ui";
+import {IPage, ICustomersTableHome} from "@/contracts";
 
 
-const renderCell = (uid: CellKey, item: FormattedCustomerTableHome): JSX.Element => {
+const renderCell = (uid: CellKey, item: ICustomersTableHome): JSX.Element => {
     if (uid === "actions") {
         return (
             <div className="relative flex justify-end items-center gap-2">
@@ -67,10 +67,10 @@ const renderCell = (uid: CellKey, item: FormattedCustomerTableHome): JSX.Element
         return <span className="text-default-500 font-medium">{item[uid]}</span>;
     }
 
-    return <span className="text-default-700">{item[uid as keyof FormattedCustomerTableHome] ?? ""}</span>;
+    return <span className="text-default-700">{item[uid as keyof ICustomersTableHome] ?? ""}</span>;
 };
 
-export function CustomersTable({customersPage}: { customersPage: Page<FormattedCustomerTableHome>}) {
+export function CustomersTable({customersPage}: { customersPage: IPage<ICustomersTableHome>}) {
     const customers = customersPage.content;
 
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
@@ -80,8 +80,8 @@ export function CustomersTable({customersPage}: { customersPage: Page<FormattedC
 
     const sortedItems = React.useMemo(() => {
         return [...customers].sort((a, b) => {
-            const first = a[sortDescriptor.column as keyof FormattedCustomerTableHome]
-            const second = b[sortDescriptor.column as keyof FormattedCustomerTableHome]
+            const first = a[sortDescriptor.column as keyof ICustomersTableHome]
+            const second = b[sortDescriptor.column as keyof ICustomersTableHome]
             const cmp = first < second ? -1 : first > second ? 1 : 0
 
             return sortDescriptor.direction === "descending" ? -cmp : cmp
@@ -95,7 +95,7 @@ export function CustomersTable({customersPage}: { customersPage: Page<FormattedC
             aria-label="Tabla de clientes con celdas personalizadas, paginación y ordenamiento"
             bottomContent={
                 <TableBottomContent
-                    pages={customersPage.totalElementsWithoutFilter / customersPage.size}
+                    pages={customersPage.metadata?.totalPages || 1 }
                 />
             }
             bottomContentPlacement="outside"

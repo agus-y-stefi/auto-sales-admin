@@ -19,8 +19,9 @@ import type {SortDescriptor} from "@heroui/react"
 import {TableTopContent} from "./table-top-content-products"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
-import {Page} from "@/app/lib/definitions/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
+import {IPage} from "@/contracts";
+import {IProductTableHome} from "@/contracts/product-service/types/products.type";
 
 export interface FormattedProductTableHome {
     productCode: string;
@@ -113,7 +114,7 @@ const formatCurrency = (amount: number) => {
     }).format(amount);
 };
 
-export function ProductsTable({productsPage}: { productsPage: Page<FormattedProductTableHome>}) {
+export function ProductsTable({productsPage}: { productsPage: IPage<IProductTableHome>}) {
     const products = productsPage.content;
 
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
@@ -139,7 +140,7 @@ export function ProductsTable({productsPage}: { productsPage: Page<FormattedProd
             aria-label="Tabla de productos con celdas personalizadas, paginación y ordenamiento"
             bottomContent={
                 <TableBottomContent
-                    pages={productsPage.totalPages}
+                    pages={productsPage.metadata?.totalPages || 1}
                 />
             }
             bottomContentPlacement="outside"

@@ -1,3 +1,5 @@
+-- Establecer el schema para customers_service
+SET search_path TO customers_service, public;
 insert into employees (employee_number, last_name, first_name, extension, office_code)
 values  (1002, 'Murphy', 'Diane', 'x5800', '1'),
         (1056, 'Patterson', 'Mary', 'x4611', '1'),

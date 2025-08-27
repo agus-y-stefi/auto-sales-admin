@@ -14,7 +14,7 @@ import {
 } from "@heroui/react";
 import {FormEvent, JSX, SVGProps} from "react";
 import {customerCreateFormDataTransform} from "@/app/lib/utils/form_data_transform";
-import {createCustomersAction} from "@/app/lib/actions/customers/create_customers_action";
+import {createCustomers} from "@/contracts";
 
 export const PhoneIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
@@ -66,7 +66,7 @@ interface ModalNewCustomerProps {
 }
 
 const crearClienteHandler = async (e: FormData) => {
-    await createCustomersAction(customerCreateFormDataTransform(e));
+    await createCustomers(customerCreateFormDataTransform(e));
 }
 
 export function ModalNewCustomer({isOpen, onOpenChange}: ModalNewCustomerProps) {

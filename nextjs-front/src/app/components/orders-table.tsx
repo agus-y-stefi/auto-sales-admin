@@ -20,8 +20,8 @@ import type { SortDescriptor } from "@heroui/react"
 import { TableTopContent } from "./table-top-content-orders"
 import { TableBottomContent } from "./table-bottom-content"
 import { VerticalDotsIcon } from "./icons/index"
-import { FormattedOrderTableHome, Page } from "@/app/lib/definitions/definitions";
 import { tableClassNames } from "@/app/styles/tableStyles";
+import {IPage, IOrderTableHome} from "@/contracts";
 
 export const columns = [
   { name: "N° de orden", uid: "orderNumber", sortable: true },
@@ -50,7 +50,7 @@ type CellKey = (typeof columns[number])["uid"];
 
 const renderCell = (
   uid: CellKey,
-  item: FormattedOrderTableHome,
+  item: IOrderTableHome,
   handlers: {
     onView: (n: number) => void,
     onEdit: (n: number) => void,
@@ -94,10 +94,10 @@ const renderCell = (
     );
   }
 
-  return <span className="text-default-700">{item[uid as keyof FormattedOrderTableHome] ?? ""}</span>;
+  return <span className="text-default-700">{item[uid as keyof IOrderTableHome] ?? ""}</span>;
 };
 
-export function OrdersTable({ ordersPage }: { ordersPage: Page<FormattedOrderTableHome> }) {
+export function OrdersTable({ ordersPage }: { ordersPage: IPage<IOrderTableHome> }) {
   const orders = ordersPage.content;
   const router = useRouter();
 
@@ -120,8 +120,8 @@ export function OrdersTable({ ordersPage }: { ordersPage: Page<FormattedOrderTab
 
   const sortedItems = React.useMemo(() => {
     return [...orders].sort((a, b) => {
-      const first = a[sortDescriptor.column as keyof FormattedOrderTableHome]
-      const second = b[sortDescriptor.column as keyof FormattedOrderTableHome]
+      const first = a[sortDescriptor.column as keyof IOrderTableHome]
+      const second = b[sortDescriptor.column as keyof IOrderTableHome]
       const cmp = first < second ? -1 : first > second ? 1 : 0
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp
@@ -135,7 +135,7 @@ export function OrdersTable({ ordersPage }: { ordersPage: Page<FormattedOrderTab
       aria-label="User management table with custom cells, pagination and sorting"
       bottomContent={
         <TableBottomContent
-          pages={ordersPage.totalPages}
+          pages={ordersPage.metadata?.totalPages || 0}
         />
       }
       bottomContentPlacement="outside"

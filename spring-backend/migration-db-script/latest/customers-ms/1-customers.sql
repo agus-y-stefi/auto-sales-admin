@@ -1,3 +1,6 @@
+-- Establecer el schema para customers_service
+SET search_path TO customers_service, public;
+
 insert into customers (customer_number, customer_name, contact_last_name, contact_first_name, phone, city, country, credit_limit)
 values  (103, 'Atelier graphique', 'Schmitt', 'Carine ', '40.32.2555', 'Nantes', 'France', 21000.00),
         (112, 'Signal Gift Stores', 'King', 'Jean', '7025551838', 'Las Vegas', 'USA', 71800.00),

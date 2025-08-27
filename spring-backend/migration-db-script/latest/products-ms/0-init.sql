@@ -1,3 +1,7 @@
+CREATE SCHEMA IF NOT EXISTS products_service AUTHORIZATION postgres;
+
+SET search_path TO products_service, public;
+
 create table products
 (
     product_code        varchar(15) not null,

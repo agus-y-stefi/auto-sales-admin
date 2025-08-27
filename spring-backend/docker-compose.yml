@@ -1,4 +1,7 @@
+version: "3.9"
+
 services:
+  # Bases de datos
   ms-customers-db:
     image: postgres:17
     container_name: ms-customers-db
@@ -11,6 +14,10 @@ services:
       - ./migration-db-script/latest/customers-ms:/docker-entrypoint-initdb.d/
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ms-customers-db"]
+      interval: 5s
+      retries: 5
 
   ms-orders-db:
     image: postgres:17
@@ -24,7 +31,10 @@ services:
       - ./migration-db-script/latest/orders-ms:/docker-entrypoint-initdb.d/
     networks:
       - backend
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ms-orders-db"]
+      interval: 5s
+      retries: 5
 
   ms-products-db:
     image: postgres:17
@@ -38,7 +48,56 @@ services:
       - ./migration-db-script/latest/products-ms:/docker-entrypoint-initdb.d/
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ms-products-db"]
+      interval: 5s
+      retries: 5
 
+  # Microservicios
+  customer_service:
+    build:
+      context: ./services/customer_service
+      dockerfile: Dockerfile
+    container_name: customer_service
+    ports:
+      - "8081:8081"
+    depends_on:
+      ms-customers-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - backend
+
+  orders_service:
+    build:
+      context: ./services/orders_service
+      dockerfile: Dockerfile
+    container_name: orders_service
+    ports:
+      - "8082:8082"
+    depends_on:
+      ms-orders-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - backend
+
+  product_service:
+    build:
+      context: ./services/product_service
+      dockerfile: Dockerfile
+    container_name: product_service
+    ports:
+      - "8083:8083"
+    depends_on:
+      ms-products-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - backend
 
 networks:
   backend:

@@ -15,17 +15,17 @@ public class OfficeMapper {
             return null;
         }
 
-        return OfficeDto.builder()
-                .officeCode(office.getOfficeCode())
-                .city(office.getCity())
-                .phone(office.getPhone())
-                .addressLine1(office.getAddressLine1())
-                .addressLine2(office.getAddressLine2())
-                .state(office.getState())
-                .country(office.getCountry())
-                .postalCode(office.getPostalCode())
-                .territory(office.getTerritory())
-                .build();
+        return new OfficeDto(
+                office.getOfficeCode(),
+                office.getCity(),
+                office.getPhone(),
+                office.getAddressLine1(),
+                office.getAddressLine2(),
+                office.getState(),
+                office.getCountry(),
+                office.getPostalCode(),
+                office.getTerritory()
+        );
     }
 
     public Office toEntity(OfficeDto officeDto) {
