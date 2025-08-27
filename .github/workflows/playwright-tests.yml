@@ -1,0 +1,152 @@
+# Archivo: .github/workflows/playwright-tests.yml
+name: Pruebas de Playwright
+
+# Configuración optimizada para evitar ejecuciones innecesarias
+on:
+  push:
+    branches: [ DevOps ]
+    paths:
+      - 'test-automation/**'
+      - 'src/**'
+      - '.github/workflows/playwright-tests.yml'
+  pull_request:
+    branches: [ DevOps ]
+    paths:
+      - 'test-automation/**'
+      - 'src/**'
+      - '.github/workflows/playwright-tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: [3.11]
+        browser: [chromium]
+      fail-fast: false  # Continuar con otros navegadores si uno falla
+
+    steps:
+      # 1. Descargar el código del repo
+      - name: Checkout código
+        uses: actions/checkout@v4
+        
+      # 2. Configurar Python con cache integrado
+      - name: Configurar Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'test-automation/requirements.txt'
+          
+      # 3. Cache mejorado para dependencias pip
+      - name: Cache dependencias pip
+        uses: actions/cache@v4
+        id: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('test-automation/requirements.txt') }}-v2
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            
+      # 4. Instalar dependencias solo si no están en cache
+      - name: Instalar dependencias de Python
+        if: steps.cache-pip.outputs.cache-hit != 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r test-automation/requirements.txt
+      
+      # 4b. Verificar dependencias si están en cache
+      - name: Verificar dependencias existentes
+        if: steps.cache-pip.outputs.cache-hit == 'true'
+        run: |
+          echo "✅ Dependencias cargadas desde cache"
+          pip list | grep -E "(pytest|playwright)"
+
+      # 5. Cache inteligente para navegadores Playwright
+      - name: Cache navegadores Playwright
+        uses: actions/cache@v4
+        id: cache-playwright
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('test-automation/requirements.txt') }}-v3
+          restore-keys: |
+            ${{ runner.os }}-playwright-${{ matrix.browser }}-
+            
+      # 6. Instalar navegadores solo si no están en cache
+      - name: Instalar navegadores Playwright
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: |
+          echo "🔄 Instalando navegador ${{ matrix.browser }}..."
+          playwright install ${{ matrix.browser }}
+          playwright install-deps ${{ matrix.browser }}
+      
+      # 6b. Verificar navegadores existentes
+      - name: Verificar navegadores existentes  
+        if: steps.cache-playwright.outputs.cache-hit == 'true'
+        run: |
+          echo "✅ Navegador ${{ matrix.browser }} cargado desde cache"
+          playwright --version
+          
+      # 7. Crear carpetas de reportes (solo si no existen)
+      - name: Preparar estructura de carpetas
+        run: |
+          mkdir -p test-automation/reports/screenshots
+          mkdir -p test-automation/test-results
+          echo "📁 Estructura de carpetas preparada"
+          
+      # 8. Ejecutar pruebas con configuración optimizada
+      - name: Ejecutar pruebas Playwright
+        run: |
+          pytest test-automation/tests/ \
+            --browser ${{ matrix.browser }} \
+            --html=test-automation/reports/playwright-report-${{ matrix.browser }}.html \
+            --self-contained-html \
+            --junit-xml=test-automation/test-results/junit-${{ matrix.browser }}.xml \
+            --maxfail=5 \
+            -v
+        env:
+          CI: true
+          HEADLESS: true
+          
+      # 9. Subir reportes completos solo en caso de fallo
+      - name: Subir reportes de pruebas
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-reports-${{ matrix.browser }}-${{ github.run_number }}
+          path: |
+            test-automation/reports/
+            test-automation/test-results/
+          retention-days: 30
+          compression-level: 6
+
+      # 12. Comentario en PR con resumen (solo para PRs)
+      - name: Comentar resultados en PR
+        if: github.event_name == 'pull_request' && (success() || failure())
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'test-automation/test-results/junit-${{ matrix.browser }}.xml';
+            
+            if (fs.existsSync(path)) {
+              const xmlData = fs.readFileSync(path, 'utf8');
+              const testCount = (xmlData.match(/tests="(\d+)"/)?.[1] || '0');
+              const failures = (xmlData.match(/failures="(\d+)"/)?.[1] || '0');
+              const errors = (xmlData.match(/errors="(\d+)"/)?.[1] || '0');
+              
+              const status = (failures === '0' && errors === '0') ? '✅' : '❌';
+              const summary = `${status} **Playwright Tests (${{ matrix.browser }})**
+              - Tests ejecutados: ${testCount}
+              - Fallos: ${failures}
+              - Errores: ${errors}`;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: summary
+              });
+            }
