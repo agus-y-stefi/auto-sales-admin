@@ -18,8 +18,8 @@ export default async function Page(props: {
         status: ""
     };
 
-    // const products = getProductsMock(page, limit, query);
-    const products = await getProductsHomeTable(parseInt(page) - 1, parseInt(limit));
+    const products = getProductsMock(page, limit, query);
+    // const products = await getProductsHomeTable(parseInt(page) - 1, parseInt(limit));
 
     return (
         <div className="container mx-auto p-10">

@@ -2,7 +2,7 @@
 // const customers = await getCustomers(page, limit, query);
 
 // DATOS DE EJEMPLO - Usar estos datos cuando no haya backend disponible
-import {ICustomersTableHome} from "@/contracts";
+import {ICustomersTableHome, IPage} from "@/contracts";
 
 const mockCustomers:ICustomersTableHome[] = [
   {
@@ -78,7 +78,7 @@ const mockCustomers:ICustomersTableHome[] = [
 ];
 
 // FUNCIÓN SIMULADA - Reemplaza a getCustomers cuando no hay backend
-export const getCustomersMock = (page?: string, limit?: string, query?: string) => {
+export const getCustomersMock = (page?: string, limit?: string, query?: string):IPage<ICustomersTableHome> => {
     const pageNum = parseInt(page || "1");
     const limitNum = parseInt(limit || "5");
     const start = (pageNum - 1) * limitNum;
@@ -102,11 +102,11 @@ export const getCustomersMock = (page?: string, limit?: string, query?: string) 
     
     return {
         content: paginatedCustomers,
-        totalPages: Math.ceil(filtered.length / limitNum),
-        totalElements: filtered.length,
-        size: limitNum,
-        number: pageNum - 1,
-        first: pageNum === 1,
-        last: end >= filtered.length
+        metadata: {
+            totalPages: Math.ceil(filtered.length / limitNum),
+            totalElements: filtered.length,
+            size: limitNum,
+            number: pageNum - 1,
+        }
     };
 };

@@ -19,7 +19,6 @@ import type {SortDescriptor} from "@heroui/react"
 import {TableTopContent} from "./table-top-content-products"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
-import {Page} from "@/app/lib/definitions/definitions";
 import {tableClassNames} from "@/app/styles/tableStyles";
 import {IPage} from "@/contracts";
 import {IProductTableHome} from "@/contracts/product-service/types/products.type";
