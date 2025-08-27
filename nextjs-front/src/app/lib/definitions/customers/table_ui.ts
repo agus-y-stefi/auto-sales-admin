@@ -1,13 +1,3 @@
-export interface FormattedCustomerTableHome {
-    customerNumber: number;
-    customerName: string;
-    contactName: string;
-    phone: string;
-    city: string;
-    country: string;
-    creditLimit: number;
-    status: string;
-}
 
 export const columnsCustomersTableHome = [
     {name: "Nº Cliente", uid: "customerNumber", sortable: true},

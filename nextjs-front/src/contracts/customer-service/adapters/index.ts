@@ -1,1 +1,1 @@
-export * from "./customers.adapters";
+export * from "./customers.adapter";

@@ -8,6 +8,7 @@ export * from '../orders-service/generated/models';
 
 // Product Service
 export * from '../product-service/generated/api';
+
 //@ts-ignore
 export * from '../product-service/generated/models';
 
