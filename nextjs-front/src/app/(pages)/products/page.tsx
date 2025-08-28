@@ -1,5 +1,4 @@
 import {ProductsTable} from "@/app/components/products-table";
-import { getProductsMock } from "@/app/lib/data/products";
 import {getProductsHomeTable} from "@/contracts"
 
 export default async function Page(props: {
@@ -18,8 +17,7 @@ export default async function Page(props: {
         status: ""
     };
 
-    const products = getProductsMock(page, limit, query);
-    // const products = await getProductsHomeTable(parseInt(page) - 1, parseInt(limit));
+    const products = await getProductsHomeTable(parseInt(page) - 1, parseInt(limit));
 
     return (
         <div className="container mx-auto p-10">
