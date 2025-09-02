@@ -167,8 +167,6 @@ class CustomerServiceTest {
         void getAllCustomers_WithFiltersAndWithPageable_ShouldReturnFilteredResults() {
             // ARRANGE
             CustomerSearchCriteria criteriaWithFilters = CustomerSearchCriteria.builder()
-                    .customerName("Test")
-                    .city("Madrid")
                     .build();
 
             Pageable pageable = PageRequest.of(0, 5);
@@ -207,8 +205,6 @@ class CustomerServiceTest {
         void getAllCustomers_WithFiltersAndWithoutPageable_ShouldReturnAllFilteredResults() {
             // ARRANGE
             CustomerSearchCriteria criteriaWithFilters = CustomerSearchCriteria.builder()
-                    .country("Spain")
-                    .minCreditLimit(new BigDecimal("5000"))
                     .build();
 
             long filteredCount = 1L;

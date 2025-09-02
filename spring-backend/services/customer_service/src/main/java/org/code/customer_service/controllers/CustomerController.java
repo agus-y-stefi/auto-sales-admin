@@ -26,32 +26,16 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<Page<CustomerDto>> getAllCustomers(
-            @RequestParam(required = false) String customerName,
-            @RequestParam(required = false) String city,
-            @RequestParam(required = false) String country,
-            @RequestParam(required = false) BigDecimal minCreditLimit,
-            @RequestParam(required = false) BigDecimal maxCreditLimit,
-            @RequestParam(required = false) String contactFirstName,
-            @RequestParam(required = false) String contactLastName,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false, defaultValue = "false") Boolean exactMatch,
+            @RequestParam(required = false) List<String> status,
+            @RequestParam(required = false) String q,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String sortDir,
-            @RequestParam(required = false) List<String> status
+            @RequestParam(required = false) String sortDir
     ) {
         CustomerSearchCriteria criteria = CustomerSearchCriteria.builder()
-                .customerName(customerName)
-                .city(city)
-                .country(country)
-                .minCreditLimit(minCreditLimit)
-                .maxCreditLimit(maxCreditLimit)
-                .contactFirstName(contactFirstName)
-                .contactLastName(contactLastName)
-                .phone(phone)
                 .status(status)
-                .exactMatch(exactMatch)
+                .q(q)
                 .build();
 
         return ResponseEntity.ok(
