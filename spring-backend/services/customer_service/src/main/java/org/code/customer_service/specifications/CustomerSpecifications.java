@@ -1,11 +1,11 @@
 package org.code.customer_service.specifications;
 
-
 import org.code.customer_service.models.Customer;
 import org.code.customer_service.specifications.criteria.CustomerSearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.persistence.criteria.Predicate;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,19 +98,34 @@ public class CustomerSpecifications {
                 ));
             }
 
+            // Filtro por status - ahora maneja una lista
+            if (criteria.getStatus() != null && !criteria.getStatus().isEmpty()) {
+                // Filtrar valores nulos o vacíos de la lista
+                List<String> validStatuses = criteria.getStatus().stream()
+                        .filter(status -> status != null && !status.trim().isEmpty())
+                        .map(String::toLowerCase)
+                        .toList();
+
+                if (!validStatuses.isEmpty()) {
+                    predicates.add(criteriaBuilder.lower(root.get("status")).in(validStatuses));
+                }
+            }
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 
     public static boolean hasNoFilters(CustomerSearchCriteria criteria) {
         return (criteria.getCustomerName() == null || criteria.getCustomerName().trim().isEmpty()) &&
-               (criteria.getCity() == null || criteria.getCity().trim().isEmpty()) &&
-               (criteria.getCountry() == null || criteria.getCountry().trim().isEmpty()) &&
-               (criteria.getMinCreditLimit() == null) &&
-               (criteria.getMaxCreditLimit() == null) &&
-               (criteria.getContactFirstName() == null || criteria.getContactFirstName().trim().isEmpty()) &&
-               (criteria.getContactLastName() == null || criteria.getContactLastName().trim().isEmpty()) &&
-               (criteria.getPhone() == null || criteria.getPhone().trim().isEmpty());
+                (criteria.getCity() == null || criteria.getCity().trim().isEmpty()) &&
+                (criteria.getCountry() == null || criteria.getCountry().trim().isEmpty()) &&
+                (criteria.getMinCreditLimit() == null) &&
+                (criteria.getMaxCreditLimit() == null) &&
+                (criteria.getContactFirstName() == null || criteria.getContactFirstName().trim().isEmpty()) &&
+                (criteria.getContactLastName() == null || criteria.getContactLastName().trim().isEmpty()) &&
+                (criteria.getPhone() == null || criteria.getPhone().trim().isEmpty()) &&
+                (criteria.getStatus() == null || criteria.getStatus().isEmpty() ||
+                        criteria.getStatus().stream().allMatch(status -> status == null || status.trim().isEmpty()));
     }
 
     // Métodos específicos para casos particulares
@@ -151,6 +166,21 @@ public class CustomerSpecifications {
                 return criteriaBuilder.greaterThanOrEqualTo(root.get("creditLimit"), min);
             }
             return criteriaBuilder.lessThanOrEqualTo(root.get("creditLimit"), max);
+        };
+    }
+
+    // Nuevo método específico para filtrar por lista de status
+    public static Specification<Customer> hasStatusIn(List<String> statusList) {
+        return (root, query, criteriaBuilder) -> {
+            if (statusList == null || statusList.isEmpty()) return null;
+
+            List<String> validStatuses = statusList.stream()
+                    .filter(status -> status != null && !status.trim().isEmpty())
+                    .map(String::toLowerCase)
+                    .toList();
+
+            return validStatuses.isEmpty() ? null :
+                    criteriaBuilder.lower(root.get("status")).in(validStatuses);
         };
     }
 }

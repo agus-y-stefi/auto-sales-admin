@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -37,7 +38,8 @@ public class CustomerController {
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String sortDir
+            @RequestParam(required = false) String sortDir,
+            @RequestParam(required = false) List<String> status
     ) {
         CustomerSearchCriteria criteria = CustomerSearchCriteria.builder()
                 .customerName(customerName)
@@ -48,6 +50,7 @@ public class CustomerController {
                 .contactFirstName(contactFirstName)
                 .contactLastName(contactLastName)
                 .phone(phone)
+                .status(status)
                 .exactMatch(exactMatch)
                 .build();
 

@@ -2,8 +2,8 @@ import {getAllCustomers, createCustomer as createCustomerApi, getAllCustomersRes
 import {toCustomerDtoCreateUpdate, toCustomersHomeTable} from "../mappers/customers.mappers";
 import {ICreateCustomer} from "@/contracts";
 
-export const getCustomersHomeTable = async (page?: number, size?:number)=>{
-    const response:getAllCustomersResponse = await getAllCustomers({size: size, page: (page)? (page - 1) : undefined});
+export const getCustomersHomeTable = async (page?: number, size?:number, status? : string)=>{
+    const response:getAllCustomersResponse = await getAllCustomers({size: size, page: (page)? (page - 1) : undefined, status: status});
     if (!response || !response.data) {
         throw new Error("Failed to fetch customers data");
     }

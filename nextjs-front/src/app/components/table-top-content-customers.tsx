@@ -54,6 +54,7 @@ export function TableTopContent({
 
     const handleStatusFilter = (keys: Selection) => {
         const newStatusFilter = new Set(keys as Set<string>);
+        console.log(newStatusFilter);
 
         const param = new URLSearchParams(searchParams);
         param.set('page', '1');
@@ -96,11 +97,10 @@ export function TableTopContent({
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu
-                                disallowEmptySelection
                                 aria-label="Table Columns"
                                 closeOnSelect={false}
                                 selectionMode="multiple"
-                                selectedKeys={statusFilter}
+                                defaultSelectedKeys={statusFilter}
                                 onSelectionChange={handleStatusFilter}
                             >
                                 {statusOptions.map((status) => (

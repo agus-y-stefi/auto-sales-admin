@@ -20,5 +20,6 @@ public class CustomerDtoCreateUpdate {
     private String city;
     private String country;
     private BigDecimal creditLimit;
+    private String status;
 
 }

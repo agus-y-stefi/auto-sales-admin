@@ -24,7 +24,8 @@ public class CustomerMapper {
                 customer.getPhone(),
                 customer.getCity(),
                 customer.getCountry(),
-                customer.getCreditLimit()
+                customer.getCreditLimit(),
+                customer.getStatus()
         );
 
     }
@@ -43,6 +44,7 @@ public class CustomerMapper {
                 .city(customerDto.getCity())
                 .country(customerDto.getCountry())
                 .creditLimit(customerDto.getCreditLimit())
+                .status(customerDto.getStatus())
                 .build();
     }
 
@@ -59,6 +61,7 @@ public class CustomerMapper {
                 .city(customerDtoCreateUpdate.getCity())
                 .country(customerDtoCreateUpdate.getCountry())
                 .creditLimit(customerDtoCreateUpdate.getCreditLimit())
+                .status(customerDtoCreateUpdate.getStatus())
                 .build();
     }
 
@@ -108,6 +111,10 @@ public class CustomerMapper {
         }
         if (customerToUpdate.getCreditLimit() != null) {
             originalCustomer.setCreditLimit(customerToUpdate.getCreditLimit());
+        }
+
+        if (customerToUpdate.getStatus() != null) {
+            originalCustomer.setStatus(customerToUpdate.getStatus());
         }
 
         return originalCustomer;

@@ -33,4 +33,7 @@ public class CustomerDto {
 
     @NotNull(message = "Credit limit is required")
     private BigDecimal creditLimit;
+
+    @NotNull(message = "Status is required")
+    private String status;
 }

@@ -13,7 +13,9 @@ export default async function Page(props: {
     const searchParams = await props.searchParams;
     const {page, limit = "5", query, status} = searchParams || {};
 
-    const customers = await getCustomersHomeTable(parseInt(page || "0"), parseInt(limit));
+    const customers = await getCustomersHomeTable(parseInt(page || "0"), parseInt(limit), status);
+
+    // TODO: AGREGAR LISTA DE STATUS AL BACKEND
 
     const numberOFPages = Number(limit);
     return (

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,6 +18,7 @@ public class CustomerSearchCriteria {
     private String contactFirstName;
     private String contactLastName;
     private String phone;
+    private List<String> status; // Cambiado de String a List<String>
 
     // Parámetros para búsqueda de texto
     private Boolean exactMatch; // true para búsqueda exacta, false para LIKE
@@ -29,7 +31,7 @@ public class CustomerSearchCriteria {
     public CustomerSearchCriteria(String customerName, String city, String country,
                                   BigDecimal minCreditLimit, BigDecimal maxCreditLimit,
                                   String contactFirstName, String contactLastName,
-                                  String phone, Boolean exactMatch) {
+                                  String phone, List<String> status, Boolean exactMatch) {
         this.customerName = customerName;
         this.city = city;
         this.country = country;
@@ -38,6 +40,7 @@ public class CustomerSearchCriteria {
         this.contactFirstName = contactFirstName;
         this.contactLastName = contactLastName;
         this.phone = phone;
+        this.status = status;
         this.exactMatch = exactMatch != null ? exactMatch : false;
     }
 }

@@ -10,7 +10,7 @@ export const toCustomersHomeTable = (customer: CustomerDto): ICustomersTableHome
         city: customer.city,
         country: customer.country,
         creditLimit: customer.creditLimit,
-        status: "Activo"
+        status: customer.status
     }
 }
 
@@ -22,6 +22,7 @@ export const toCustomerDtoCreateUpdate = (customer: ICreateCustomer): CustomerDt
         phone: customer.phone,
         city: customer.city,
         country: customer.country,
-        creditLimit: customer.creditLimit
+        creditLimit: customer.creditLimit,
+        status: "vip"
     }
 }

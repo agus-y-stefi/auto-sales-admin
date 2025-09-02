@@ -73,15 +73,15 @@ const renderCell = (uid: CellKey, item: ICustomersTableHome): JSX.Element => {
     }
 
     if (uid === "status") {
-        const status = statusOptionsTableHome.find(option => option.name === item.status);
+        const status = statusOptionsTableHome.find(option => option.uid === item.status);
         return (
             <Chip
-                className="capitalize border-none gap-1 text-default-600"
+                className="border-none gap-1 text-default-600"
                 color={status?.color ?? "default"}
                 size="sm"
                 variant="flat"
             >
-                {item.status}
+                {status?.name ?? item.status}
             </Chip>
         );
     }
