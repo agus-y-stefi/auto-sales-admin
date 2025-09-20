@@ -5,6 +5,7 @@ import PersistentDrawerLeft from "@/app/components/sidebar";
 import {Box} from '@mui/material';
 
 import "./styles/globals.css"
+import Providers from "@/app/providers";
 
 const inter = Inter({subsets: ["latin"]})
 
@@ -21,10 +22,12 @@ export default function RootLayout({
     return (
         <html lang="es">
         <body className={`${inter.className} min-h-screen`}>
-        <PersistentDrawerLeft>
-            {/* Your page content will be rendered inside the Main component of the sidebar */}
-            {children}
-        </PersistentDrawerLeft>
+        <Providers>
+            <PersistentDrawerLeft>
+                {/* Your page content will be rendered inside the Main component of the sidebar */}
+                {children}
+            </PersistentDrawerLeft>
+        </Providers>
         </body>
         </html>
     )

@@ -1,6 +1,6 @@
 "use client"
 
-import React, {JSX, useState} from "react"
+import React, {JSX, useEffect, useState} from "react"
 import {
     Table,
     TableHeader,
@@ -13,93 +13,19 @@ import {
     Dropdown,
     DropdownMenu,
     DropdownItem,
-    Chip,
+    Chip, addToast,
 } from "@heroui/react"
 import type {SortDescriptor} from "@heroui/react"
 
 import {TableTopContent} from "./table-top-content-customers"
 import {TableBottomContent} from "./table-bottom-content"
 import {VerticalDotsIcon} from "./icons/index"
-import {tableClassNames} from "@/app/styles/tableStyles";
 import {formatCurrency} from "@/app/lib/utils/format";
-import {IPage, ICustomersTableHome} from "@/contracts";
+import {IPage, ICustomersTableHome, deleteCustomer} from "@/contracts";
+import {CellKey, tableClassNames, statusOptionsTableHome, columnsCustomersTableHome} from "@/app/lib/config/tables/customer-home.config";
+import {CloseIcon} from "@heroui/shared-icons";
 
-
-
-export const columnsCustomersTableHome = [
-    {name: "Nº Cliente", uid: "customerNumber", sortable: true},
-    {name: "Nombre", uid: "customerName", sortable: true},
-    {name: "Contacto", uid: "contactName", sortable: true},
-    {name: "Teléfono", uid: "phone", sortable: true},
-    {name: "Ciudad", uid: "city", sortable: true},
-    {name: "País", uid: "country", sortable: true},
-    {name: "Límite Crédito", uid: "creditLimit", sortable: true},
-    {name: "Estado", uid: "status", sortable: true},
-    {name: "Acciones", uid: "actions"},
-]
-
-export const statusOptionsTableHome: Array<{
-    name: string,
-    uid: string,
-    color: "success" | "primary" | "warning" | "danger" | "default" | "secondary"
-}> = [
-    {name: "Activo", uid: "active", color: "success"},
-    {name: "Inactivo", uid: "inactive", color: "default"},
-    {name: "VIP", uid: "vip", color: "primary"},
-    {name: "Moroso", uid: "overdue", color: "danger"},
-    {name: "Nuevo", uid: "new", color: "secondary"},
-    {name: "En revisión", uid: "review", color: "warning"}
-]
-
-export type CellKey = (typeof columnsCustomersTableHome[number])["uid"];
-
-const renderCell = (uid: CellKey, item: ICustomersTableHome): JSX.Element => {
-    if (uid === "actions") {
-        return (
-            <div className="relative flex justify-end items-center gap-2">
-                <Dropdown className="bg-background border-1 border-default-200">
-                    <DropdownTrigger>
-                        <Button isIconOnly radius="full" size="sm" variant="light">
-                            <VerticalDotsIcon className="text-default-400"/>
-                        </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu>
-                        <DropdownItem key="edit">Editar</DropdownItem>
-                        <DropdownItem key="delete">Eliminar</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-            </div>
-        );
-    }
-
-    if (uid === "status") {
-        const status = statusOptionsTableHome.find(option => option.uid === item.status);
-        return (
-            <Chip
-                className="border-none gap-1 text-default-600"
-                color={status?.color ?? "default"}
-                size="sm"
-                variant="flat"
-            >
-                {status?.name ?? item.status}
-            </Chip>
-        );
-    }
-
-    if (uid === "creditLimit") {
-        return <span className="text-default-500">{formatCurrency(item[uid])}</span>;
-    }
-
-    if (uid === "customerNumber") {
-        return <span className="text-default-500 font-medium">{item[uid]}</span>;
-    }
-
-    return <span className="text-default-700">{item[uid as keyof ICustomersTableHome] ?? ""}</span>;
-};
-
-export function CustomersTable({customersPage}: { customersPage: IPage<ICustomersTableHome>}) {
-    const customers = customersPage.content;
-
+const useSortedItems = (customers: ICustomersTableHome[]) => {
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
         column: "customerName",
         direction: "ascending",
@@ -109,20 +35,116 @@ export function CustomersTable({customersPage}: { customersPage: IPage<ICustomer
         return [...customers].sort((a, b) => {
             const first = a[sortDescriptor.column as keyof ICustomersTableHome]
             const second = b[sortDescriptor.column as keyof ICustomersTableHome]
-            const cmp = first < second ? -1 : first > second ? 1 : 0
+            const cmp = first < second ? -2 : first > second ? 1 : 0
 
             return sortDescriptor.direction === "descending" ? -cmp : cmp
         })
     }, [sortDescriptor, customers])
 
-    return (
+    return {sortedItems, setSortDescriptor, sortDescriptor}
+}
+
+const useDelete = (setCustomers: React.Dispatch<React.SetStateAction<ICustomersTableHome[]>>) => {
+    // Ya no necesitas useDisclosure para el modal
+
+    const handleDelete = (customerNumber: number) => {
+        deleteCustomer(customerNumber)
+            .then((response) => {
+                setCustomers(prevState => prevState.filter(customer => customer.customerNumber !== customerNumber));
+
+                // Mostrar toast de éxito
+                addToast({
+                    title: "Eliminación Exitosa",
+                    description: "El cliente ha sido eliminado correctamente.",
+                    color: "success",
+                    variant: "flat",
+                })
+            })
+            .catch((error) => {
+                console.error('Error al eliminar:', error);
+
+                addToast({
+                    title: "Error al Eliminar",
+                    description: "Hubo un problema al eliminar el cliente. Por favor, inténtalo de nuevo.",
+                    color: "danger",
+                    variant: "flat",
+                    icon: <CloseIcon />,
+                });
+
+                // Mostrar toast de error
+            });
+    }
+
+    return {handleDelete};
+}
+
+
+export function CustomersTable({customersPage}: { customersPage: IPage<ICustomersTableHome> }) {
+    const [customers, setCustomers] = useState(customersPage.content);
+
+    // Considera usar useEffect para sincronizar
+    useEffect(() => {
+        setCustomers(customersPage.content);
+    }, [customersPage.content]);
+
+    const {handleDelete} = useDelete(setCustomers);
+
+    const {sortedItems, setSortDescriptor, sortDescriptor} = useSortedItems(customers);
+
+    const renderCell = (uid: CellKey, item: ICustomersTableHome): JSX.Element => {
+        if (uid === "actions") {
+            return (
+                <div className="relative flex justify-end items-center gap-2">
+                    <Dropdown className="bg-background border-1 border-default-200">
+                        <DropdownTrigger>
+                            <Button isIconOnly radius="full" size="sm" variant="light">
+                                <VerticalDotsIcon className="text-default-400"/>
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu>
+                            <DropdownItem key="edit">Editar</DropdownItem>
+                            <DropdownItem key="delete" onPress={() => handleDelete(item.customerNumber)}>Eliminar</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
+            );
+        }
+
+        if (uid === "status") {
+            const status = statusOptionsTableHome.find(option => option.uid === item.status);
+            return (
+                <Chip
+                    className="border-none gap-1 text-default-600"
+                    color={status?.color ?? "default"}
+                    size="sm"
+                    variant="flat"
+                >
+                    {status?.name ?? item.status}
+                </Chip>
+            );
+        }
+
+        if (uid === "creditLimit") {
+            return <span className="text-default-500">{formatCurrency(item[uid])}</span>;
+        }
+
+        if (uid === "customerNumber") {
+            return <span className="text-default-500 font-medium">{item[uid]}</span>;
+        }
+
+        return <span className="text-default-700">{item[uid as keyof ICustomersTableHome] ?? ""}</span>;
+    }
+
+
+    return <React.Fragment>
+        {/*<ModalEliminacionExitosa isOpen={isOpenDelete} onOpenChange={onOpenChangeDelete}/>*/}
         <Table
             isCompact
             removeWrapper
             aria-label="Tabla de clientes con celdas personalizadas, paginación y ordenamiento"
             bottomContent={
                 <TableBottomContent
-                    pages={customersPage.metadata?.totalPages || 1 }
+                    pages={customersPage.metadata?.totalPages || 1}
                 />
             }
             bottomContentPlacement="outside"
@@ -162,5 +184,5 @@ export function CustomersTable({customersPage}: { customersPage: IPage<ICustomer
                 )}
             </TableBody>
         </Table>
-    )
+    </React.Fragment>
 }

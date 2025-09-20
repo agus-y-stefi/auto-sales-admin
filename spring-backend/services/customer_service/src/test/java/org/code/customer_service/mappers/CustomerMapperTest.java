@@ -1,7 +1,7 @@
 package org.code.customer_service.mappers;
 
 import org.code.customer_service.dtos.CustomerDto;
-import org.code.customer_service.dtos.CustomerDtoCreateUpdate;
+import org.code.customer_service.dtos.CustomerDtoCreate;
 import org.code.customer_service.models.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -182,16 +182,15 @@ class CustomerMapperTest {
         @DisplayName("Should map all fields except customerNumber from CreateUpdate DTO")
         void toEntity_WithCustomerDtoCreateUpdate_ShouldMapFieldsWithoutCustomerNumber() {
             // ARRANGE
-            CustomerDtoCreateUpdate createUpdateDto = CustomerDtoCreateUpdate.builder()
-                    .customerName("New Company")
-                    .contactFirstName("Alice")
-                    .contactLastName("Johnson")
-                    .phone("+44-20-7946-0958")
-                    .city("London")
-                    .country("UK")
-                    .creditLimit(new BigDecimal("75000.00"))
-                    .build();
-
+            CustomerDtoCreate createUpdateDto = new CustomerDtoCreate(
+                    "New Company",
+                    "Alice",
+                    "Johnson",
+                    "+44-20-7946-0958",
+                    "London",
+                    "UK",
+                    new BigDecimal("75000.00")
+            );
             // ACT
             Customer result = customerMapper.toEntity(createUpdateDto);
 
@@ -212,7 +211,7 @@ class CustomerMapperTest {
         @DisplayName("Should return null when CustomerDtoCreateUpdate is null")
         void toEntity_WithNullCustomerDtoCreateUpdate_ShouldReturnNull() {
             // ARRANGE
-            CustomerDtoCreateUpdate createUpdateDto = null;
+            CustomerDtoCreate createUpdateDto = null;
 
             // ACT
             Customer result = customerMapper.toEntity(createUpdateDto);

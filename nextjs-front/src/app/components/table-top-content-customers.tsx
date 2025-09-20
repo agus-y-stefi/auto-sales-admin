@@ -54,7 +54,6 @@ export function TableTopContent({
 
     const handleStatusFilter = (keys: Selection) => {
         const newStatusFilter = new Set(keys as Set<string>);
-        console.log(newStatusFilter);
 
         const param = new URLSearchParams(searchParams);
         param.set('page', '1');

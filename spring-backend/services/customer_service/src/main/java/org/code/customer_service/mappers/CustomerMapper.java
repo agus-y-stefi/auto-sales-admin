@@ -1,7 +1,8 @@
 package org.code.customer_service.mappers;
 
 import org.code.customer_service.dtos.CustomerDto;
-import org.code.customer_service.dtos.CustomerDtoCreateUpdate;
+import org.code.customer_service.dtos.CustomerDtoCreate;
+import org.code.customer_service.dtos.CustomerDtoUpdate;
 import org.code.customer_service.models.Customer;
 import org.springframework.stereotype.Service;
 
@@ -48,20 +49,20 @@ public class CustomerMapper {
                 .build();
     }
 
-    public Customer toEntity(CustomerDtoCreateUpdate customerDtoCreateUpdate) {
-        if (customerDtoCreateUpdate == null) {
+    public Customer toEntity(CustomerDtoCreate customerDtoCreate) {
+        if (customerDtoCreate == null) {
             return null;
         }
 
         return Customer.builder()
-                .customerName(customerDtoCreateUpdate.getCustomerName())
-                .contactFirstName(customerDtoCreateUpdate.getContactFirstName())
-                .contactLastName(customerDtoCreateUpdate.getContactLastName())
-                .phone(customerDtoCreateUpdate.getPhone())
-                .city(customerDtoCreateUpdate.getCity())
-                .country(customerDtoCreateUpdate.getCountry())
-                .creditLimit(customerDtoCreateUpdate.getCreditLimit())
-                .status(customerDtoCreateUpdate.getStatus())
+                .customerName(customerDtoCreate.getCustomerName())
+                .contactFirstName(customerDtoCreate.getContactFirstName())
+                .contactLastName(customerDtoCreate.getContactLastName())
+                .phone(customerDtoCreate.getPhone())
+                .city(customerDtoCreate.getCity())
+                .country(customerDtoCreate.getCountry())
+                .creditLimit(customerDtoCreate.getCreditLimit())
+                .status("active")
                 .build();
     }
 
@@ -85,7 +86,7 @@ public class CustomerMapper {
                 .collect(Collectors.toList());
     }
 
-    public Customer mergeUpdate(Customer originalCustomer, CustomerDtoCreateUpdate customerToUpdate) {
+    public Customer mergeUpdate(Customer originalCustomer, CustomerDtoUpdate customerToUpdate) {
         if (originalCustomer == null || customerToUpdate == null) {
             return originalCustomer;
         }

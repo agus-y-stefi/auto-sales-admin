@@ -15,9 +15,7 @@ export default async function Page(props: {
 
     const customers = await getCustomersHomeTable(parseInt(page || "0"), parseInt(limit), status, query);
 
-    // TODO: AGREGAR LISTA DE STATUS AL BACKEND
 
-    const numberOFPages = Number(limit);
     return (
         <div className="container mx-auto p-10">
             <h1 className="text-2xl font-bold my-5 ">Gestor de Ventas Scale Cars</h1>
