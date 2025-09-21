@@ -1,21 +1,6 @@
 "use client"
 
 import React, {JSX, useEffect, useState} from "react"
-import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    Button,
-    DropdownTrigger,
-    Dropdown,
-    DropdownMenu,
-    DropdownItem,
-    Chip, addToast,
-} from "@heroui/react"
-import type {SortDescriptor} from "@heroui/react"
 
 import {TableTopContent} from "./table-top-content-customers"
 import {TableBottomContent} from "./table-bottom-content"
@@ -23,7 +8,6 @@ import {VerticalDotsIcon} from "./icons/index"
 import {formatCurrency} from "@/app/lib/utils/format";
 import {IPage, ICustomersTableHome, deleteCustomer} from "@/contracts";
 import {CellKey, tableClassNames, statusOptionsTableHome, columnsCustomersTableHome} from "@/app/lib/config/tables/customer-home.config";
-import {CloseIcon} from "@heroui/shared-icons";
 
 const useSortedItems = (customers: ICustomersTableHome[]) => {
     const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({

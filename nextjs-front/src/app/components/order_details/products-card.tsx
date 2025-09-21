@@ -1,5 +1,4 @@
 import React from "react";
-import { Card, CardHeader, CardBody, Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/react";
 
 interface Product {
   codigo: string;

@@ -1,10 +1,8 @@
 "use client"
 
 import React, {useMemo} from "react"
-import {Input, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, useDisclosure} from "@heroui/react"
 import {SearchIcon, ChevronDownIcon, PlusIcon} from "./icons"
 import {capitalize} from "./utils/helpers"
-import type {Selection} from "@heroui/react";
 import {ModalNewCustomer} from "./modal-new-customer";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useDebouncedCallback} from "use-debounce";

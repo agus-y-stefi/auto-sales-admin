@@ -1,16 +1,5 @@
 "use client";
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    Input,
-    Select,
-    SelectItem,
-    Textarea,
-} from "@heroui/react";
+
 import { JSX, SVGProps } from "react";
 
 export const TagIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {

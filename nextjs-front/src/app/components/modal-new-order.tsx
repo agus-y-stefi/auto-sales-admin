@@ -1,16 +1,5 @@
 "use client";
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    useDisclosure,
-    Input,
-    Select,
-    SelectItem, DatePicker,
-} from "@heroui/react";
+
 import { JSX, SVGProps } from "react";
 
 export const MailIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {

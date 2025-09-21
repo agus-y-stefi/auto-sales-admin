@@ -1,6 +1,4 @@
 "use client"
-import {Pagination} from "@heroui/react"
-import {useDebouncedCallback} from "use-debounce";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 interface TableBottomContentProps {
