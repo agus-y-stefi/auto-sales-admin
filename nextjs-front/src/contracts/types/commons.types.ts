@@ -14,3 +14,8 @@ export const DEFAULT_PAGE_NULL = {
         totalPages: 0
     }
 }
+
+export interface SortDescriptor {
+    column: string
+    direction: "ascending" | "descending"
+}

@@ -2,10 +2,10 @@ import type React from "react"
 import type {Metadata} from "next"
 import {Inter} from "next/font/google"
 import PersistentDrawerLeft from "@/app/components/sidebar";
-import {Box} from '@mui/material';
 
-import "./styles/globals.css"
-import Providers from "@/app/providers";
+import { Toaster } from "@/components/ui/sonner"
+
+import "./globals.css"
 
 const inter = Inter({subsets: ["latin"]})
 
@@ -22,12 +22,11 @@ export default function RootLayout({
     return (
         <html lang="es">
         <body className={`${inter.className} min-h-screen`}>
-        <Providers>
             <PersistentDrawerLeft>
                 {/* Your page content will be rendered inside the Main component of the sidebar */}
                 {children}
+                <Toaster />
             </PersistentDrawerLeft>
-        </Providers>
         </body>
         </html>
     )
