@@ -9,16 +9,7 @@ import java.time.LocalDate;
 @Builder
 public class OrderSearchCriteria {
 
-    private String status;
-    private LocalDate orderDateFrom;
-    private LocalDate orderDateTo;
-    private LocalDate requiredDateFrom;
-    private LocalDate requiredDateTo;
-    private LocalDate shippedDateFrom;
-    private LocalDate shippedDateTo;
-    private Long customerNumber;
-    private Long salesRepEmployeeNumber;
-    private String comments;
+    private String q;
 
     // Parámetros para búsqueda de texto
     private Boolean exactMatch; // true para búsqueda exacta, false para LIKE
@@ -28,21 +19,8 @@ public class OrderSearchCriteria {
         this.exactMatch = false; // Por defecto búsqueda con LIKE
     }
 
-    public OrderSearchCriteria(String status, LocalDate orderDateFrom, LocalDate orderDateTo,
-                               LocalDate requiredDateFrom, LocalDate requiredDateTo,
-                               LocalDate shippedDateFrom, LocalDate shippedDateTo,
-                               Long customerNumber, Long salesRepEmployeeNumber,
-                               String comments, Boolean exactMatch) {
-        this.status = status;
-        this.orderDateFrom = orderDateFrom;
-        this.orderDateTo = orderDateTo;
-        this.requiredDateFrom = requiredDateFrom;
-        this.requiredDateTo = requiredDateTo;
-        this.shippedDateFrom = shippedDateFrom;
-        this.shippedDateTo = shippedDateTo;
-        this.customerNumber = customerNumber;
-        this.salesRepEmployeeNumber = salesRepEmployeeNumber;
-        this.comments = comments;
-        this.exactMatch = exactMatch != null ? exactMatch : false;
+    public OrderSearchCriteria(String q, Boolean exactMatch) {
+        this.q = q;
+        this.exactMatch = exactMatch;
     }
 }

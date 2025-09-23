@@ -4,8 +4,10 @@ import org.code.orders_service.models.OrderDetail;
 import org.code.orders_service.models.serializable.OrderDetailId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -13,4 +15,11 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, OrderD
 
     List<OrderDetail> findByOrderNumber(Long orderNumber);
     void deleteByOrderNumber(Long orderNumber);
+
+    @Query("""
+        SELECT d.order.orderNumber, SUM(d.priceEach * d.quantityOrdered)
+        FROM OrderDetail d
+        GROUP BY d.order.orderNumber
+    """)
+    List<Object[]> findAllOrderTotals();
 }
