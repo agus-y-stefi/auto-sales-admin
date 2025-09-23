@@ -1,13 +1,12 @@
 package org.code.orders_service.mappers;
 
-import org.code.orders_service.dtos.OrderDto;
-import org.code.orders_service.dtos.OrderDtoCreateUpdate;
-import org.code.orders_service.dtos.OrderDetailDto;
-import org.code.orders_service.dtos.PaymentDto;
+import org.code.orders_service.dtos.*;
 import org.code.orders_service.models.Order;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +45,20 @@ public class OrderMapper {
                                         .build())
                                 .collect(Collectors.toList()) : null)
                 .build();
+    }
+
+    public OrderDtoResume toDtoResume(Order order, Map<Integer, String> allCustomersName, Map<Long, BigDecimal> totalsMap) {
+        if (order == null) {
+            return null;
+        }
+        return OrderDtoResume.builder()
+                .orderNumber(order.getOrderNumber())
+                .orderDate(order.getOrderDate())
+                .status(order.getStatus())
+                .customerName(allCustomersName.get(Math.toIntExact(order.getCustomerNumber())))
+                .totalPrice(totalsMap.getOrDefault(order.getOrderNumber(), BigDecimal.ZERO))
+                .build();
+
     }
 
     public Order toEntity(OrderDto orderDto) {
@@ -130,4 +143,6 @@ public class OrderMapper {
 
         return originalOrder;
     }
+
+
 }

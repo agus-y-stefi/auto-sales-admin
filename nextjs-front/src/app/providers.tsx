@@ -1,13 +1,12 @@
-import {HeroUIProvider, ToastProvider} from "@heroui/react";
+import { Toaster } from "@/components/ui/sonner";
 import React from "react";
 
 export const Providers = ({children}: { children: React.ReactNode }) => {
-    return (
-        <HeroUIProvider>
-            <ToastProvider/>
-            {children}
-        </HeroUIProvider>
-    )
+    return <React.Fragment>
+        <Toaster />
+        {children}
+    </React.Fragment>
+
 
 }
 

@@ -1,8 +1,10 @@
 package org.code.orders_service.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.code.orders_service.dtos.CustomPagedDTO;
 import org.code.orders_service.dtos.OrderDto;
 import org.code.orders_service.dtos.OrderDtoCreateUpdate;
+import org.code.orders_service.dtos.OrderDtoResume;
 import org.code.orders_service.services.OrderService;
 import org.code.orders_service.specifications.criteria.OrderSearchCriteria;
 import org.springframework.data.domain.Page;
@@ -21,17 +23,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<Page<OrderDto>> getAllOrders(
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDateFrom,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDateTo,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate requiredDateFrom,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate requiredDateTo,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate shippedDateFrom,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate shippedDateTo,
-            @RequestParam(required = false) Long customerNumber,
-            @RequestParam(required = false) Long salesRepEmployeeNumber,
-            @RequestParam(required = false) String comments,
+    public ResponseEntity<CustomPagedDTO<OrderDto>> getAllOrders(
+            @RequestParam(required = false) String q,
             @RequestParam(required = false, defaultValue = "false") Boolean exactMatch,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
@@ -39,23 +32,40 @@ public class OrderController {
             @RequestParam(required = false) String sortDir
     ) {
         OrderSearchCriteria criteria = OrderSearchCriteria.builder()
-                .status(status)
-                .orderDateFrom(orderDateFrom)
-                .orderDateTo(orderDateTo)
-                .requiredDateFrom(requiredDateFrom)
-                .requiredDateTo(requiredDateTo)
-                .shippedDateFrom(shippedDateFrom)
-                .shippedDateTo(shippedDateTo)
-                .customerNumber(customerNumber)
-                .salesRepEmployeeNumber(salesRepEmployeeNumber)
-                .comments(comments)
+
                 .exactMatch(exactMatch)
                 .build();
 
         return ResponseEntity.ok(
-                orderService.getAllOrders(
-                        criteria,
-                        orderService.buildPageable(page, size, sortBy, sortDir)
+                CustomPagedDTO.from(
+                        orderService.getAllOrders(
+                                criteria,
+                                orderService.buildPageable(page, size, sortBy, sortDir)
+                        )
+                )
+        );
+    }
+
+    @GetMapping("/resume")
+    public ResponseEntity<CustomPagedDTO<OrderDtoResume>> getAllOrdersResume(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false, defaultValue = "false") Boolean exactMatch,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortDir
+    ) {
+        OrderSearchCriteria criteria = OrderSearchCriteria.builder()
+
+                .exactMatch(exactMatch)
+                .build();
+
+        return ResponseEntity.ok(
+                CustomPagedDTO.from(
+                        orderService.getAllOrdersResume(
+                                criteria,
+                                orderService.buildPageable(page, size, sortBy, sortDir)
+                        )
                 )
         );
     }

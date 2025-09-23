@@ -1,10 +1,13 @@
 package org.code.orders_service.services;
 
 import lombok.RequiredArgsConstructor;
+import org.code.orders_service.clients.CustomerClient;
 import org.code.orders_service.dtos.OrderDto;
 import org.code.orders_service.dtos.OrderDtoCreateUpdate;
+import org.code.orders_service.dtos.OrderDtoResume;
 import org.code.orders_service.mappers.OrderMapper;
 import org.code.orders_service.models.Order;
+import org.code.orders_service.repositories.OrderDetailRepository;
 import org.code.orders_service.repositories.OrderRepository;
 import org.code.orders_service.specifications.OrderSpecifications;
 import org.code.orders_service.specifications.criteria.OrderSearchCriteria;
@@ -17,12 +20,20 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.math.BigDecimal;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
+
     private final OrderMapper orderMapper;
+
+    private final CustomerClient customerClient;
 
     public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria, Pageable pageable) {
         boolean hasFilters = !OrderSpecifications.hasNoFilters(criteria);
@@ -44,6 +55,38 @@ public class OrderService {
                     .map(orderMapper::toDto);
         }
     }
+
+    public Page<OrderDtoResume> getAllOrdersResume(OrderSearchCriteria criteria, Pageable pageable) {
+
+        boolean hasFilters = !OrderSpecifications.hasNoFilters(criteria);
+        Specification<Order> spec = hasFilters
+                ? OrderSpecifications.withCriteria(criteria)
+                : null;
+
+        Map<Long, BigDecimal> totalsMap = orderDetailRepository.findAllOrderTotals().stream()
+                .collect(Collectors.toMap(
+                        row -> (Long) row[0],
+                        row -> (BigDecimal) row[1]
+                ));
+
+        Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
+
+        if (pageable != null) {
+            return orderRepository.findAll(spec, pageable)
+                    .map(order -> orderMapper.toDtoResume(order, allCustomersName, totalsMap));
+        } else {
+            long count = hasFilters
+                    ? orderRepository.count(spec)
+                    : orderRepository.count();
+
+            Pageable fullPage = this.buildPageable(0, (int) count, null, null);
+
+            return orderRepository.findAll(spec, fullPage)
+                    .map(order -> orderMapper.toDtoResume(order, allCustomersName, totalsMap));
+        }
+
+    }
+
 
     public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria) {
         // Delegar al método principal con pageable = null
