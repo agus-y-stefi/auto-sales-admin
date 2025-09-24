@@ -1,16 +1,18 @@
 package org.code.orders_service.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
 
-// Configuración básica de RestClient
 @Configuration
 public class RestClientConfig {
 
     @Bean
-    public RestClient restClient() {
+    public RestClient customerRestClient(
+            @Value("${microservices.customer.url}") String customerServiceUrl) {
         return RestClient.builder()
+                .baseUrl(customerServiceUrl)
                 .build();
     }
 }

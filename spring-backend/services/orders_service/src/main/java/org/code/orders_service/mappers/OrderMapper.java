@@ -51,6 +51,7 @@ public class OrderMapper {
         if (order == null) {
             return null;
         }
+
         return OrderDtoResume.builder()
                 .orderNumber(order.getOrderNumber())
                 .orderDate(order.getOrderDate())

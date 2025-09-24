@@ -15,7 +15,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d ms-customers-db"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d ms-customers-db" ]
       interval: 5s
       retries: 5
 
@@ -32,7 +32,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d ms-orders-db"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d ms-orders-db" ]
       interval: 5s
       retries: 5
 
@@ -49,16 +49,16 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d ms-products-db"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d ms-products-db" ]
       interval: 5s
       retries: 5
 
   # Microservicios
-  customer_service:
+  customer-service:
     build:
       context: ./services/customer_service
       dockerfile: Dockerfile
-    container_name: customer_service
+    container_name: customer-service
     ports:
       - "8081:8081"
     depends_on:
@@ -69,11 +69,11 @@ services:
     networks:
       - backend
 
-  orders_service:
+  orders-service:
     build:
       context: ./services/orders_service
       dockerfile: Dockerfile
-    container_name: orders_service
+    container_name: orders-service
     ports:
       - "8082:8082"
     depends_on:
@@ -84,11 +84,11 @@ services:
     networks:
       - backend
 
-  product_service:
+  product-service:
     build:
       context: ./services/product_service
       dockerfile: Dockerfile
-    container_name: product_service
+    container_name: product-service
     ports:
       - "8083:8083"
     depends_on:
