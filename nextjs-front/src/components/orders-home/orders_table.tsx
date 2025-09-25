@@ -51,6 +51,12 @@ export function OrdersTable({ordersPage}: { ordersPage: IPage<IOrderTableHome> }
 
     const {sortedItems, sortDescriptor, handleSort} = useSortedItems<IOrderTableHome>(orders)
 
+    const [tipos, setTipos] = useState<Set<string>>(new Set());
+
+    useEffect(() => {
+        console.log(tipos);
+    }, [tipos]);
+
     const renderCell = (uid: OrderCellKey, item: IOrderTableHome): JSX.Element => {
         if (uid === "actions") {
             return (
@@ -79,23 +85,21 @@ export function OrdersTable({ordersPage}: { ordersPage: IPage<IOrderTableHome> }
             )
         }
 
-        if (uid === "status") {
-            const status = statusOptionsOrdersTableHome.find((option) => option.uid === item.status)
-            const getStatusVariant = (color: string) => {
-                switch (color) {
-                    case "success":
-                        return "default"
-                    case "danger":
-                        return "destructive"
-                    case "warning":
-                        return "secondary"
-                    default:
-                        return "outline"
-                }
-            }
 
-            return <Badge variant={getStatusVariant(status?.color ?? "default")}>{status?.name ?? item.status}</Badge>
+        if (uid === "status") {
+            const status = statusOptionsOrdersTableHome.find((option) => {
+                if (option.uid.toLowerCase() === item.status.toLowerCase()){
+                    console.log(`Renderizando estado: ${item.status}, buscando en opciones: ${option.uid}. la variante es ${option.color}`);
+                }
+
+                return option.uid.toLowerCase() === item.status.toLowerCase()
+            })
+
+            // @ts-ignore
+            return <Badge variant={status?.color ?? "outline"}>{status?.name ?? item.status}</Badge>
         }
+
+
 
         if (uid === "total") {
             return <span className="text-muted-foreground font-medium">{formatCurrency(item[uid])}</span>

@@ -12,8 +12,9 @@ export const columnsOrdersTableHome = [
 ]
 
 export const statusOptionsOrdersTableHome = [
-    { name: "Enviado", uid: "shipped", color: "success" as const },
-    { name: "Procesando", uid: "processing", color: "warning" as const },
-    { name: "Pendiente", uid: "pending", color: "secondary" as const },
-    { name: "Cancelado", uid: "cancelled", color: "danger" as const },
+    { name: "Enviado", uid: "Shipped",   color: "success" },
+    { name: "Procesando", uid: "Disputed", color: "warning" },
+    { name: "Pendiente", uid: "On Hold", color: "secondary" },
+    { name: "Resuelto", uid: "Resolved", color: "default" },
+    { name: "Cancelado", uid: "Cancelled", color: "destructive" },
 ]

@@ -5,49 +5,71 @@ import {usePagination} from "@/hooks/use_pagination";
 export function getPaginationRange(
     current: number,
     total: number,
-    maxVisible: number = 9 // número fijo de items (incluyendo 1 y last)
+    maxVisible: number = 9 // número máximo de items en el paginador
 ): (number | string)[] {
+    const safeTotal = Math.max(0, Math.floor(total))
+    const effectiveMaxVisible = Math.max(5, Math.floor(maxVisible))
+
+    if (safeTotal <= 0) {
+        return []
+    }
+
+    const safeCurrent = Math.min(Math.max(1, Math.floor(current)), safeTotal)
+
     // caso base: pocas páginas -> mostrar todas
-    if (total <= maxVisible) {
-        return Array.from({length: total}, (_, i) => i + 1)
+    if (safeTotal <= effectiveMaxVisible) {
+        return Array.from({length: safeTotal}, (_, i) => i + 1)
     }
 
-    const firstPage = 1
-    const lastPage = total
-    const middleSlots = maxVisible - 2 // espacio entre first y last
+    const siblingCount = Math.max(0, Math.floor((effectiveMaxVisible - 5) / 2))
+    const leftSiblingIndex = Math.max(safeCurrent - siblingCount, 2)
+    const rightSiblingIndex = Math.min(safeCurrent + siblingCount, safeTotal - 1)
 
-    let range: (number | string)[] = []
+    const shouldShowLeftDots = leftSiblingIndex > 2
+    const shouldShowRightDots = rightSiblingIndex < safeTotal - 1
 
-    // zona inicial (pegado al comienzo)
-    if (current <= middleSlots - 1) {
-        const visible = Array.from({length: middleSlots}, (_, i) => i + 1)
-        range = [...visible, "...", lastPage]
-        return range
+    if (!shouldShowLeftDots && shouldShowRightDots) {
+        const leftItemCount = effectiveMaxVisible - 2
+        const leftRange = Array.from({length: leftItemCount}, (_, i) => i + 1)
+        return [...leftRange, "...", safeTotal]
     }
 
-    // zona final (pegado al final)
-    if (current >= total - (middleSlots - 2)) {
-        const visible = Array.from(
-            {length: middleSlots},
-            (_, i) => total - middleSlots + 1 + i
+    if (shouldShowLeftDots && !shouldShowRightDots) {
+        const rightItemCount = effectiveMaxVisible - 2
+        const rightRange = Array.from(
+            {length: rightItemCount},
+            (_, i) => safeTotal - rightItemCount + 1 + i
         )
-        range = [firstPage, "...", ...visible]
-        return range
+        return [1, "...", ...rightRange]
     }
 
-    // zona intermedia
-    const sideSlots = middleSlots - 3 // ej: con maxVisible=7 → 4 slots → 1,…,[x-1,x,x+1],…,last
-    const start = current - Math.floor(sideSlots / 2)
-    const end = current + Math.floor(sideSlots / 2)
+    if (shouldShowLeftDots && shouldShowRightDots) {
+        const middleRange = Array.from(
+            {length: rightSiblingIndex - leftSiblingIndex + 1},
+            (_, i) => leftSiblingIndex + i
+        )
+        return [1, "...", ...middleRange, "...", safeTotal]
+    }
 
-    range = [firstPage, "...", ...Array.from({length: end - start + 1}, (_, i) => start + i), "...", lastPage]
-
-    return range
+    return Array.from({length: safeTotal}, (_, i) => i + 1)
 }
 
 export const PaginationBottom = ({pages}: { pages: number }) => {
 
-    const {goToPage, currentPage} = usePagination(pages);
+    const {goToPage, currentPage} = usePagination(pages)
+    const totalPages = Math.max(0, Math.floor(pages))
+    const safeCurrentPage = totalPages > 0 ? Math.min(Math.max(1, Math.floor(currentPage)), totalPages) : 1
+    const paginationRange = totalPages > 0 ? getPaginationRange(safeCurrentPage, totalPages) : []
+
+    const handleGoToPage = (page: number) => {
+        if (totalPages === 0) return
+
+        const nextPage = Math.min(Math.max(page, 1), totalPages)
+
+        if (nextPage !== safeCurrentPage) {
+            goToPage(nextPage)
+        }
+    }
 
     return <React.Fragment>
 
@@ -60,21 +82,23 @@ export const PaginationBottom = ({pages}: { pages: number }) => {
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault()
-                                if (currentPage > -2) goToPage(currentPage - 1)
+                                if (safeCurrentPage > 1) {
+                                    handleGoToPage(safeCurrentPage - 1)
+                                }
                             }}
                         />
                     </PaginationItem>
 
                     {/* Números de página con truncamiento */}
-                    {getPaginationRange(currentPage, pages - 3).map((page, i) =>
+                    {paginationRange.map((page, i) =>
                         typeof page === "number" ? (
                             <PaginationItem key={i}>
                                 <PaginationLink
                                     href="#"
-                                    isActive={page === currentPage}
+                                    isActive={page === safeCurrentPage}
                                     onClick={(e) => {
                                         e.preventDefault()
-                                        goToPage(page)
+                                        handleGoToPage(page)
                                     }}
                                 >
                                     {page}
@@ -93,7 +117,9 @@ export const PaginationBottom = ({pages}: { pages: number }) => {
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault()
-                                if (currentPage < pages - 3) goToPage(currentPage + 1)
+                                if (totalPages > 0 && safeCurrentPage < totalPages) {
+                                    handleGoToPage(safeCurrentPage + 1)
+                                }
                             }}
                         />
                     </PaginationItem>
