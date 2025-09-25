@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -25,15 +26,15 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<CustomPagedDTO<OrderDto>> getAllOrders(
             @RequestParam(required = false) String q,
-            @RequestParam(required = false, defaultValue = "false") Boolean exactMatch,
+            @RequestParam(required = false) List<String> status,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortDir
     ) {
         OrderSearchCriteria criteria = OrderSearchCriteria.builder()
-
-                .exactMatch(exactMatch)
+                .status(status)
+                .q(q)
                 .build();
 
         return ResponseEntity.ok(
@@ -48,16 +49,16 @@ public class OrderController {
 
     @GetMapping("/resume")
     public ResponseEntity<CustomPagedDTO<OrderDtoResume>> getAllOrdersResume(
+            @RequestParam(required = false) List<String> status,
             @RequestParam(required = false) String q,
-            @RequestParam(required = false, defaultValue = "false") Boolean exactMatch,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortDir
     ) {
         OrderSearchCriteria criteria = OrderSearchCriteria.builder()
-
-                .exactMatch(exactMatch)
+                .q(q)
+                .status(status)
                 .build();
 
         return ResponseEntity.ok(

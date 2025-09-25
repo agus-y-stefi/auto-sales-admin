@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -11,16 +12,12 @@ public class OrderSearchCriteria {
 
     private String q;
 
-    // Parámetros para búsqueda de texto
-    private Boolean exactMatch; // true para búsqueda exacta, false para LIKE
+    // Filtro por estado(s)
+    private List<String> status;
 
-    // Constructor sin parámetros para usar con @Builder
-    public OrderSearchCriteria() {
-        this.exactMatch = false; // Por defecto búsqueda con LIKE
-    }
-
-    public OrderSearchCriteria(String q, Boolean exactMatch) {
+    public OrderSearchCriteria(String q, List<String> status) {
         this.q = q;
-        this.exactMatch = exactMatch;
+        this.status = status;
     }
+
 }

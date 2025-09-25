@@ -11,14 +11,15 @@ export default async function Page(props: {
     }>;
 }) {
     const searchParams = await props.searchParams;
-    const {page="1", limit="10", query="", status=""} = searchParams || {
+    const {page="1", limit="10", query, status=""} = searchParams || {
         page: "1",
         limit: "5",
-        query: "",
         status: ""
     };
 
-    const orders = await  getOrdersHomeTable(parseInt(page) - 1, parseInt(limit));
+    const statusParam = status.split(",");
+
+    const orders = await  getOrdersHomeTable(parseInt(page) - 1, parseInt(limit), statusParam, query);
 
     return (
         <div className="container mx-auto p-10">

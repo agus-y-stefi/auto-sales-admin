@@ -36,7 +36,7 @@ public class OrderService {
     private final CustomerClient customerClient;
 
     public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria, Pageable pageable) {
-        boolean hasFilters = !OrderSpecifications.hasNoFilters(criteria);
+        boolean hasFilters = OrderSpecifications.hasFilters(criteria);
         Specification<Order> spec = hasFilters
                 ? OrderSpecifications.withCriteria(criteria)
                 : null;
@@ -58,11 +58,6 @@ public class OrderService {
 
     public Page<OrderDtoResume> getAllOrdersResume(OrderSearchCriteria criteria, Pageable pageable) {
 
-        boolean hasFilters = !OrderSpecifications.hasNoFilters(criteria);
-        Specification<Order> spec = hasFilters
-                ? OrderSpecifications.withCriteria(criteria)
-                : null;
-
         Map<Long, BigDecimal> totalsMap = orderDetailRepository.findAllOrderTotals().stream()
                 .collect(Collectors.toMap(
                         row -> (Long) row[0],
@@ -71,35 +66,9 @@ public class OrderService {
 
         Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
 
-        if (pageable != null) {
-            return orderRepository.findAll(spec, pageable)
-                    .map(order -> orderMapper.toDtoResume(order, allCustomersName, totalsMap));
-        } else {
-            long count = hasFilters
-                    ? orderRepository.count(spec)
-                    : orderRepository.count();
+        return this.getAllOrders(criteria, pageable)
+                .map(orderDto -> orderMapper.toDtoResume(orderDto, allCustomersName, totalsMap));
 
-            Pageable fullPage = this.buildPageable(0, (int) count, null, null);
-
-            return orderRepository.findAll(spec, fullPage)
-                    .map(order -> orderMapper.toDtoResume(order, allCustomersName, totalsMap));
-        }
-
-    }
-
-
-    public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria) {
-        // Delegar al método principal con pageable = null
-        return getAllOrders(criteria, null);
-    }
-
-    public Page<OrderDto> getAllOrders() {
-        // Crear criteria vacío y delegar
-        return getAllOrders(
-                OrderSearchCriteria
-                        .builder()
-                        .build()
-        );
     }
 
     public OrderDto getOrderById(Long id) {

@@ -62,6 +62,21 @@ public class OrderMapper {
 
     }
 
+    public OrderDtoResume toDtoResume(OrderDto order, Map<Integer, String> allCustomersName, Map<Long, BigDecimal> totalsMap) {
+        if (order == null) {
+            return null;
+        }
+
+        return OrderDtoResume.builder()
+                .orderNumber(order.getOrderNumber())
+                .orderDate(order.getOrderDate())
+                .status(order.getStatus())
+                .customerName(allCustomersName.get(Math.toIntExact(order.getCustomerNumber())))
+                .totalPrice(totalsMap.getOrDefault(order.getOrderNumber(), BigDecimal.ZERO))
+                .build();
+
+    }
+
     public Order toEntity(OrderDto orderDto) {
         if (orderDto == null) {
             return null;

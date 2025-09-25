@@ -3,8 +3,8 @@ import {IOrderTableHome, IPage} from "@/contracts";
 
 import {deleteOrder as deleteOrderClient, getAllOrdersResume} from "@/clients";
 
-export const getOrdersHomeTable = async (page: number, limit:number): Promise<IPage<IOrderTableHome>> =>{
-    const response = await getAllOrdersResume({page: page, size: limit});
+export const getOrdersHomeTable = async (page: number, limit:number, status? : string[], q?: string ): Promise<IPage<IOrderTableHome>> =>{
+    const response = await getAllOrdersResume({page: page, size: limit, status: status, q:q});
 
     if (!response || !response.data) {
         throw new Error("No orders found");

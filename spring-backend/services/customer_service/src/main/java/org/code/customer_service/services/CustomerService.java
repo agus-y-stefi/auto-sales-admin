@@ -18,13 +18,14 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-
 
 
     public Page<CustomerDto> getAllCustomers(CustomerSearchCriteria criteria, Pageable pageable) {
