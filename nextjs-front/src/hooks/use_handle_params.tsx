@@ -1,6 +1,6 @@
 "use client";
 import {usePathname, useRouter, useSearchParams} from "next/navigation"
-import {useMemo} from "react"
+import {useMemo, useState} from "react"
 import {useDebouncedCallback} from "use-debounce";
 
 export const useHandleParams = () => {
@@ -12,7 +12,7 @@ export const useHandleParams = () => {
 
     const statusFilter = useMemo(() => new Set(statusParam?.split(",") ?? []), [statusParam])
 
-    const query = searchParams.get("query");
+    const query  = searchParams.get("query");
 
     const handleStatusFilter = (uid: string) => {
         const newStatusFilter = new Set(statusFilter)
@@ -46,6 +46,7 @@ export const useHandleParams = () => {
         } else {
             param.delete("query")
         }
+
 
         replace(`${pathname}?${param.toString()}`)
     }, 300);

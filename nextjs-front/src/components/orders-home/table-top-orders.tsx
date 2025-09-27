@@ -1,14 +1,15 @@
 "use client"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Search, Plus, ChevronDown } from "lucide-react"
+import {Input} from "@/components/ui/input"
+import {Button} from "@/components/ui/button"
+import {Search, Plus, ChevronDown} from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useHandleParams } from "@/hooks/use_handle_params"
+import {useHandleParams} from "@/hooks/use_handle_params"
+import {ClearableInput} from "@/components/ui/clearable-input";
 
 interface TableTopOrdersProps {
     ordersLength: number
@@ -16,27 +17,19 @@ interface TableTopOrdersProps {
     setIsNewOrderModalOpen: (open: boolean) => void
 }
 
-export function TableTopOrders({ ordersLength, statusOptions, setIsNewOrderModalOpen }: TableTopOrdersProps) {
+export function TableTopOrders({ordersLength, statusOptions, setIsNewOrderModalOpen}: TableTopOrdersProps) {
 
-    const { handleSearch, handleStatusFilter, statusFilter, query } = useHandleParams()
+    const {handleSearch, handleStatusFilter, statusFilter, query} = useHandleParams()
 
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-between gap-3 items-end">
                 <div className="flex gap-3">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                        <Input
-                            placeholder="Buscar por número o cliente..."
-                            className="pl-10 min-w-[200px]"
-                            defaultValue={query || ""}
-                            onChange={(e) => handleSearch(e.target.value)}
-                        />
-                    </div>
+                    <ClearableInput/>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm">
-                                Estado <ChevronDown className="ml-2 h-4 w-4" />
+                                Estado <ChevronDown className="ml-2 h-4 w-4"/>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-48">
@@ -58,7 +51,7 @@ export function TableTopOrders({ ordersLength, statusOptions, setIsNewOrderModal
                             setIsNewOrderModalOpen(true)
                         }}
                     >
-                        <Plus className="h-4 w-4 mr-2" />
+                        <Plus className="h-4 w-4 mr-2"/>
                         Nueva Orden
                     </Button>
                 </div>
