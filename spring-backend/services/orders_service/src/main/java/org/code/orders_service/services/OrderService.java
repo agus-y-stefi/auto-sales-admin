@@ -1,10 +1,13 @@
 package org.code.orders_service.services;
 
 import lombok.RequiredArgsConstructor;
+import org.code.orders_service.clients.CustomerClient;
 import org.code.orders_service.dtos.OrderDto;
 import org.code.orders_service.dtos.OrderDtoCreateUpdate;
+import org.code.orders_service.dtos.OrderDtoResume;
 import org.code.orders_service.mappers.OrderMapper;
 import org.code.orders_service.models.Order;
+import org.code.orders_service.repositories.OrderDetailRepository;
 import org.code.orders_service.repositories.OrderRepository;
 import org.code.orders_service.specifications.OrderSpecifications;
 import org.code.orders_service.specifications.criteria.OrderSearchCriteria;
@@ -17,15 +20,23 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.math.BigDecimal;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
+
     private final OrderMapper orderMapper;
 
+    private final CustomerClient customerClient;
+
     public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria, Pageable pageable) {
-        boolean hasFilters = !OrderSpecifications.hasNoFilters(criteria);
+        boolean hasFilters = OrderSpecifications.hasFilters(criteria);
         Specification<Order> spec = hasFilters
                 ? OrderSpecifications.withCriteria(criteria)
                 : null;
@@ -45,18 +56,19 @@ public class OrderService {
         }
     }
 
-    public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria) {
-        // Delegar al método principal con pageable = null
-        return getAllOrders(criteria, null);
-    }
+    public Page<OrderDtoResume> getAllOrdersResume(OrderSearchCriteria criteria, Pageable pageable) {
 
-    public Page<OrderDto> getAllOrders() {
-        // Crear criteria vacío y delegar
-        return getAllOrders(
-                OrderSearchCriteria
-                        .builder()
-                        .build()
-        );
+        Map<Long, BigDecimal> totalsMap = orderDetailRepository.findAllOrderTotals().stream()
+                .collect(Collectors.toMap(
+                        row -> (Long) row[0],
+                        row -> (BigDecimal) row[1]
+                ));
+
+        Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
+
+        return this.getAllOrders(criteria, pageable)
+                .map(orderDto -> orderMapper.toDtoResume(orderDto, allCustomersName, totalsMap));
+
     }
 
     public OrderDto getOrderById(Long id) {

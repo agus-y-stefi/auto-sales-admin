@@ -1,7 +1,8 @@
 package org.code.customer_service.mappers;
 
 import org.code.customer_service.dtos.CustomerDto;
-import org.code.customer_service.dtos.CustomerDtoCreateUpdate;
+import org.code.customer_service.dtos.CustomerDtoCreate;
+import org.code.customer_service.dtos.CustomerDtoUpdate;
 import org.code.customer_service.models.Customer;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,8 @@ public class CustomerMapper {
                 customer.getPhone(),
                 customer.getCity(),
                 customer.getCountry(),
-                customer.getCreditLimit()
+                customer.getCreditLimit(),
+                customer.getStatus()
         );
 
     }
@@ -43,22 +45,24 @@ public class CustomerMapper {
                 .city(customerDto.getCity())
                 .country(customerDto.getCountry())
                 .creditLimit(customerDto.getCreditLimit())
+                .status(customerDto.getStatus())
                 .build();
     }
 
-    public Customer toEntity(CustomerDtoCreateUpdate customerDtoCreateUpdate) {
-        if (customerDtoCreateUpdate == null) {
+    public Customer toEntity(CustomerDtoCreate customerDtoCreate) {
+        if (customerDtoCreate == null) {
             return null;
         }
 
         return Customer.builder()
-                .customerName(customerDtoCreateUpdate.getCustomerName())
-                .contactFirstName(customerDtoCreateUpdate.getContactFirstName())
-                .contactLastName(customerDtoCreateUpdate.getContactLastName())
-                .phone(customerDtoCreateUpdate.getPhone())
-                .city(customerDtoCreateUpdate.getCity())
-                .country(customerDtoCreateUpdate.getCountry())
-                .creditLimit(customerDtoCreateUpdate.getCreditLimit())
+                .customerName(customerDtoCreate.getCustomerName())
+                .contactFirstName(customerDtoCreate.getContactFirstName())
+                .contactLastName(customerDtoCreate.getContactLastName())
+                .phone(customerDtoCreate.getPhone())
+                .city(customerDtoCreate.getCity())
+                .country(customerDtoCreate.getCountry())
+                .creditLimit(customerDtoCreate.getCreditLimit())
+                .status("active")
                 .build();
     }
 
@@ -82,7 +86,7 @@ public class CustomerMapper {
                 .collect(Collectors.toList());
     }
 
-    public Customer mergeUpdate(Customer originalCustomer, CustomerDtoCreateUpdate customerToUpdate) {
+    public Customer mergeUpdate(Customer originalCustomer, CustomerDtoUpdate customerToUpdate) {
         if (originalCustomer == null || customerToUpdate == null) {
             return originalCustomer;
         }
@@ -108,6 +112,10 @@ public class CustomerMapper {
         }
         if (customerToUpdate.getCreditLimit() != null) {
             originalCustomer.setCreditLimit(customerToUpdate.getCreditLimit());
+        }
+
+        if (customerToUpdate.getStatus() != null) {
+            originalCustomer.setStatus(customerToUpdate.getStatus());
         }
 
         return originalCustomer;

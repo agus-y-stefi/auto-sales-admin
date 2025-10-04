@@ -39,4 +39,7 @@ public class Customer {
 
     @Column(name = "credit_limit", nullable = false)
     private BigDecimal creditLimit;
+
+    @Column(name = "status", nullable = false)
+    private String status;
 }

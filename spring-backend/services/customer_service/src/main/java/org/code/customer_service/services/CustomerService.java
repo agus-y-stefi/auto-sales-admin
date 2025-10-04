@@ -2,7 +2,8 @@ package org.code.customer_service.services;
 
 import lombok.RequiredArgsConstructor;
 import org.code.customer_service.dtos.CustomerDto;
-import org.code.customer_service.dtos.CustomerDtoCreateUpdate;
+import org.code.customer_service.dtos.CustomerDtoCreate;
+import org.code.customer_service.dtos.CustomerDtoUpdate;
 import org.code.customer_service.mappers.CustomerMapper;
 import org.code.customer_service.models.Customer;
 import org.code.customer_service.repositories.CustomerRepository;
@@ -25,7 +26,6 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-
 
 
     public Page<CustomerDto> getAllCustomers(CustomerSearchCriteria criteria, Pageable pageable) {
@@ -70,13 +70,13 @@ public class CustomerService {
         );
     }
 
-    public CustomerDto createCustomer(CustomerDtoCreateUpdate customerDto) {
+    public CustomerDto createCustomer(CustomerDtoCreate customerDto) {
         Customer customer = customerMapper.toEntity(customerDto);
         Customer savedCustomer = customerRepository.save(customer);
         return customerMapper.toDto(savedCustomer);
     }
 
-    public CustomerDto updateCustomer(Integer id, CustomerDtoCreateUpdate customerDto) {
+    public CustomerDto updateCustomer(Integer id, CustomerDtoUpdate customerDto) {
         // Verificar que el cliente existe
         Customer originalCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));

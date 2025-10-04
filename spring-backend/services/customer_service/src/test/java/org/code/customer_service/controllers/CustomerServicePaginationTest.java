@@ -76,7 +76,8 @@ public class CustomerServicePaginationTest {
                         "+54 11 1234-5678",
                         "Buenos Aires",
                         "Argentina",
-                        new BigDecimal("15000.00")
+                        new BigDecimal("15000.00"),
+                        "vip"
                 ),
                 new CustomerDto(
                         2,
@@ -86,7 +87,8 @@ public class CustomerServicePaginationTest {
                         "+54 351 765-4321",
                         "Córdoba",
                         "Argentina",
-                        new BigDecimal("25000.00")
+                        new BigDecimal("25000.00"),
+                        "vip"
                 )
         );
     }

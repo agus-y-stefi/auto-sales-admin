@@ -1,4 +1,4 @@
-import {CustomerDto, CustomerDtoCreateUpdate, PagedModelCustomerDto} from "@/contracts/clients";
+import {CustomerDto, CustomerDtoCreate, PagedModelCustomerDto} from "@/contracts/clients";
 import {ICustomersTableHome, IPage, DEFAULT_PAGE_NULL, ICreateCustomer} from "@/contracts";
 
 export const toCustomersHomeTable = (customer: CustomerDto): ICustomersTableHome => {
@@ -10,11 +10,11 @@ export const toCustomersHomeTable = (customer: CustomerDto): ICustomersTableHome
         city: customer.city,
         country: customer.country,
         creditLimit: customer.creditLimit,
-        status: "Activo"
+        status: customer.status
     }
 }
 
-export const toCustomerDtoCreateUpdate = (customer: ICreateCustomer): CustomerDtoCreateUpdate => {
+export const toCustomerDtoCreate = (customer: ICreateCustomer): CustomerDtoCreate=> {
     return {
         customerName: customer.customerName,
         contactFirstName: customer.contactFirstName,
@@ -22,6 +22,6 @@ export const toCustomerDtoCreateUpdate = (customer: ICreateCustomer): CustomerDt
         phone: customer.phone,
         city: customer.city,
         country: customer.country,
-        creditLimit: customer.creditLimit
+        creditLimit: customer.creditLimit,
     }
 }

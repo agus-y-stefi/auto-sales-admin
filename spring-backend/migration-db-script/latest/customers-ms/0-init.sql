@@ -6,7 +6,7 @@ SET search_path TO customers_service, public;
 
 create table if not exists customers
 (
-    customer_number    int            not null,
+    customer_number    serial not null,
     customer_name      varchar(50)    null,
     contact_last_name  varchar(50)    null,
     contact_first_name varchar(50)    null,
@@ -53,5 +53,6 @@ alter table offices
 alter table employees
     add constraint employees_ibfk_2
         foreign key (office_code) references offices (office_code);
+
 
 

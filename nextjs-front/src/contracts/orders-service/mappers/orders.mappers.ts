@@ -1,7 +1,7 @@
 import {IOrderTableHome, IPage, DEFAULT_PAGE_NULL} from "@/contracts";
-import {PageOrderDto} from "@/clients"
+import {CustomPagedDTOOrderDtoResume, PageOrderDto} from "@/clients"
 
-export const toOrdersTableHome = (orders: PageOrderDto): IPage<IOrderTableHome> => {
+export const toOrdersTableHome = (orders: CustomPagedDTOOrderDtoResume): IPage<IOrderTableHome> => {
     if (!orders || !orders.content) {
         return DEFAULT_PAGE_NULL;
     }
@@ -11,8 +11,8 @@ export const toOrdersTableHome = (orders: PageOrderDto): IPage<IOrderTableHome> 
             orderNumber: order.orderNumber || 0,
             orderDate: order.orderDate || "",
             status: order.status || "Prepared",
-            customerName: "",
-            total: 0
+            customerName: order.customerName || "No Name",
+            total: order.totalPrice || 0
 
         }
     })
