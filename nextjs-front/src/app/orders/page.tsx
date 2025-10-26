@@ -11,7 +11,7 @@ export default async function Page(props: {
     }>;
 }) {
     const searchParams = await props.searchParams;
-    const {page="1", limit="10", query, status=""} = searchParams || {
+    const {page="1", limit="5", query, status=""} = searchParams || {
         page: "1",
         limit: "5",
         status: ""

@@ -1,5 +1,5 @@
 import {IOrderTableHome, IPage, DEFAULT_PAGE_NULL} from "@/contracts";
-import {CustomPagedDTOOrderDtoResume, PageOrderDto} from "@/clients"
+import {CustomPagedDTOOrderDtoResume} from "@/clients"
 
 export const toOrdersTableHome = (orders: CustomPagedDTOOrderDtoResume): IPage<IOrderTableHome> => {
     if (!orders || !orders.content) {

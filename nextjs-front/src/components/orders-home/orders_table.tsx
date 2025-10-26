@@ -16,6 +16,7 @@ import {deleteOrder} from "@/contracts"
 import {NewOrderModal} from "@/components/orders-home/new/new-order-modal"
 import {PaginationBottom} from "@/components/pagination_bottom";
 import {useSortedItems} from "@/hooks/use_sort"
+import {TableSizeBottom} from "@/components/table_size_bottom";
 
 const useDelete = (setOrders: React.Dispatch<React.SetStateAction<IOrderTableHome[]>>) => {
     const handleDelete = (orderNumber: number) => {
@@ -171,6 +172,7 @@ export function OrdersTable({ordersPage}: { ordersPage: IPage<IOrderTableHome> }
                             )}
                         </TableBody>
                     </Table>
+                    <TableSizeBottom pageInfo={ordersPage.metadata}/>
                 </div>
 
                 <PaginationBottom pages={ordersPage.metadata.totalPages || 1}/>

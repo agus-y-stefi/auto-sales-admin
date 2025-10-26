@@ -14,6 +14,7 @@ export const useHandleParams = () => {
 
     const query  = searchParams.get("query");
 
+
     const handleStatusFilter = (uid: string) => {
         const newStatusFilter = new Set(statusFilter)
 
@@ -51,15 +52,15 @@ export const useHandleParams = () => {
         replace(`${pathname}?${param.toString()}`)
     }, 300);
 
-    const handleLimitPage = (limit: number) => {
+    const handleLimitPage = (limit: string) => {
         const param = new URLSearchParams(searchParams);
 
         param.set('page', '1');
-        param.set('limit', limit.toString());
+        param.set('limit', limit);
 
         replace(`${pathname}?${param.toString()}`);
     }
 
 
-    return {handleSearch, handleStatusFilter, statusFilter, query}
+    return {handleSearch, handleStatusFilter, handleLimitPage, statusFilter, query}
 }

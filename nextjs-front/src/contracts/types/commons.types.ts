@@ -1,8 +1,24 @@
-import {PageMetadata} from "@/contracts/customer-service/generated/models";
 
 export interface IPage<T> {
     content: T[];
     metadata: PageMetadata;
+}
+
+export interface Sort{
+    property: string;
+    direction: string;
+}
+
+export interface PageMetadata{
+    totalElements?: number;
+    totalPages?: number;
+    number?: number;
+    size?: number;
+    first?: boolean;
+    last?: boolean;
+    hasNext?: boolean;
+    hasPrev?: boolean;
+    sort?: Sort[];
 }
 
 export const DEFAULT_PAGE_NULL = {
