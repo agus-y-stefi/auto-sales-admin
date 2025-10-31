@@ -21,3 +21,10 @@ export interface ICreateCustomer extends Omit<ICustomer,
     "customerNumber"
 >{
 }
+
+export interface ICustomerComboBox extends Omit<ICustomer,
+    'contactFirstName' | 'contactLastName' | 'creditLimit'
+>
+{
+
+}

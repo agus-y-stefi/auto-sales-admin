@@ -1,4 +1,4 @@
-import {CustomerDto, CustomerDtoCreate, PagedModelCustomerDto} from "@/contracts/clients";
+import {CustomerDto, CustomerDtoCreate} from "@/contracts/clients";
 import {ICustomersTableHome, IPage, DEFAULT_PAGE_NULL, ICreateCustomer} from "@/contracts";
 
 export const toCustomersHomeTable = (customer: CustomerDto): ICustomersTableHome => {
