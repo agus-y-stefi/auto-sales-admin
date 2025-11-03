@@ -1,6 +1,6 @@
-import {getAllCustomers, createCustomer, deleteCustomer as deleteCustomerClient } from "@/clients";
-import {toCustomerDtoCreate, toCustomersHomeTable} from "../mappers/customers.mappers";
-import {ICreateCustomer} from "@/contracts";
+import {getAllCustomers, createCustomer, deleteCustomer as deleteCustomerClient, getCustomerById as getCUstomerByIdClient } from "@/clients";
+import {toCustomer, toCustomerDtoCreate, toCustomerMinimalData, toCustomersHomeTable} from "../mappers/customers.mappers";
+import {ICreateCustomer, ICustomerMinimalData} from "@/contracts";
 
 
 export const getCustomersHomeTable = async (page?: number, size?: number, status?: string, query?: string) => {
@@ -38,4 +38,27 @@ export const deleteCustomer = async (customerNumber: number) => {
     }catch (e){
         throw new Error("Failed to delete customer");
     }
+}
+
+export const getCustomerById = async (customerNumber: number) => {
+    const response = await getCUstomerByIdClient(customerNumber);
+
+    if (!response || !response.data) {
+        throw new Error("Failed to fetch customer data");
+    }
+
+    return toCustomer(response.data);
+}
+
+export const getCustomersMinimalData = async () : Promise<ICustomerMinimalData[]> => {
+    const response  = await getAllCustomers();
+    if (!response || !response.data) {
+        throw new Error("Failed to fetch customers data");
+    }
+
+    const pagedModel = response.data;
+    const customers = pagedModel.content || [];
+
+    return customers.map(customer => toCustomerMinimalData(customer))
+
 }

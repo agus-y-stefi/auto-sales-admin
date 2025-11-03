@@ -7,10 +7,19 @@ import {Button} from "@/components/ui/button";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
 import {cn} from "@/lib/utils";
 
+export interface PairValueComboBox {
+    ID: string;
+    value: string;
+}
 
+export interface CustomComboboxProps {
+    data: PairValueComboBox[];
+    title?: string;
+    selectedData: string | undefined;
+    setSelectedData: (id: string) => void;
+}
 
-export function CustomCombobox({data, title} : {data: { ID: string, value: string }[], title?: string}) {
-    const [selectData, setSelectData] = React.useState<string | undefined>(undefined);
+export function CustomCombobox({data, title, selectedData, setSelectedData} : CustomComboboxProps) {
     const [open, setOpen] = React.useState(false)
 
     return (
@@ -22,8 +31,8 @@ export function CustomCombobox({data, title} : {data: { ID: string, value: strin
                     aria-expanded={open}
                     className="justify-between w-full px-3 py-2 text-left font-normal"
                 >
-                    {selectData
-                        ? data.find((d) => d.ID === selectData)?.value
+                    {selectedData
+                        ? data.find((d) => d.ID === selectedData)?.value
                         : `Select ${title || 'Data'}...`}
                     <ChevronsUpDown className="opacity-50"/>
                 </Button>
@@ -39,7 +48,7 @@ export function CustomCombobox({data, title} : {data: { ID: string, value: strin
                                     key={d.ID}
                                     value={d.value.toString()}
                                     onSelect={(currentValue) => {
-                                        setSelectData(d.ID.toString()) // 👈 pasa el ID al padre
+                                        setSelectedData(d.ID.toString()) // 👈 pasa el ID al padre
                                         setOpen(false)
                                     }}
                                 >
@@ -47,7 +56,7 @@ export function CustomCombobox({data, title} : {data: { ID: string, value: strin
                                     <Check
                                         className={cn(
                                             "ml-auto",
-                                            selectData === d.ID ? "opacity-100" : "opacity-0"
+                                            selectedData === d.ID ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                 </CommandItem>

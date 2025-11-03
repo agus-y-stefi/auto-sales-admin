@@ -1,5 +1,5 @@
 import {CustomerDto, CustomerDtoCreate} from "@/contracts/clients";
-import {ICustomersTableHome, IPage, DEFAULT_PAGE_NULL, ICreateCustomer} from "@/contracts";
+import {ICustomersTableHome, IPage, DEFAULT_PAGE_NULL, ICreateCustomer, ICustomer, ICustomerMinimalData} from "@/contracts";
 
 export const toCustomersHomeTable = (customer: CustomerDto): ICustomersTableHome => {
     return {
@@ -23,5 +23,25 @@ export const toCustomerDtoCreate = (customer: ICreateCustomer): CustomerDtoCreat
         city: customer.city,
         country: customer.country,
         creditLimit: customer.creditLimit,
+    }
+}
+
+export const toCustomer = (customer: CustomerDto): ICustomer => {
+    return {
+        customerNumber: customer.customerNumber,
+        customerName: customer.customerName,
+        contactFirstName: customer.contactFirstName,
+        contactLastName: customer.contactLastName,
+        phone: customer.phone,
+        city: customer.city,
+        country: customer.country,
+        creditLimit: customer.creditLimit,
+    }
+}
+
+export const toCustomerMinimalData = (customer: CustomerDto): ICustomerMinimalData => {
+    return {
+        customerNumber: customer.customerNumber,
+        customerName: customer.customerName
     }
 }
