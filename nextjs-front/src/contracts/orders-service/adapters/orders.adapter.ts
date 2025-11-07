@@ -30,13 +30,14 @@ export const deleteOrder = async (id: number): Promise<void> => {
 
 export const createOrder = async (orderData : ICreateOrder) =>{
     const orderDataDTO: OrderDtoCreateUpdate = {
-        orderDate: orderData.requiredDate,
         status: "In Process",
         comments: orderData.comments,
         requiredDate: orderData.requiredDate,
         customerNumber: orderData.customerNumber,
         salesRepEmployeeNumber: orderData.salesRepEmployeeNumber,
-        shippedDate: orderData.requiredDate,
     }
+
+    const r = await createOrderClient(orderDataDTO);
+
     // const r = await createOrderClient()
 }

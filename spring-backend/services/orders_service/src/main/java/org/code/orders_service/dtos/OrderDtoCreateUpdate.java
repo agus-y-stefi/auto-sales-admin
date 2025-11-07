@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class OrderDtoCreateUpdate {
 
-    private LocalDate orderDate;
+    private LocalDate orderDate = LocalDate.now();
     private LocalDate requiredDate;
     private LocalDate shippedDate;
     private String status;

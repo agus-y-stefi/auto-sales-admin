@@ -6,6 +6,7 @@ import {Check, ChevronLeft} from "lucide-react"
 import React, {useEffect, useState} from "react"
 import {getCustomerById, getEmployeeById, ICustomer, IEmployee} from "@/contracts";
 import {formatCurrency} from "@/lib/format";
+import {createOrder} from "@/contracts";
 
 export const ThirdStep = ({onOpenChange}: { onOpenChange: (open: boolean) => void }) => {
 
@@ -142,7 +143,16 @@ const BottomActions = ({onOpenChange}: { onOpenChange: (open: boolean) => void }
 
 
     const handleSubmit = () => {
-
+        createOrder(
+            {
+                customerNumber: parseInt(customerId || "0") ,
+                requiredDate: requiredDate?.toISOString() || new Date().toISOString(),
+                comments: comments || "",
+                salesRepEmployeeNumber: parseInt(salesRepId || "0"),
+            }
+        ).then((result) => {
+            console.log("Order created successfully");
+        })
     }
 
     return <React.Fragment>
