@@ -22,7 +22,7 @@ interface OrderState {
     // acciones
     setCustomer: (id: string) => void;
     setSalesRep: (id: string) => void;
-    setDate: (date: Date) => void;
+    setDate: (date: Date | undefined) => void;
     setComments: (comments: string) => void;
 
     toggleProduct: (product: IProductTableNewOrder) => void;
@@ -46,7 +46,7 @@ export const useOrderStore = create<OrderState>()((set) => ({
 
         setCustomer: (id) => set({customerId: id}),
         setSalesRep: (id) => set({salesRepId: id}),
-        setDate: (requiredDate) => set({requiredDate}),
+        setDate: (requiredDate : Date | undefined) => set({requiredDate}),
         setComments: (comments) => set({comments}),
 
         toggleProduct: (product) =>

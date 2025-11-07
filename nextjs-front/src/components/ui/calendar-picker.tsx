@@ -2,59 +2,91 @@
 
 import * as React from "react"
 import { CalendarIcon } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
-function formatDate(date: Date | undefined) {
-    if (!date) {
-        return ""
-    }
-
-    return date.toLocaleDateString("en-US", {
+function formatDate(date?: Date) {
+    if (!date) return ""
+    return date.toLocaleDateString("es-AR", {
         day: "2-digit",
-        month: "long",
+        month: "2-digit",
         year: "numeric",
     })
 }
 
-function isValidDate(date: Date | undefined) {
-    if (!date) {
-        return false
-    }
-    return !isNaN(date.getTime())
+function parseDateFromInput(value: string): Date | undefined {
+    // acepta formatos dd/mm/yyyy o dd-mm-yyyy
+    const regex = /^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/
+    const match = value.match(regex)
+    if (!match) return undefined
+
+    const [, d, m, y] = match
+    const day = parseInt(d, 10)
+    const month = parseInt(m, 10) - 1
+    const year = parseInt(y, 10)
+
+    const parsed = new Date(year, month, day)
+    // validar que sea real (por ejemplo, 31/02 → inválido)
+    return parsed.getDate() === day && parsed.getMonth() === month ? parsed : undefined
 }
 
-export function Calendar28() {
+function isValidDate(date?: Date) {
+    return !!date && !isNaN(date.getTime())
+}
+
+interface Calendar28Props {
+    /** Fecha seleccionada (puede ser undefined si no hay selección) */
+    date?: Date
+    /** Callback al cambiar la fecha */
+    onDateChange: (date: Date | undefined) => void
+    /** Placeholder que se muestra cuando no hay selección */
+    placeholder?: string
+    /** Clase opcional para el input */
+    className?: string
+}
+
+export function Calendar28({
+                               date,
+                               onDateChange,
+                               placeholder = "Seleccionar fecha (dd/mm/yyyy)",
+                               className,
+                           }: Calendar28Props) {
     const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(
-        new Date("2025-06-01")
-    )
     const [month, setMonth] = React.useState<Date | undefined>(date)
     const [value, setValue] = React.useState(formatDate(date))
+
+    // si cambia la fecha externa, actualizar input
+    React.useEffect(() => {
+        setValue(formatDate(date))
+        if (date) setMonth(date)
+    }, [date])
+
+    const handleChange = (newDate: Date | undefined) => {
+        onDateChange(newDate)
+        setValue(formatDate(newDate))
+        if (newDate) setMonth(newDate)
+    }
 
     return (
         <div className="flex flex-col gap-3">
             <div className="relative flex gap-2">
                 <Input
-                    id="date"
                     value={value}
-                    placeholder="June 01, 2025"
-                    className="bg-background pr-10"
+                    placeholder={placeholder}
+                    className={`bg-background pr-10 ${className ?? ""}`}
                     onChange={(e) => {
-                        const date = new Date(e.target.value)
-                        setValue(e.target.value)
-                        if (isValidDate(date)) {
-                            setDate(date)
-                            setMonth(date)
+                        const input = e.target.value
+                        setValue(input)
+
+                        if (input.trim() === "") {
+                            handleChange(undefined)
+                            return
                         }
+
+                        const parsed = parseDateFromInput(input)
+                        if (isValidDate(parsed)) handleChange(parsed)
                     }}
                     onKeyDown={(e) => {
                         if (e.key === "ArrowDown") {
@@ -66,7 +98,6 @@ export function Calendar28() {
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button
-                            id="date-picker"
                             variant="ghost"
                             className="absolute top-1/2 right-2 size-6 -translate-y-1/2"
                         >
@@ -86,9 +117,8 @@ export function Calendar28() {
                             captionLayout="dropdown"
                             month={month}
                             onMonthChange={setMonth}
-                            onSelect={(date) => {
-                                setDate(date)
-                                setValue(formatDate(date))
+                            onSelect={(selected) => {
+                                handleChange(selected)
                                 setOpen(false)
                             }}
                         />

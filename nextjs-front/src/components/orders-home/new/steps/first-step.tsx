@@ -22,12 +22,10 @@ export const FirstStep = ({onOpenChange}: {onOpenChange: (open: boolean) => void
                     <SelectSalesRep/>
                 </div>
                 <div className={"flex flex-col gap-1"}>
-                    <label className={"font-bold"}>Fecha Requerida *</label>
-                    <Calendar28/>
+                    <SelectRequiredDate/>
                 </div>
                 <div className={"flex flex-col gap-1"}>
-                    <label className={"font-bold"}>Comentarios</label>
-                    <Textarea placeholder={"Agrega comentarios adicionales sobre la orden..."}/>
+                    <CommentsInput />
                 </div>
             </div>
             <div className="flex justify-end gap-2 pt-4">
@@ -99,4 +97,33 @@ const SelectSalesRep = () => {
         <CustomCombobox data={salesRep} title={"Representantes de Ventas"} selectedData={salesRepSelectedData} setSelectedData={setSalesRepSelectedData}/>
     </React.Fragment>
 
+}
+
+const SelectRequiredDate = () => {
+    const requiredDate = useOrderStore(s => s.requiredDate);
+    const setRequiredDate = useOrderStore(s => s.setDate);
+
+    useEffect(() => {
+        console.log(requiredDate);
+    }, [requiredDate]);
+
+    return <React.Fragment>
+        <label className={"font-bold"}>Fecha Requerida *</label>
+        <Calendar28
+            date={requiredDate}
+            onDateChange={setRequiredDate}
+
+        />
+    </React.Fragment>
+}
+
+const CommentsInput = () => {
+    const comments = useOrderStore(s => s.comments);
+    const setComments = useOrderStore(s => s.setComments);
+    return <React.Fragment>
+        <label className={"font-bold"}>Comentarios</label>
+        <Textarea value={comments} placeholder={"Agrega comentarios adicionales sobre la orden..."} onChange={(e)=>{
+            setComments(e.target.value);
+        }}/>
+    </React.Fragment>
 }

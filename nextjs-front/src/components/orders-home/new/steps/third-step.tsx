@@ -7,13 +7,11 @@ import React, {useEffect, useState} from "react"
 import {getCustomerById, getEmployeeById, ICustomer, IEmployee} from "@/contracts";
 import {formatCurrency} from "@/lib/format";
 
-export const ThirdStep = ({onOpenChange} : {onOpenChange: (open: boolean) => void }) => {
+export const ThirdStep = ({onOpenChange}: { onOpenChange: (open: boolean) => void }) => {
 
     const setStep = useOrderStore(state => state.setStep);
 
-    const handleSubmit = () => {
-        // Aquí iría la lógica para enviar los datos al backend o procesarlos según sea necesario
-    }
+
 
     return <React.Fragment>
         <div className="py-4 ">
@@ -27,19 +25,8 @@ export const ThirdStep = ({onOpenChange} : {onOpenChange: (open: boolean) => voi
 
             </div>
 
-            <div className="flex justify-between pt-6">
-                <Button type="button" variant="outline" onClick={() => setStep(2)}>
-                    <ChevronLeft className="mr-2 h-4 w-4"/> Atrás
-                </Button>
-                <div className="flex gap-2">
-                    <Button type="button" variant="outline" onClick={() => onOpenChange(false) }>
-                        Cancelar
-                    </Button>
-                    <Button type="button" onClick={handleSubmit}>
-                        <Check className="mr-2 h-4 w-4"/> Crear Orden
-                    </Button>
-                </div>
-            </div>
+            <BottomActions onOpenChange={onOpenChange}/>
+
         </div>
     </React.Fragment>
 }
@@ -143,5 +130,34 @@ const ProductsSummary = () => {
                 <p className="text-sm">Los productos pueden agregarse después de crear la orden</p>
             </div>
         )}
+    </React.Fragment>
+}
+
+const BottomActions = ({onOpenChange}: { onOpenChange: (open: boolean) => void }) => {
+
+    const setStep = useOrderStore(state => state.setStep);
+
+    const {customerId, salesRepId, requiredDate, comments, selectedProducts} = useOrderStore(state => state);
+
+
+
+    const handleSubmit = () => {
+
+    }
+
+    return <React.Fragment>
+        <div className="flex justify-between sticky bottom-0 bg-white mt-4 border-t py-6">
+            <Button type="button" variant="outline" onClick={() => setStep(2)}>
+                <ChevronLeft className="mr-2 h-4 w-4"/> Atrás
+            </Button>
+            <div className="flex gap-2">
+                <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                    Cancelar
+                </Button>
+                <Button type="button" onClick={handleSubmit}>
+                    <Check className="mr-2 h-4 w-4"/> Crear Orden
+                </Button>
+            </div>
+        </div>
     </React.Fragment>
 }

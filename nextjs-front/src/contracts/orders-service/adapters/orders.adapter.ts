@@ -1,5 +1,6 @@
 import {toOrdersTableHome} from "@/contracts/orders-service/mappers/orders.mappers";
-import {IOrderTableHome, IPage} from "@/contracts";
+import {ICreateOrder, IOrder, IOrderTableHome, IPage} from "@/contracts";
+import {createOrder as createOrderClient, OrderDtoCreateUpdate} from "@/clients";
 
 import {deleteOrder as deleteOrderClient, getAllOrdersResume} from "@/clients";
 
@@ -25,4 +26,17 @@ export const deleteOrder = async (id: number): Promise<void> => {
         throw e;
     }
 
+}
+
+export const createOrder = async (orderData : ICreateOrder) =>{
+    const orderDataDTO: OrderDtoCreateUpdate = {
+        orderDate: orderData.requiredDate,
+        status: "In Process",
+        comments: orderData.comments,
+        requiredDate: orderData.requiredDate,
+        customerNumber: orderData.customerNumber,
+        salesRepEmployeeNumber: orderData.salesRepEmployeeNumber,
+        shippedDate: orderData.requiredDate,
+    }
+    // const r = await createOrderClient()
 }

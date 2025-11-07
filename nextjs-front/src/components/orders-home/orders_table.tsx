@@ -54,9 +54,7 @@ export function OrdersTable({ordersPage}: { ordersPage: IPage<IOrderTableHome> }
 
     const [tipos, setTipos] = useState<Set<string>>(new Set());
 
-    useEffect(() => {
-        console.log(tipos);
-    }, [tipos]);
+
 
     const renderCell = (uid: OrderCellKey, item: IOrderTableHome): JSX.Element => {
         if (uid === "actions") {
@@ -89,10 +87,6 @@ export function OrdersTable({ordersPage}: { ordersPage: IPage<IOrderTableHome> }
 
         if (uid === "status") {
             const status = statusOptionsOrdersTableHome.find((option) => {
-                if (option.uid.toLowerCase() === item.status.toLowerCase()){
-                    console.log(`Renderizando estado: ${item.status}, buscando en opciones: ${option.uid}. la variante es ${option.color}`);
-                }
-
                 return option.uid.toLowerCase() === item.status.toLowerCase()
             })
 
