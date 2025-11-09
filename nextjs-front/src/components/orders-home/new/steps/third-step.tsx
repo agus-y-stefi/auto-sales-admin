@@ -6,13 +6,14 @@ import {Check, ChevronLeft} from "lucide-react"
 import React, {useEffect, useState} from "react"
 import {getCustomerById, getEmployeeById, ICustomer, IEmployee} from "@/contracts";
 import {formatCurrency} from "@/lib/format";
-import {createOrder} from "@/contracts";
+import {createOrder, createOrderDetailsBulk} from "@/contracts";
+
+import {toast} from "sonner";
+import {createBulkOrderDetails} from "@/contracts/product-service/generated/api";
 
 export const ThirdStep = ({onOpenChange}: { onOpenChange: (open: boolean) => void }) => {
 
     const setStep = useOrderStore(state => state.setStep);
-
-
 
     return <React.Fragment>
         <div className="py-4 ">
@@ -140,19 +141,29 @@ const BottomActions = ({onOpenChange}: { onOpenChange: (open: boolean) => void }
 
     const {customerId, salesRepId, requiredDate, comments, selectedProducts} = useOrderStore(state => state);
 
+    const handleSubmit = async () => {
 
+        const orderCreatedData = {
+            customerNumber: parseInt(customerId || "0"),
+            requiredDate: requiredDate?.toISOString() || new Date().toISOString(),
+            comments: comments || "",
+            salesRepEmployeeNumber: parseInt(salesRepId || "0"),
+        }
 
-    const handleSubmit = () => {
-        createOrder(
-            {
-                customerNumber: parseInt(customerId || "0") ,
-                requiredDate: requiredDate?.toISOString() || new Date().toISOString(),
-                comments: comments || "",
-                salesRepEmployeeNumber: parseInt(salesRepId || "0"),
-            }
-        ).then((result) => {
-            console.log("Order created successfully");
-        })
+        const products = Object.values(selectedProducts);
+
+        const orderNumber = await createOrder(orderCreatedData);
+
+        if (products.length != 0) {
+            await createOrderDetailsBulk(orderNumber, products)
+        }
+
+        toast.success("Orden creada exitosamente");
+        // esperar 2 segundos y cerrar el modal
+        setTimeout(() => {
+            onOpenChange(false);
+        }, 1000);
+
     }
 
     return <React.Fragment>

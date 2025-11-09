@@ -38,6 +38,7 @@ export const createOrder = async (orderData : ICreateOrder) =>{
     }
 
     const r = await createOrderClient(orderDataDTO);
+    return r.data.orderNumber || 0;
 
     // const r = await createOrderClient()
 }

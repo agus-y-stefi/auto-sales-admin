@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,10 +76,18 @@ public class OrderDetailService {
         );
     }
 
-    public OrderDetailDto createOrderDetail(Long orderNumber, String productCode, OrderDetailDtoCreateUpdate orderDetailDto) {
-        OrderDetail orderDetail = orderDetailMapper.toEntity(orderDetailDto, orderNumber, productCode);
+    public OrderDetailDto createOrderDetail(OrderDetailDtoCreateUpdate orderDetailDto) {
+        OrderDetail orderDetail = orderDetailMapper.toEntity(orderDetailDto);
         OrderDetail savedOrderDetail = orderDetailRepository.save(orderDetail);
         return orderDetailMapper.toDto(savedOrderDetail);
+    }
+
+    public List<OrderDetailDto> createOrderDetails(List<OrderDetailDtoCreateUpdate> orderDetails) {
+        return orderDetailRepository.saveAll(
+                        orderDetails.stream().map(orderDetailMapper::toEntity).toList()
+                ).stream()
+                .map(orderDetailMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public OrderDetailDto updateOrderDetail(Long orderNumber, String productCode, OrderDetailDtoCreateUpdate orderDetailDto) {

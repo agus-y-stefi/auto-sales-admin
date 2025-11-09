@@ -37,14 +37,14 @@ public class OrderDetailMapper {
                 .build();
     }
 
-    public OrderDetail toEntity(OrderDetailDtoCreateUpdate orderDetailDtoCreateUpdate, Long orderNumber, String productCode) {
+    public OrderDetail toEntity(OrderDetailDtoCreateUpdate orderDetailDtoCreateUpdate) {
         if (orderDetailDtoCreateUpdate == null) {
             return null;
         }
 
         return OrderDetail.builder()
-                .orderNumber(orderNumber)
-                .productCode(productCode)
+                .orderNumber(orderDetailDtoCreateUpdate.getOrderNumber())
+                .productCode(orderDetailDtoCreateUpdate.getProductCode())
                 .quantityOrdered(orderDetailDtoCreateUpdate.getQuantityOrdered())
                 .priceEach(orderDetailDtoCreateUpdate.getPriceEach())
                 .build();
