@@ -15,3 +15,9 @@ export interface IOrderTableHome extends Omit<IOrder,
     customerName: string;
     total: number;
 }
+
+export interface ICreateOrder extends Omit<IOrder,
+    "orderNumber" | "orderDate" | "shippedDate" | "status"
+>{
+
+}

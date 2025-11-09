@@ -26,6 +26,8 @@
 
       "@/clients" : ["./src/contracts/clients"],
 
+      "@/stores" : ["./src/stores"],
+
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

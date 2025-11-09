@@ -1,4 +1,3 @@
-
 export interface IProduct {
     productCode: string;
     productName: string;
@@ -14,7 +13,12 @@ export interface IProduct {
 
 export interface IProductTableHome extends Omit<IProduct,
     "productScale" | "productDescription" | "productLineDescription" | "msrp"
->{
+> {
     MSRP: number;
     status: string;
+}
+
+export interface IProductTableNewOrder extends Omit<IProductTableHome,
+    "productVendor" | "buyPrice" | "status"
+> {
 }

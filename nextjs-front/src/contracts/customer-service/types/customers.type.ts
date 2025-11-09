@@ -10,6 +10,11 @@ export interface ICustomer {
     creditLimit: number;
 }
 
+export interface ICustomerMinimalData {
+    customerNumber: number;
+    customerName: string;
+}
+
 export interface ICustomersTableHome extends Omit<ICustomer,
     "contactLastName" | "contactFirstName"
 >{
@@ -20,4 +25,11 @@ export interface ICustomersTableHome extends Omit<ICustomer,
 export interface ICreateCustomer extends Omit<ICustomer,
     "customerNumber"
 >{
+}
+
+export interface ICustomerComboBox extends Omit<ICustomer,
+    'contactFirstName' | 'contactLastName' | 'creditLimit'
+>
+{
+
 }

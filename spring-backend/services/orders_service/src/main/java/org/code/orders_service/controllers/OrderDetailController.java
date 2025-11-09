@@ -66,13 +66,20 @@ public class OrderDetailController {
         return ResponseEntity.ok(orderDetail);
     }
 
-    @PostMapping("/{orderNumber}/{productCode}")
+    @PostMapping("/")
     public ResponseEntity<OrderDetailDto> createOrderDetail(
-            @PathVariable Long orderNumber,
-            @PathVariable String productCode,
             @RequestBody OrderDetailDtoCreateUpdate orderDetailDto) {
-        OrderDetailDto createdOrderDetail = orderDetailService.createOrderDetail(orderNumber, productCode, orderDetailDto);
+        OrderDetailDto createdOrderDetail = orderDetailService.createOrderDetail(orderDetailDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderDetail);
+    }
+
+    // create bulk order details
+    @PostMapping("/bulk")
+    public ResponseEntity<List<OrderDetailDto>> createBulkOrderDetails(
+            @RequestBody List<OrderDetailDtoCreateUpdate> orderDetailDtos
+    ) {
+        List<OrderDetailDto> createdOrderDetails = orderDetailService.createOrderDetails(orderDetailDtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderDetails);
     }
 
     @PutMapping("/{orderNumber}/{productCode}")

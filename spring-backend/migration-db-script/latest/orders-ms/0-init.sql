@@ -2,16 +2,16 @@ CREATE SCHEMA IF NOT EXISTS orders_service AUTHORIZATION postgres;
 
 SET search_path TO orders_service, public;
 
-create table orders
+CREATE TABLE orders
 (
-    order_number              bigint      not null,
-    order_date                date,
-    required_date             date,
-    shipped_date              date,
-    status                    varchar(15) not null,
-    comments                  text,
-    customer_number           bigint,
-    sales_rep_employee_number bigint
+    order_number              BIGINT      NOT NULL,
+    order_date                DATE        NOT NULL DEFAULT CURRENT_DATE,
+    required_date             DATE,
+    shipped_date              DATE,
+    status                    VARCHAR(15) NOT NULL,
+    comments                  TEXT,
+    customer_number           BIGINT,
+    sales_rep_employee_number BIGINT
 );
 
 alter table orders
