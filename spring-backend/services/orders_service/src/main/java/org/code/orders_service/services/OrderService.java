@@ -5,6 +5,7 @@ import org.code.orders_service.clients.CustomerClient;
 import org.code.orders_service.dtos.OrderDto;
 import org.code.orders_service.dtos.OrderDtoCreateUpdate;
 import org.code.orders_service.dtos.OrderDtoResume;
+import org.code.orders_service.dtos.OrderDtoWithPaymentResume;
 import org.code.orders_service.mappers.OrderMapper;
 import org.code.orders_service.models.Order;
 import org.code.orders_service.repositories.OrderDetailRepository;
@@ -121,5 +122,27 @@ public class OrderService {
         }
 
         return PageRequest.of(pageNumber, size, Sort.unsorted());
+    }
+
+    public OrderDtoWithPaymentResume getOrderByIdWithPaymentInfo(Long id) {
+
+        var p = orderRepository.findOrderResume(id);
+        if (p == null) return null;
+
+        return OrderDtoWithPaymentResume.builder()
+                .orderNumber(p.getOrderNumber())
+                .orderDate(p.getOrderDate())
+                .requiredDate(p.getRequiredDate())
+                .shippedDate(p.getShippedDate())
+                .status(p.getStatus())
+                .comments(p.getComments())
+                .customerNumber(p.getCustomerNumber())
+                .salesRepEmployeeNumber(p.getSalesRepEmployeeNumber())
+                .totalPaidAmount(p.getTotalPaidAmount())
+                .remainingAmount(p.getRemainingAmount())
+                .isFullyPaid(p.getIsFullyPaid())
+                .build();
+
+
     }
 }

@@ -1,10 +1,7 @@
 package org.code.orders_service.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.code.orders_service.dtos.CustomPagedDTO;
-import org.code.orders_service.dtos.OrderDto;
-import org.code.orders_service.dtos.OrderDtoCreateUpdate;
-import org.code.orders_service.dtos.OrderDtoResume;
+import org.code.orders_service.dtos.*;
 import org.code.orders_service.services.OrderService;
 import org.code.orders_service.specifications.criteria.OrderSearchCriteria;
 import org.springframework.data.domain.Page;
@@ -71,9 +68,18 @@ public class OrderController {
         );
     }
 
+
+
     @GetMapping("/{id}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable Long id) {
         OrderDto order = orderService.getOrderById(id);
+        return ResponseEntity.ok(order);
+    }
+
+
+    @GetMapping("/{id}/with-payment-resume")
+    public ResponseEntity<OrderDtoWithPaymentResume> getOrderByIdWithPaymentResume(@PathVariable Long id) {
+        OrderDtoWithPaymentResume order = orderService.getOrderByIdWithPaymentInfo(id);
         return ResponseEntity.ok(order);
     }
 
