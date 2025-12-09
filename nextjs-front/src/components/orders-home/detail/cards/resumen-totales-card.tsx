@@ -1,8 +1,12 @@
 import React from "react";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {formatCurrency} from "@/lib/format";
+import { IOrderPaymentInfo } from "@/contracts";
 
-export const ResumenTotalesCard = () =>{
+export const ResumenTotalesCard = ({paymentInfo} : {paymentInfo : IOrderPaymentInfo}) =>{
+
+    const { totalPaidAmount: totalPaid, remainingAmount, totalAmount } = paymentInfo;
+
     return <React.Fragment>
         <Card>
             <CardHeader>

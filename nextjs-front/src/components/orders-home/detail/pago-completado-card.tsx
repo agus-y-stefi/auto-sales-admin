@@ -2,8 +2,11 @@ import React from "react";
 import {Card, CardContent} from "@/components/ui/card";
 import {AlertCircle, CheckCircle2} from "lucide-react";
 import {formatCurrency} from "@/lib/format";
+import { IOrderPaymentInfo } from "@/contracts";
 
-export const PagoCompletadoCard = () => {
+export const PagoCompletadoCard = ({paymentInfo}: {paymentInfo :IOrderPaymentInfo}) => {
+
+    const { isFullyPaid: isPaidInFull, totalPaidAmount: totalPaid, remainingAmount, totalAmount } = paymentInfo;
 
 
 

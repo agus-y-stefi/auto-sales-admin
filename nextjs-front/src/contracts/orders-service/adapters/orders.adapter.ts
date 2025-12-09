@@ -1,6 +1,6 @@
-import {toOrders, toOrdersTableHome} from "@/contracts/orders-service/mappers/orders.mappers";
-import {ICreateOrder, IOrder, IOrderTableHome, IPage} from "@/contracts";
-import {createOrder as createOrderClient, OrderDtoCreateUpdate, getOrderById as getOrderByIdClient} from "@/clients";
+import {toOrders, toOrdersTableHome, toOrdersWithPaymentInfo} from "@/contracts/orders-service/mappers/orders.mappers";
+import {ICreateOrder, IOrder, IOrderResumeWithPaymentInfo, IOrderTableHome, IPage} from "@/contracts";
+import {createOrder as createOrderClient, OrderDtoCreateUpdate, getOrderById as getOrderByIdClient, getOrderByIdWithPaymentResume} from "@/clients";
 
 import {deleteOrder as deleteOrderClient, getAllOrdersResume} from "@/clients";
 
@@ -51,4 +51,15 @@ export const getOrderById = async (orderId: number): Promise<IOrder> => {
     }
 
     return toOrders(response.data)
+}
+
+export const fetchOrderByIdWithPaymentInfo= async (orderId: number): Promise<IOrderResumeWithPaymentInfo> => {
+    const response = await getOrderByIdWithPaymentResume(orderId);
+
+    if (!response || !response.data) {
+        throw new Error("No order found");
+    }
+
+    return toOrdersWithPaymentInfo(response.data);
+
 }

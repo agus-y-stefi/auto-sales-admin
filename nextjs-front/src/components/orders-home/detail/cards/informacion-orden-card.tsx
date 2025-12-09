@@ -31,7 +31,7 @@ export const InformacionOrdenCard = ({orderData} : {orderData : IOrder}) => {
                         <div>
                             <p className="text-sm font-medium text-muted-foreground">Estado</p>
                             <Badge variant="outline" className={getStatusColor(orderData.status)}>
-                                {getStatusLabel(orderData.status)}
+                                {/* {getStatusLabel(orderData.status)} */}
                             </Badge>
                         </div>
                     </div>

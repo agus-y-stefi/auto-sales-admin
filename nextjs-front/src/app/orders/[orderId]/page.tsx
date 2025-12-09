@@ -4,13 +4,11 @@ import Link from "next/link"
 import OrderDetails from "@/components/orders-home/detail/order-details";
 
 interface OrderDetailsPageProps {
-    params: {
-        orderNumber: string
-    }
+    params: Promise<{ orderId: string }>
 }
 
 export default async function OrderDetailsPage({params}: OrderDetailsPageProps) {
-    const {orderNumber} = params
+    const {orderId} = await params
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
@@ -21,7 +19,7 @@ export default async function OrderDetailsPage({params}: OrderDetailsPageProps) 
                             <ArrowLeft className="h-4 w-4"/>
                         </Button>
                     </Link>
-                    <h1 className="text-3xl font-bold tracking-tight">Orden #{orderNumber}</h1>
+                    <h1 className="text-3xl font-bold tracking-tight">Orden #{orderId}</h1>
                 </div>
                 <Button variant="outline" className="flex items-center gap-2 bg-transparent">
                     <Printer className="h-4 w-4"/>
@@ -29,7 +27,7 @@ export default async function OrderDetailsPage({params}: OrderDetailsPageProps) 
                 </Button>
             </div>
 
-            <OrderDetails orderId={orderNumber} />
+            <OrderDetails orderId={orderId} />
         </div>
     )
 
