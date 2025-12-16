@@ -1,15 +1,12 @@
 package org.code.orders_service.repositories;
 
-import org.code.orders_service.dtos.OrderDtoWithPaymentResume;
 import org.code.orders_service.models.OrderDetail;
 import org.code.orders_service.models.serializable.OrderDetailId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Repository

@@ -47,7 +47,7 @@ public class OrderMapper {
                 .build();
     }
 
-    public OrderDtoResume toDtoResume(Order order, Map<Integer, String> allCustomersName, Map<Long, BigDecimal> totalsMap) {
+    public OrderDtoResume toDtoResume(OrderDto order, Map<Integer, String> allCustomersName, Map<Long, BigDecimal> totalsMap) {
         if (order == null) {
             return null;
         }
@@ -62,17 +62,24 @@ public class OrderMapper {
 
     }
 
-    public OrderDtoResume toDtoResume(OrderDto order, Map<Integer, String> allCustomersName, Map<Long, BigDecimal> totalsMap) {
+    public OrderDtoWithPaymentResume toDtoWithPaymentResume(OrderDto order, BigDecimal totalPrice, BigDecimal totalPayment) {
         if (order == null) {
             return null;
         }
 
-        return OrderDtoResume.builder()
+        return OrderDtoWithPaymentResume.builder()
                 .orderNumber(order.getOrderNumber())
                 .orderDate(order.getOrderDate())
+                .requiredDate(order.getRequiredDate())
+                .shippedDate(order.getShippedDate())
                 .status(order.getStatus())
-                .customerName(allCustomersName.get(Math.toIntExact(order.getCustomerNumber())))
-                .totalPrice(totalsMap.getOrDefault(order.getOrderNumber(), BigDecimal.ZERO))
+                .comments(order.getComments())
+                .customerNumber(order.getCustomerNumber())
+                .salesRepEmployeeNumber(order.getSalesRepEmployeeNumber())
+                .totalPrice(totalPrice)
+                .totalPaidAmount(totalPayment)
+                .isFullyPaid(totalPrice.compareTo(totalPayment) <= 0)
+                .remainingAmount(totalPrice.subtract(totalPayment))
                 .build();
 
     }

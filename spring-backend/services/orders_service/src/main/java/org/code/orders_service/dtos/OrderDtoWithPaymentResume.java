@@ -1,14 +1,11 @@
 package org.code.orders_service.dtos;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
-
 
 @Data
 @Builder
@@ -23,11 +20,12 @@ public class OrderDtoWithPaymentResume {
     private String comments;
     private Long customerNumber;
     private Long salesRepEmployeeNumber;
+    private BigDecimal totalPrice;
     private BigDecimal totalPaidAmount;
     private boolean isFullyPaid;
     private BigDecimal remainingAmount;
 
-    public OrderDtoWithPaymentResume(Long orderNumber, LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String status, String comments, Long customerNumber, Long salesRepEmployeeNumber, BigDecimal totalPaidAmount, boolean isFullyPaid, BigDecimal remainingAmount) {
+    public OrderDtoWithPaymentResume(Long orderNumber, LocalDate orderDate, LocalDate requiredDate, LocalDate shippedDate, String status, String comments, Long customerNumber, Long salesRepEmployeeNumber, BigDecimal totalPrice, BigDecimal totalPaidAmount, boolean isFullyPaid, BigDecimal remainingAmount) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.requiredDate = requiredDate;
@@ -36,6 +34,7 @@ public class OrderDtoWithPaymentResume {
         this.comments = comments;
         this.customerNumber = customerNumber;
         this.salesRepEmployeeNumber = salesRepEmployeeNumber;
+        this.totalPrice = totalPrice;
         this.totalPaidAmount = totalPaidAmount;
         this.isFullyPaid = isFullyPaid;
         this.remainingAmount = remainingAmount;

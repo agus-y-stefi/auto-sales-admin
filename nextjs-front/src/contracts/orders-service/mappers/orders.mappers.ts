@@ -67,7 +67,7 @@ export const toOrdersWithPaymentInfo = (
             isFullyPaid: orders.fullyPaid || false,
             totalPaidAmount: orders.totalPaidAmount || 0,
             remainingAmount: orders.remainingAmount || 0,
-            totalAmount : (orders.totalPaidAmount || 0) + (orders.remainingAmount || 0)
+            totalAmount : orders.totalPrice || 0,
         },
     };
 };

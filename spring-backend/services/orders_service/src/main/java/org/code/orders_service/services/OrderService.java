@@ -8,8 +8,11 @@ import org.code.orders_service.dtos.OrderDtoResume;
 import org.code.orders_service.dtos.OrderDtoWithPaymentResume;
 import org.code.orders_service.mappers.OrderMapper;
 import org.code.orders_service.models.Order;
+import org.code.orders_service.models.OrderDetail;
+import org.code.orders_service.models.Payment;
 import org.code.orders_service.repositories.OrderDetailRepository;
 import org.code.orders_service.repositories.OrderRepository;
+import org.code.orders_service.repositories.PaymentRepository;
 import org.code.orders_service.specifications.OrderSpecifications;
 import org.code.orders_service.specifications.criteria.OrderSearchCriteria;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -31,6 +35,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final PaymentRepository paymentRepository;
 
     private final OrderMapper orderMapper;
 
@@ -126,23 +131,26 @@ public class OrderService {
 
     public OrderDtoWithPaymentResume getOrderByIdWithPaymentInfo(Long id) {
 
-        var p = orderRepository.findOrderResume(id);
-        if (p == null) return null;
+        OrderDto order = orderMapper.toDto(
+                orderRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id))
+        );
 
-        return OrderDtoWithPaymentResume.builder()
-                .orderNumber(p.getOrderNumber())
-                .orderDate(p.getOrderDate())
-                .requiredDate(p.getRequiredDate())
-                .shippedDate(p.getShippedDate())
-                .status(p.getStatus())
-                .comments(p.getComments())
-                .customerNumber(p.getCustomerNumber())
-                .salesRepEmployeeNumber(p.getSalesRepEmployeeNumber())
-                .totalPaidAmount(p.getTotalPaidAmount())
-                .remainingAmount(p.getRemainingAmount())
-                .isFullyPaid(p.getIsFullyPaid())
-                .build();
+        // Total Pagado
+        BigDecimal totalPaidAmount = paymentRepository.findByOrderNumber(id).stream()
+                .map(Payment::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+
+        // Total por Pagar
+        BigDecimal totalOrden = orderDetailRepository.findByOrderNumber(id).stream()
+                .map(orderDetail -> orderDetail.getPriceEach()
+                        .multiply(
+                                BigDecimal.valueOf(orderDetail.getQuantityOrdered())
+                        )
+                ).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return orderMapper.toDtoWithPaymentResume(order, totalOrden, totalPaidAmount);
 
     }
 }

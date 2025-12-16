@@ -11,7 +11,6 @@ export const fetchOrderDetailsByOrderNumber = async (orderNumber : number) => {
         throw new Error(`Error fetching order details for order number ${orderNumber}: ${response.status}`);
     }
 
-    console.log('Order details fetched successfully:', response.data);
 
     const orderDetails = response.data;
 
