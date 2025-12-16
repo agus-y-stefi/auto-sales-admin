@@ -17,6 +17,7 @@ import {NewOrderModal} from "@/components/orders-home/new/new-order-modal"
 import {PaginationBottom} from "@/components/pagination_bottom";
 import {useSortedItems} from "@/hooks/use_sort"
 import {TableSizeBottom} from "@/components/table_size_bottom";
+import { redirect } from "next/navigation"
 
 const useDelete = (setOrders: React.Dispatch<React.SetStateAction<IOrderTableHome[]>>) => {
     const handleDelete = (orderNumber: number) => {
@@ -54,6 +55,10 @@ export function OrdersTable({ordersPage}: { ordersPage: IPage<IOrderTableHome> }
 
     const [tipos, setTipos] = useState<Set<string>>(new Set());
 
+    const redirectToDetails = (orderNumber: number) => {
+        redirect(`/orders/${orderNumber}`);
+    }
+
 
 
     const renderCell = (uid: OrderCellKey, item: IOrderTableHome): JSX.Element => {
@@ -67,7 +72,7 @@ export function OrdersTable({ordersPage}: { ordersPage: IPage<IOrderTableHome> }
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => redirectToDetails(item.orderNumber)}>
                             <Eye className="mr-2 h-4 w-4"/>
                             Ver Detalles
                         </DropdownMenuItem>
