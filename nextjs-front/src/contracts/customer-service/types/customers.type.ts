@@ -10,6 +10,12 @@ export interface ICustomer {
     creditLimit: number;
 }
 
+export interface ICustomerUpdate extends Omit<ICustomer,
+    "customerNumber"
+>{
+    status: string;
+}
+
 export interface ICustomerMinimalData {
     customerNumber: number;
     customerName: string;

@@ -39,6 +39,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.13",
     "use-debounce": "^10.0.4",
+    "zod": "^4.2.1",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
