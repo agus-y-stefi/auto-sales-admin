@@ -1,24 +1,20 @@
 "use client";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import React, { useActionState, useEffect, useState } from "react";
+import React, { useActionState, useEffect } from "react";
 import { ICustomer } from "@/contracts";
 
 import { UpdateCustomerState } from "@/actions/customers/types";
 import { updateCustomerAction } from "@/actions/customers/edit";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { toast } from "sonner";
 
 export function CustomerEditForm({ customer }: { customer: ICustomer }) {
-    // router for redirect if needed
-    const router = useRouter();
-
     const initialState: UpdateCustomerState = {
         data: customer,
         success: false,
     };
-
 
     const [state, formAction, isPending] = useActionState(
         updateCustomerAction,
@@ -29,16 +25,12 @@ export function CustomerEditForm({ customer }: { customer: ICustomer }) {
 
     useEffect(() => {
         if (state.success) {
-
-            toast.success(
-                "Cliente actualizado con éxito, redireccionando...",
-                {
-                    duration: 3000,
-                }
-            );
+            toast.success("Cliente actualizado con éxito, redireccionando...", {
+                duration: 3000,
+            });
 
             setTimeout(() => {
-                router.push("/customers");
+                redirect(`/customers`);
             }, 2000);
         }
     }, [state]);
