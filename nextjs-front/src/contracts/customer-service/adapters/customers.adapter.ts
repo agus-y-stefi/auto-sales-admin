@@ -99,3 +99,16 @@ export const updateCustomer = async (
 
     return toCustomer(response.data);
 };
+
+export const updateCustomerStatus = async (
+    customerNumber: number,
+    status: string
+) => {
+    const response = await updateCustomerClient(customerNumber, { status });
+
+    if (!response || !response.data) {
+        throw new Error("Failed to update customer status");
+    }
+
+    return;
+}

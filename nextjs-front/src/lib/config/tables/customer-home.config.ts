@@ -36,4 +36,9 @@ export const statusOptionsTableHome: Array<{
     {name: "En revisión", uid: "review", color: "warning"}
 ]
 
+export type StatusOption = (typeof statusOptionsTableHome)[number];
+
+export const statusOptionsByName = new Map<string, StatusOption>(statusOptionsTableHome.map(option => [option.name, option]));
+export const statusOptionsByUid = new Map<string, StatusOption>(statusOptionsTableHome.map(option => [option.uid, option]));
+
 export type CellKey = (typeof columnsCustomersTableHome[number])["uid"];

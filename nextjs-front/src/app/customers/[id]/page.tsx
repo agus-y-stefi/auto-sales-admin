@@ -7,7 +7,7 @@ import { CustomersMostBuyProducts } from "@/components/customers-home/detail/cus
 import { CustomersRecentOrders } from "@/components/customers-home/detail/customers-recent-orders";
 import { CustomersPaymentsHistory } from "@/components/customers-home/detail/customers-payments-history";
 import { CustomersDangerZone } from "@/components/customers-home/detail/customers-danger-zone";
-import { getCustomerById } from "@/contracts";
+import { getCustomerById, getRecentPayments, IPayment } from "@/contracts";
 import { Card, CardContent } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 interface CustomerUpdatePageProps {
@@ -31,9 +31,33 @@ export default async function CustomerDetailPage({
                 </div>
                 <CustomersMostBuyProducts />
                 <CustomersRecentOrders />
-                <CustomersPaymentsHistory />
+                <Suspense fallback={<LoadingCard name="historial de pagos" />}>
+                    <PaymentsHistoryData customerId={parseInt(id)}/>
+                </Suspense>
                 <CustomersDangerZone customer={customer} />
             </div>
         </React.Fragment>
     );
 }
+
+export const LoadingCard = ({ name }: { name: string }) => {
+    return (
+        <Card className="w-full max-w-7xl mx-auto py-10">
+            <CardContent className="flex items-center justify-center gap-3">
+                <Spinner color="blue"/>
+                <p>Cargando información de {name}...</p>
+            </CardContent>
+        </Card>
+    );
+};
+
+export const PaymentsHistoryData = async ({customerId} : {customerId : number}) => {
+
+    const payments: IPayment[] = await getRecentPayments(customerId);
+
+    return (
+        <React.Fragment>
+            <CustomersPaymentsHistory recentPayments={payments} />
+        </React.Fragment>
+    );
+};
