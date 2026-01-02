@@ -8,12 +8,12 @@ export interface ICustomer {
     city: string;
     country: string;
     creditLimit: number;
+    status: string;
 }
 
 export interface ICustomerUpdate extends Omit<ICustomer,
     "customerNumber"
 >{
-    status: string;
 }
 
 export interface ICustomerMinimalData {
@@ -25,7 +25,6 @@ export interface ICustomersTableHome extends Omit<ICustomer,
     "contactLastName" | "contactFirstName"
 >{
     contactName: string;
-    status: string;
 }
 
 export interface ICreateCustomer extends Omit<ICustomer,

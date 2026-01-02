@@ -9,16 +9,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
-import { MoreVertical, Edit, Trash2 } from "lucide-react";
+import { Eye } from "lucide-react";
 
 import { TableTopContent } from "./table-top-customers";
 import { formatCurrency } from "@/lib/format";
@@ -28,34 +20,10 @@ import {
     columnsCustomersTableHome,
     statusOptionsTableHome,
 } from "@/lib/config/tables/customer-home.config";
-import { deleteCustomer } from "@/contracts";
 import { NewCustomerModal } from "@/components/customers-home/new/new-customer-modal";
 import { PaginationBottom } from "@/components/pagination_bottom";
 import { useSortedItems } from "@/hooks/use_sort";
-import { redirect } from "next/navigation";
-
-const handleDelete = (customerNumber: number) => {
-    (async () => {
-        try {
-            await deleteCustomer(customerNumber);
-            console.log("Cliente eliminado con éxito");
-        } catch (e) {
-            console.error("Error al eliminar:", e);
-
-            toast.error("Error al Eliminar", {
-                description:
-                    "Hubo un problema al eliminar el cliente. Por favor, inténtalo de nuevo.",
-            });
-            return;
-        }
-    })();
-
-    redirect("/customers");
-};
-
-const handleEdit = (customerNumber: number) => {
-    redirect(`/customers/edit/${customerNumber}`);
-};
+import Link from "next/link";
 
 export function CustomersTable({
     customersPage,
@@ -76,33 +44,9 @@ export function CustomersTable({
         if (uid === "actions") {
             return (
                 <React.Fragment>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Abrir menú</span>
-                                <MoreVertical className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                                onClick={() => {
-                                    handleEdit(item.customerNumber);
-                                }}
-                            >
-                                <Edit className="mr-2 h-4 w-4" />
-                                Editar
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                className="text-destructive"
-                                onClick={() => {
-                                    handleDelete(item.customerNumber);
-                                }}
-                            >
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                Eliminar
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <Link href={`/customers/${item.customerNumber}`}>
+                        <Eye className="mr-2 h-4 w-4 text-primary hover:cursor-pointer" />
+                    </Link>
                 </React.Fragment>
             );
         }

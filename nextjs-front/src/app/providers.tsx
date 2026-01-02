@@ -6,7 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 export const Providers = ({ children }: { children: React.ReactNode }) => {
     return (
         <React.Fragment>
-            <SidebarProvider>
+            <SidebarProvider defaultOpen={false}>
                 <Toaster />
                 {children}
             </SidebarProvider>
