@@ -2,11 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ShoppingCart } from "lucide-react";
 import React from "react";
 
-export const CustomersTotalOrdersCard = () => {
-
-    const statistics = {
-        totalOrders: 42,
-    };
+export const CustomersTotalOrdersCard = ({totalOrders} : {totalOrders: number}) => {
 
     return (
         <React.Fragment>
@@ -21,7 +17,7 @@ export const CustomersTotalOrdersCard = () => {
                                 Total Órdenes
                             </p>
                             <p className="text-2xl font-bold">
-                                {statistics.totalOrders}
+                                {totalOrders}
                             </p>
                         </div>
                     </div>

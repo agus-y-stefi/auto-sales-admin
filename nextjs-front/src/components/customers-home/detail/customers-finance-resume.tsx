@@ -1,15 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ICustomersStats } from "@/contracts";
 import { formatCurrency } from "@/lib/format";
 import { AlertCircle, Calendar, Clock, CreditCard, DollarSign } from "lucide-react";
 import React from "react";
 
-export const CustomersFinanceResume = () => {
+export const CustomersFinanceResume = ({stats} : {stats : ICustomersStats}) => {
 
+        
     const statistics = {
-        totalSpent: 125000,
-        totalPaid: 100000,
-        pendingPayments: 25000,
-        lastOrderDate: "2024-05-15T00:00:00Z",
+        ...stats,
+        pagosPendientes: stats.totalOrden - stats.totalPagado,
         averagePaymentDays: 30,
     };
 
@@ -32,7 +32,7 @@ export const CustomersFinanceResume = () => {
                                 </span>
                             </div>
                             <p className="font-semibold">
-                                {formatCurrency(statistics.totalSpent)}
+                                {formatCurrency(statistics.totalOrden)}
                             </p>
                         </div>
                         <div className="flex justify-between items-center pb-2 border-b">
@@ -43,7 +43,7 @@ export const CustomersFinanceResume = () => {
                                 </span>
                             </div>
                             <p className="font-semibold text-green-600">
-                                {formatCurrency(statistics.totalPaid)}
+                                {formatCurrency(statistics.totalPagado)}
                             </p>
                         </div>
                         <div className="flex justify-between items-center pb-2 border-b">
@@ -55,12 +55,12 @@ export const CustomersFinanceResume = () => {
                             </div>
                             <p
                                 className={`font-semibold ${
-                                    statistics.pendingPayments > 0
+                                    statistics.pagosPendientes > 0
                                         ? "text-yellow-600"
                                         : "text-green-600"
                                 }`}
                             >
-                                {formatCurrency(statistics.pendingPayments)}
+                                {formatCurrency(statistics.pagosPendientes)}
                             </p>
                         </div>
                         <div className="flex justify-between items-center pb-2 border-b">
@@ -71,9 +71,9 @@ export const CustomersFinanceResume = () => {
                                 </span>
                             </div>
                             <p className="font-medium">
-                                {statistics.lastOrderDate
+                                {statistics.ultimaOrdenFecha
                                     ? new Date(
-                                          statistics.lastOrderDate
+                                          statistics.ultimaOrdenFecha
                                       ).toLocaleDateString("es-ES")
                                     : "N/A"}
                             </p>

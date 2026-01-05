@@ -1,11 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
 import React from "react";
-export const CustomersCompleteOrdersCard = () => {
+export const CustomersCompleteOrdersCard = ({completedOrders} : {completedOrders: number}) => {
 
-    const statistics = {
-        completedOrders: 38,
-    };
 
     return (
         <React.Fragment>
@@ -20,7 +17,7 @@ export const CustomersCompleteOrdersCard = () => {
                                 Completadas
                             </p>
                             <p className="text-2xl font-bold">
-                                {statistics.completedOrders}
+                                {completedOrders}
                             </p>
                         </div>
                     </div>

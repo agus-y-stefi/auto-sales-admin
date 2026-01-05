@@ -3,11 +3,7 @@ import { formatCurrency } from "@/lib/format";
 import { TrendingUp } from "lucide-react";
 import React from "react";
 
-export const CustomersAvgOrdersCard = () => {
-
-    const statistics = {
-        averageOrderValue: 29.76,
-    };
+export const CustomersAvgOrdersCard = ({averageOrderValue} : {averageOrderValue: number}) => {
 
     return (
         <React.Fragment>
@@ -22,7 +18,7 @@ export const CustomersAvgOrdersCard = () => {
                                 Promedio/Orden
                             </p>
                             <p className="text-2xl font-bold">
-                                {formatCurrency(statistics.averageOrderValue)}
+                                {formatCurrency(averageOrderValue)}
                             </p>
                         </div>
                     </div>

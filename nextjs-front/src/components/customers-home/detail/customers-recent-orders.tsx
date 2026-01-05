@@ -15,39 +15,17 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { IOrderResumeWithPaymentInfo } from "@/contracts";
 import { formatCurrency } from "@/lib/format";
 import { Eye, Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export const CustomersRecentOrders = () => {
-    const recentOrders = [
-        {
-            orderNumber: 10100,
-            orderDate: "2024-05-10",
-            status: "Shipped",
-            total: 2500.0,
-            totalPaid: 2500.0,
-            isPaid: true,
-        },
-        {
-            orderNumber: 10099,
-            orderDate: "2024-04-22",
-            status: "Processing",
-            total: 1500.0,
-            totalPaid: 500.0,
-            isPaid: false,
-        },
-        {
-            orderNumber: 10098,
-            orderDate: "2024-04-15",
-            status: "Cancelled",
-            total: 800.0,
-            totalPaid: 0.0,
-            isPaid: false,
-        },
-    ];
-
+export const CustomersRecentOrders = ({
+    recentOrders,
+}: {
+    recentOrders: IOrderResumeWithPaymentInfo[];
+}) => {
     const getOrderStatusLabel = (status: string) => {
         switch (status) {
             case "Shipped":
@@ -133,13 +111,13 @@ export const CustomersRecentOrders = () => {
                                         </Badge>
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        {formatCurrency(order.total)}
+                                        {formatCurrency(order.paymentInfo.totalAmount)}
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        {formatCurrency(order.totalPaid)}
+                                        {formatCurrency(order.paymentInfo.totalPaidAmount)}
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        {order.isPaid ? (
+                                        {order.paymentInfo.isFullyPaid ? (
                                             <Badge
                                                 variant="outline"
                                                 className="bg-green-100 text-green-800"

@@ -2,12 +2,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Clock } from "lucide-react";
 import React from "react";
 
-export const CustomersPendingOrdersCard = () => {
-
-    const statistics = {
-        pendingOrders: 4,
-    };
-
+export const CustomersPendingOrdersCard = ({
+    pendingOrders,
+}: {
+    pendingOrders: number;
+}) => {
     return (
         <React.Fragment>
             <Card className="flex-1">
@@ -21,7 +20,7 @@ export const CustomersPendingOrdersCard = () => {
                                 Pendientes
                             </p>
                             <p className="text-2xl font-bold">
-                                {statistics.pendingOrders}
+                                {pendingOrders}
                             </p>
                         </div>
                     </div>

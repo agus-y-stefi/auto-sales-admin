@@ -20,10 +20,6 @@ export const CustomersPaymentsHistory = ({recentPayments} : {recentPayments : IP
                             mostrados)
                         </CardDescription>
                     </div>
-                    <Button size="sm" className="gap-2">
-                        <Plus className="h-4 w-4" />
-                        Registrar Pago
-                    </Button>
                 </CardHeader>
                 <CardContent>
                     {recentPayments.length > 0 ? (

@@ -1,15 +1,26 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { ICustomersStats } from "@/contracts";
 import { formatCurrency } from "@/lib/format";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import React from "react";
 
-export const CustomersDebtCard = () => {
+export const CustomersDebtCard = ({
+    statistics,
+}: {
+    statistics: ICustomersStats;
+}) => {
     const isPaidInFull = true; // Example condition
 
-    const statistics = {
-        totalSpent: 1250.75,
-        pendingPayments: 0,
-    };
+    const {
+        cantidadOrdenes,
+        ordenesCompletadas,
+        precioPromedio,
+        totalOrden,
+        totalPagado,
+    } = statistics;
+
+    const deudaPendiente = totalOrden - totalPagado;
+
     return (
         <React.Fragment>
             <Card
@@ -37,7 +48,7 @@ export const CustomersDebtCard = () => {
                                     {isPaidInFull
                                         ? `Todas las órdenes están pagadas`
                                         : `Deuda pendiente: ${formatCurrency(
-                                              statistics.pendingPayments
+                                              deudaPendiente
                                           )}`}
                                 </p>
                             </div>
@@ -47,7 +58,7 @@ export const CustomersDebtCard = () => {
                                 Total Gastado
                             </p>
                             <p className="text-2xl font-bold">
-                                {formatCurrency(statistics.totalSpent)}
+                                {formatCurrency(totalOrden)}
                             </p>
                         </div>
                     </div>
