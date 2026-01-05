@@ -1,6 +1,7 @@
 package org.code.orders_service.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.code.orders_service.clients.dto.ProductDTO;
 import org.code.orders_service.dtos.OrderDetailDto;
 import org.code.orders_service.dtos.OrderDetailDtoCreateUpdate;
 import org.code.orders_service.services.OrderDetailService;
@@ -105,4 +106,6 @@ public class OrderDetailController {
         orderDetailService.deleteOrderDetailsByOrderNumber(orderNumber);
         return ResponseEntity.noContent().build();
     }
+
+
 }

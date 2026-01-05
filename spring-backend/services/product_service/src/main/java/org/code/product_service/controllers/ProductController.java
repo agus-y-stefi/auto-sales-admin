@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -138,5 +140,14 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/bulk")
+    public ResponseEntity<List<ProductDTO>> getBulkProducts(
+            @RequestParam List<String> ids) { // Spring parsea la coma automáticamente
+
+        List<ProductDTO> products = productService.getBulkProducts(ids);
+        return ResponseEntity.ok(products);
     }
 }

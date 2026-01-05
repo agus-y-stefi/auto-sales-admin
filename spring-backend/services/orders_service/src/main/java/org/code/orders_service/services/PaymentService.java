@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 @Service
@@ -123,5 +124,20 @@ public class PaymentService {
         }
 
         return PageRequest.of(pageNumber, size, Sort.unsorted());
+    }
+
+    public List<PaymentDto> getRecentPayments(Long customersId, Integer size) {
+
+        System.out.println(size);
+
+        if (size == null) size = 5;
+
+        Pageable pageable = buildPageable(0, size, "paymentDate", "desc");
+
+        return paymentRepository.findByOrder_CustomerNumber(customersId, pageable)
+                .stream()
+                .map(paymentMapper::toDto)
+                .toList();
+
     }
 }

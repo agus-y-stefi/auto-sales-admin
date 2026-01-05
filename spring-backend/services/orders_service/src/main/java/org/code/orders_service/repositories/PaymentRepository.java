@@ -2,8 +2,10 @@ package org.code.orders_service.repositories;
 
 import org.code.orders_service.models.Payment;
 import org.code.orders_service.models.serializable.PaymentId;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +15,8 @@ public interface PaymentRepository extends JpaRepository<Payment, PaymentId>, Jp
 
     List<Payment> findByOrderNumber(Long orderNumber);
     void deleteByOrderNumber(Long orderNumber);
+
+    List<Payment> findByOrder_CustomerNumber(Long customerNumber, Pageable pageable);
+
+
 }

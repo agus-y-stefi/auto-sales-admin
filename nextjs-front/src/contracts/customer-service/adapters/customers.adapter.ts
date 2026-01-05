@@ -11,7 +11,7 @@ import {
     toCustomerMinimalData,
     toCustomersHomeTable,
 } from "../mappers/customers.mappers";
-import { ICreateCustomer, ICustomer, ICustomerMinimalData } from "@/contracts";
+import { ICreateCustomer, ICustomer, ICustomerMinimalData, ICustomerUpdate } from "@/contracts";
 
 export const getCustomersHomeTable = async (
     page?: number,
@@ -89,7 +89,7 @@ export const getCustomersMinimalData = async (): Promise<
 
 export const updateCustomer = async (
     customerNumber: number,
-    updatedCustomer: ICustomer
+    updatedCustomer: ICustomerUpdate
 ) => {
     const response = await updateCustomerClient(customerNumber, updatedCustomer);
 
@@ -99,3 +99,16 @@ export const updateCustomer = async (
 
     return toCustomer(response.data);
 };
+
+export const updateCustomerStatus = async (
+    customerNumber: number,
+    status: string
+) => {
+    const response = await updateCustomerClient(customerNumber, { status });
+
+    if (!response || !response.data) {
+        throw new Error("Failed to update customer status");
+    }
+
+    return;
+}

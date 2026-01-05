@@ -1,20 +1,31 @@
-import {CustomerDto, CustomerDtoCreate} from "@/contracts/clients";
-import {ICustomersTableHome, IPage, DEFAULT_PAGE_NULL, ICreateCustomer, ICustomer, ICustomerMinimalData} from "@/contracts";
+import { CustomerDto, CustomerDtoCreate } from "@/contracts/clients";
+import {
+    ICustomersTableHome,
+    IPage,
+    DEFAULT_PAGE_NULL,
+    ICreateCustomer,
+    ICustomer,
+    ICustomerMinimalData,
+} from "@/contracts";
 
-export const toCustomersHomeTable = (customer: CustomerDto): ICustomersTableHome => {
+export const toCustomersHomeTable = (
+    customer: CustomerDto
+): ICustomersTableHome => {
     return {
         customerNumber: customer.customerNumber,
         customerName: customer.customerName,
-        contactName: customer.contactFirstName + ' ' + customer.contactLastName,
+        contactName: customer.contactFirstName + " " + customer.contactLastName,
         phone: customer.phone,
         city: customer.city,
         country: customer.country,
         creditLimit: customer.creditLimit,
-        status: customer.status
-    }
-}
+        status: customer.status,
+    };
+};
 
-export const toCustomerDtoCreate = (customer: ICreateCustomer): CustomerDtoCreate=> {
+export const toCustomerDtoCreate = (
+    customer: ICreateCustomer
+): CustomerDtoCreate => {
     return {
         customerName: customer.customerName,
         contactFirstName: customer.contactFirstName,
@@ -23,8 +34,8 @@ export const toCustomerDtoCreate = (customer: ICreateCustomer): CustomerDtoCreat
         city: customer.city,
         country: customer.country,
         creditLimit: customer.creditLimit,
-    }
-}
+    };
+};
 
 export const toCustomer = (customer: CustomerDto): ICustomer => {
     return {
@@ -36,12 +47,15 @@ export const toCustomer = (customer: CustomerDto): ICustomer => {
         city: customer.city,
         country: customer.country,
         creditLimit: customer.creditLimit,
-    }
-}
+        status: customer.status,
+    };
+};
 
-export const toCustomerMinimalData = (customer: CustomerDto): ICustomerMinimalData => {
+export const toCustomerMinimalData = (
+    customer: CustomerDto
+): ICustomerMinimalData => {
     return {
         customerNumber: customer.customerNumber,
-        customerName: customer.customerName
-    }
-}
+        customerName: customer.customerName,
+    };
+};

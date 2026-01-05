@@ -6,6 +6,7 @@ import org.code.orders_service.dtos.PaymentDtoCreateUpdate;
 import org.code.orders_service.services.PaymentService;
 import org.code.orders_service.specifications.criteria.PaymentSearchCriteria;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +53,15 @@ public class PaymentController {
                         paymentService.buildPageable(page, size, sortBy, sortDir)
                 )
         );
+    }
+
+    @GetMapping("/recent/{customersId}")
+    public ResponseEntity<List<PaymentDto>> getRecentPayments(
+            @PathVariable Long customersId,
+            @RequestParam(required = false) Integer size
+    ) {
+
+        return ResponseEntity.ok().body(paymentService.getRecentPayments(customersId, size));
     }
 
     @GetMapping("/by-order/{orderNumber}")

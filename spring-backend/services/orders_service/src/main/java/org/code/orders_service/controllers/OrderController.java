@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.code.orders_service.dtos.*;
 import org.code.orders_service.services.OrderService;
 import org.code.orders_service.specifications.criteria.OrderSearchCriteria;
-import org.springframework.data.domain.Page;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -66,6 +63,17 @@ public class OrderController {
                         )
                 )
         );
+    }
+
+    @GetMapping("/recent/{customerNumber}")
+    public ResponseEntity<List<OrderDtoWithPaymentResume>> getRecentOrders(
+            @PathVariable Long customerNumber,
+            @RequestParam (required = false) Integer size
+    ){
+        if (size == null || size <= 0) {
+            size = 5;
+        }
+        return ResponseEntity.ok(orderService.getRecentOrders(size, customerNumber));
     }
 
 

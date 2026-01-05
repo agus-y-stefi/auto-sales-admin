@@ -1,7 +1,7 @@
 package org.code.orders_service.services;
 
 import lombok.RequiredArgsConstructor;
-import org.code.orders_service.clients.CustomerClient;
+//import org.code.orders_service.clients.CustomerClient;
 import org.code.orders_service.dtos.OrderDto;
 import org.code.orders_service.dtos.OrderDtoCreateUpdate;
 import org.code.orders_service.dtos.OrderDtoResume;
@@ -10,6 +10,7 @@ import org.code.orders_service.mappers.OrderMapper;
 import org.code.orders_service.models.Order;
 import org.code.orders_service.models.OrderDetail;
 import org.code.orders_service.models.Payment;
+import org.code.orders_service.projection.OrderSumaryProjection;
 import org.code.orders_service.repositories.OrderDetailRepository;
 import org.code.orders_service.repositories.OrderRepository;
 import org.code.orders_service.repositories.PaymentRepository;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,7 +41,7 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
-    private final CustomerClient customerClient;
+//    private final CustomerClient customerClient;
 
     public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria, Pageable pageable) {
         boolean hasFilters = OrderSpecifications.hasFilters(criteria);
@@ -70,7 +72,8 @@ public class OrderService {
                         row -> (BigDecimal) row[1]
                 ));
 
-        Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
+//        Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
+        Map<Integer, String> allCustomersName = new HashMap<>();
 
         return this.getAllOrders(criteria, pageable)
                 .map(orderDto -> orderMapper.toDtoResume(orderDto, allCustomersName, totalsMap));
@@ -152,5 +155,26 @@ public class OrderService {
 
         return orderMapper.toDtoWithPaymentResume(order, totalOrden, totalPaidAmount);
 
+    }
+
+    public List<OrderDtoWithPaymentResume> getRecentOrders(int size, Long customerNumber) {
+        List<OrderSumaryProjection> projections =
+                orderRepository.findRecentOrdersWithTotals(size, customerNumber);
+
+        return projections.stream()
+                .map(p -> OrderDtoWithPaymentResume.builder()
+                        .orderNumber(p.getOrderNumber())
+                        .orderDate(p.getOrderDate())
+                        .requiredDate(p.getRequiredDate())
+                        .shippedDate(p.getShippedDate())
+                        .status(p.getStatus())
+                        .customerNumber(p.getCustomerNumber())
+                        .salesRepEmployeeNumber(p.getSalesRepEmployeeNumber())
+                        .totalPrice(p.getTotalOrden())
+                        .totalPaidAmount(p.getTotalPagado())
+                        .remainingAmount(p.getTotalOrden().subtract(p.getTotalPagado()))
+                        .isFullyPaid(p.getTotalOrden().subtract(p.getTotalPagado()).equals(BigDecimal.ZERO))
+                        .build())
+                .collect(Collectors.toList());
     }
 }
