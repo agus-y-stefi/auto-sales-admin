@@ -20,6 +20,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -117,5 +119,11 @@ public class ProductService {
         }
 
         return PageRequest.of(pageNumber, pageSize, sort);
+    }
+
+    public List<ProductDTO> getBulkProducts(List<String> productsNumber) {
+        return productRepository.findAllById(productsNumber).stream()
+                .map(productMapper::toDto)
+                .toList();
     }
 }

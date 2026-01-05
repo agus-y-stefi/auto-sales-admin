@@ -1,28 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getTopThreeProductsByCustomer } from "@/contracts";
 import { Package } from "lucide-react";
 import React from "react";
 
-export const CustomersMostBuyProducts = () => {
+export const CustomersMostBuyProducts = async ({customerId} : {customerId : number}) => {
 
-    const statistics = {
-        topProducts: [
-            {
-                productCode: "S10_1678",
-                productName: "1969 Harley Davidson Ultimate Chopper",
-                quantity: 15,
-            },
-            {
-                productCode: "S10_1949",
-                productName: "1952 Alpine Renault 1300",
-                quantity: 10,
-            },
-            {
-                productCode: "S10_2016",
-                productName: "1996 Moto Guzzi 1100i",
-                quantity: 8,
-            }
-        ]
-    };
+    const topProducts = await getTopThreeProductsByCustomer(customerId);
 
     return (
         <React.Fragment>
@@ -38,7 +21,7 @@ export const CustomersMostBuyProducts = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="grid md:grid-cols-3 gap-4">
-                        {statistics.topProducts.map((product, index) => (
+                        {topProducts.map((product, index) => (
                             <div
                                 key={product.productCode}
                                 className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg"
@@ -52,7 +35,7 @@ export const CustomersMostBuyProducts = () => {
                                     </p>
                                     <p className="text-sm text-muted-foreground">
                                         {product.productCode} •{" "}
-                                        {product.quantity} unidades
+                                        {product.buyPrice} unidades
                                     </p>
                                 </div>
                             </div>

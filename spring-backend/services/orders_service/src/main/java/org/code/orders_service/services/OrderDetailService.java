@@ -1,6 +1,8 @@
 package org.code.orders_service.services;
 
 import lombok.RequiredArgsConstructor;
+import org.code.orders_service.clients.ProductsClient;
+import org.code.orders_service.clients.dto.ProductDTO;
 import org.code.orders_service.dtos.OrderDetailDto;
 import org.code.orders_service.dtos.OrderDetailDtoCreateUpdate;
 import org.code.orders_service.mappers.OrderDetailMapper;
@@ -28,6 +30,7 @@ public class OrderDetailService {
 
     private final OrderDetailRepository orderDetailRepository;
     private final OrderDetailMapper orderDetailMapper;
+
 
     public Page<OrderDetailDto> getAllOrderDetails(OrderDetailSearchCriteria criteria, Pageable pageable) {
         boolean hasFilters = !OrderDetailSpecifications.hasNoFilters(criteria);
@@ -134,4 +137,6 @@ public class OrderDetailService {
 
         return PageRequest.of(pageNumber, size, Sort.unsorted());
     }
+
+
 }

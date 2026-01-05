@@ -37,7 +37,11 @@ export default async function CustomerDetailPage({
                 >
                     <CustomersStadisticsData customer={customer} />
                 </Suspense>
-                <CustomersMostBuyProducts />
+                <Suspense
+                    fallback={<LoadingCard name="productos más comprados" />}
+                >
+                    <CustomersMostBuyProducts customerId={customer.customerNumber} />
+                </Suspense>
                 <Suspense fallback={<LoadingCard name="órdenes recientes" />}>
                     <RecentOrdersData customerId={parseInt(id)} />
                 </Suspense>
@@ -66,7 +70,6 @@ export const CustomersStadisticsData = async ({
 }: {
     customer: ICustomer;
 }) => {
-
     const stats = await getCustomerOrdersInfo(customer.customerNumber);
 
     return (
