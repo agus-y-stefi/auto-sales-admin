@@ -6,3 +6,12 @@ export interface ICustomersStats {
     totalPagado: number;
     ultimaOrdenFecha: string;
 }
+
+export interface ITopProduct {
+    productCode: string;
+    productName: string;
+    productDescription: string;
+    quantityInStock: number;
+    msrp: number;
+    cantidadComprada: number;
+}

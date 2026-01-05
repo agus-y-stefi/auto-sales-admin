@@ -1,6 +1,6 @@
 import {getCustomerOrdersInfo as fetchCustomerOrdersInfo, getTopThreeProductsByCustomer as fetchTopThreeProductsByCustomer} from "@/clients";
-import { ICustomersStats, IProduct } from "@/contracts";
-import { toICustomersStats, toIProducts } from "../mappers/stadistics.mapper";
+import { ICustomersStats, IProduct, ITopProduct } from "@/contracts";
+import { toICustomersStats, toITopProduct} from "../mappers/stadistics.mapper";
 
 
 export const getCustomerOrdersInfo = async (customerId : number) : Promise<ICustomersStats>=>{
@@ -17,7 +17,7 @@ export const getCustomerOrdersInfo = async (customerId : number) : Promise<ICust
 
 }
 
-export const getTopThreeProductsByCustomer = async (customerId : number) : Promise<IProduct[]> => {
+export const getTopThreeProductsByCustomer = async (customerId : number) : Promise<ITopProduct[]> => {
 
     const response = await fetchTopThreeProductsByCustomer(customerId);
 
@@ -27,5 +27,5 @@ export const getTopThreeProductsByCustomer = async (customerId : number) : Promi
 
     const data = await response.data;
 
-    return toIProducts(data);
+    return toITopProduct(data);
 }

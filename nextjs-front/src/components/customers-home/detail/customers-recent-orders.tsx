@@ -69,83 +69,102 @@ export const CustomersRecentOrders = ({
                     </Button>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Número</TableHead>
-                                <TableHead>Fecha</TableHead>
-                                <TableHead>Estado</TableHead>
-                                <TableHead className="text-right">
-                                    Total
-                                </TableHead>
-                                <TableHead className="text-right">
-                                    Pagado
-                                </TableHead>
-                                <TableHead className="text-center">
-                                    Estado Pago
-                                </TableHead>
-                                <TableHead className="text-center">
-                                    Acciones
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {recentOrders.map((order) => (
-                                <TableRow key={order.orderNumber}>
-                                    <TableCell className="font-medium">
-                                        #{order.orderNumber}
-                                    </TableCell>
-                                    <TableCell>
-                                        {new Date(
-                                            order.orderDate
-                                        ).toLocaleDateString("es-ES")}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge
-                                            variant="outline"
-                                            className={getOrderStatusColor(
-                                                order.status
-                                            )}
-                                        >
-                                            {getOrderStatusLabel(order.status)}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        {formatCurrency(order.paymentInfo.totalAmount)}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        {formatCurrency(order.paymentInfo.totalPaidAmount)}
-                                    </TableCell>
-                                    <TableCell className="text-center">
-                                        {order.paymentInfo.isFullyPaid ? (
-                                            <Badge
-                                                variant="outline"
-                                                className="bg-green-100 text-green-800"
-                                            >
-                                                Pagado
-                                            </Badge>
-                                        ) : (
-                                            <Badge
-                                                variant="outline"
-                                                className="bg-yellow-100 text-yellow-800"
-                                            >
-                                                Pendiente
-                                            </Badge>
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="text-center">
-                                        <Link
-                                            href={`/orders/${order.orderNumber}`}
-                                        >
-                                            <Button variant="ghost" size="icon">
-                                                <Eye className="h-4 w-4" />
-                                            </Button>
-                                        </Link>
-                                    </TableCell>
+                    {recentOrders.length !== 0 && (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Número</TableHead>
+                                    <TableHead>Fecha</TableHead>
+                                    <TableHead>Estado</TableHead>
+                                    <TableHead className="text-right">
+                                        Total
+                                    </TableHead>
+                                    <TableHead className="text-right">
+                                        Pagado
+                                    </TableHead>
+                                    <TableHead className="text-center">
+                                        Estado Pago
+                                    </TableHead>
+                                    <TableHead className="text-center">
+                                        Acciones
+                                    </TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {recentOrders.map((order) => (
+                                    <TableRow key={order.orderNumber}>
+                                        <TableCell className="font-medium">
+                                            #{order.orderNumber}
+                                        </TableCell>
+                                        <TableCell>
+                                            {new Date(
+                                                order.orderDate
+                                            ).toLocaleDateString("es-ES")}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge
+                                                variant="outline"
+                                                className={getOrderStatusColor(
+                                                    order.status
+                                                )}
+                                            >
+                                                {getOrderStatusLabel(
+                                                    order.status
+                                                )}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            {formatCurrency(
+                                                order.paymentInfo.totalAmount
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            {formatCurrency(
+                                                order.paymentInfo
+                                                    .totalPaidAmount
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="text-center">
+                                            {order.paymentInfo.isFullyPaid ? (
+                                                <Badge
+                                                    variant="outline"
+                                                    className="bg-green-100 text-green-800"
+                                                >
+                                                    Pagado
+                                                </Badge>
+                                            ) : (
+                                                <Badge
+                                                    variant="outline"
+                                                    className="bg-yellow-100 text-yellow-800"
+                                                >
+                                                    Pendiente
+                                                </Badge>
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="text-center">
+                                            <Link
+                                                href={`/orders/${order.orderNumber}`}
+                                            >
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                >
+                                                    <Eye className="h-4 w-4" />
+                                                </Button>
+                                            </Link>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
+                    {recentOrders.length === 0 && (
+                        <div className="text-center py-8">
+                            <p className="text-muted-foreground">
+                                No hay órdenes registradas
+                            </p>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </React.Fragment>

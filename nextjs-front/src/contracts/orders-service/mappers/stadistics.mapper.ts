@@ -1,5 +1,9 @@
-import { CustomersStatsDTO, ProductDTO } from "@/clients";
-import { ICustomersStats, IProduct } from "@/contracts";
+import {
+    CustomersStatsDTO,
+    ProductDTO,
+    TopProductCustomerDTO,
+} from "@/clients";
+import { ICustomersStats, ITopProduct } from "@/contracts";
 
 export const toICustomersStats = (
     customersStatsDTO: CustomersStatsDTO
@@ -14,17 +18,15 @@ export const toICustomersStats = (
     };
 };
 
-export const toIProducts = (productsDTO: ProductDTO[]): IProduct[] => {
+export const toITopProduct = (
+    productsDTO: TopProductCustomerDTO[]
+): ITopProduct[] => {
     return productsDTO.map((productDTO) => ({
-        buyPrice: productDTO.buyPrice || 0,
         msrp: productDTO.msrp || 0,
         productCode: productDTO.productCode || "",
         productDescription: productDTO.productDescription || "",
         productName: productDTO.productName || "",
-        productScale: productDTO.productScale || "",
-        productVendor: productDTO.productVendor || "",
         quantityInStock: productDTO.quantityInStock || 0,
-        productLine: productDTO.productLine || "",
-        productLineDescription: productDTO.productLineDescription || "",
+        cantidadComprada: productDTO.cantidadComprada || 0,
     }));
 };

@@ -1,10 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { getTopThreeProductsByCustomer } from "@/contracts";
 import { Package } from "lucide-react";
 import React from "react";
 
-export const CustomersMostBuyProducts = async ({customerId} : {customerId : number}) => {
-
+export const CustomersMostBuyProducts = async ({
+    customerId,
+}: {
+    customerId: number;
+}) => {
     const topProducts = await getTopThreeProductsByCustomer(customerId);
 
     return (
@@ -20,6 +29,13 @@ export const CustomersMostBuyProducts = async ({customerId} : {customerId : numb
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
+                    {topProducts.length === 0 && (
+                        <div className="text-center py-8">
+                            <p className="text-muted-foreground">
+                                No hay órdenes registradas
+                            </p>
+                        </div>
+                    )}
                     <div className="grid md:grid-cols-3 gap-4">
                         {topProducts.map((product, index) => (
                             <div
@@ -35,7 +51,7 @@ export const CustomersMostBuyProducts = async ({customerId} : {customerId : numb
                                     </p>
                                     <p className="text-sm text-muted-foreground">
                                         {product.productCode} •{" "}
-                                        {product.buyPrice} unidades
+                                        {product.cantidadComprada} unidades
                                     </p>
                                 </div>
                             </div>

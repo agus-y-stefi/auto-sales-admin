@@ -2,6 +2,7 @@ package org.code.orders_service.repositories;
 
 import org.code.orders_service.models.OrderDetail;
 import org.code.orders_service.models.serializable.OrderDetailId;
+import org.code.orders_service.projection.TopProductCustomerProjection;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -24,11 +25,12 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, OrderD
     """)
     List<Object[]> findAllOrderTotals();
 
-    @Query("SELECT od.productCode " +
+    @Query("SELECT od.productCode as productCode, " +
+            "COUNT(od) as cantidadComprada " +
             "FROM OrderDetail od " +
             "JOIN od.order o " +
             "WHERE o.customerNumber = :customerId " +
             "GROUP BY od.productCode " +
             "ORDER BY COUNT(od) DESC")
-    List<String> findTopProductsByCustomer(@Param("customerId") Long customerId, Pageable pageable);
+    List<TopProductCustomerProjection> findTopProductsByCustomer(@Param("customerId") Long customerId, Pageable pageable);
 }

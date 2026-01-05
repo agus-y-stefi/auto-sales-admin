@@ -3,6 +3,7 @@ package org.code.orders_service.controllers;
 import lombok.RequiredArgsConstructor;
 import org.code.orders_service.clients.dto.ProductDTO;
 import org.code.orders_service.dtos.CustomersStatsDTO;
+import org.code.orders_service.dtos.TopProductCustomerDTO;
 import org.code.orders_service.services.StadisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class StadisticsController {
     }
 
     @GetMapping("/top-three-products/{customerNumber}")
-    public ResponseEntity<List<ProductDTO>> getTopThreeProductsByCustomer(@PathVariable("customerNumber") Long customerNumber){
+    public ResponseEntity<List<TopProductCustomerDTO>> getTopThreeProductsByCustomer(@PathVariable("customerNumber") Long customerNumber){
         return ResponseEntity.ok(stadisticsService.getTopThreeProductsByCustomer(customerNumber));
     }
 
