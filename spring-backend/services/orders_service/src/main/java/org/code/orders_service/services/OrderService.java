@@ -2,6 +2,8 @@ package org.code.orders_service.services;
 
 import lombok.RequiredArgsConstructor;
 //import org.code.orders_service.clients.CustomerClient;
+import org.code.orders_service.clients.CustomersClient;
+import org.code.orders_service.clients.dto.CustomerNameDTO;
 import org.code.orders_service.dtos.OrderDto;
 import org.code.orders_service.dtos.OrderDtoCreateUpdate;
 import org.code.orders_service.dtos.OrderDtoResume;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,7 @@ public class OrderService {
     private final PaymentRepository paymentRepository;
 
     private final OrderMapper orderMapper;
+    private final CustomersClient customersClient;
 
 //    private final CustomerClient customerClient;
 
@@ -73,7 +77,23 @@ public class OrderService {
                 ));
 
 //        Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
-        Map<Integer, String> allCustomersName = new HashMap<>();
+
+        Page<OrderDto> orders = this.getAllOrders(criteria, pageable);
+
+        List<Long> customersNumber = orders.stream()
+                .map(OrderDto::getCustomerNumber)
+                .distinct()
+                .toList();
+
+        List<CustomerNameDTO> customers = customersClient.getCustomersNames(customersNumber);
+
+        Map<Long, String> allCustomersName = customers.stream()
+                .collect(Collectors.toMap(
+                        CustomerNameDTO::getCustomerNumber,
+                        CustomerNameDTO::getCustomerName
+                ));
+
+        System.out.println(customers);
 
         return this.getAllOrders(criteria, pageable)
                 .map(orderDto -> orderMapper.toDtoResume(orderDto, allCustomersName, totalsMap));

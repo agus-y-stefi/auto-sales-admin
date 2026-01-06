@@ -11,8 +11,8 @@ export default async function OrderDetailsPage({params}: OrderDetailsPageProps) 
     const {orderId} = await params
 
     return (
-        <div className="p-6 max-w-7xl mx-auto space-y-6">
-            <div className="flex items-center justify-between">
+        <div className="p-6 min-w-2/3 max-w-4/5 mx-auto space-y-6">
+            <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-4">
                     <Link href="/orders">
                         <Button variant="outline" size="icon">

@@ -47,7 +47,7 @@ public class OrderMapper {
                 .build();
     }
 
-    public OrderDtoResume toDtoResume(OrderDto order, Map<Integer, String> allCustomersName, Map<Long, BigDecimal> totalsMap) {
+    public OrderDtoResume toDtoResume(OrderDto order, Map<Long, String> allCustomersName, Map<Long, BigDecimal> totalsMap) {
         if (order == null) {
             return null;
         }
@@ -56,7 +56,7 @@ public class OrderMapper {
                 .orderNumber(order.getOrderNumber())
                 .orderDate(order.getOrderDate())
                 .status(order.getStatus())
-                .customerName(allCustomersName.get(Math.toIntExact(order.getCustomerNumber())))
+                .customerName(allCustomersName.get(order.getCustomerNumber()))
                 .totalPrice(totalsMap.getOrDefault(order.getOrderNumber(), BigDecimal.ZERO))
                 .build();
 

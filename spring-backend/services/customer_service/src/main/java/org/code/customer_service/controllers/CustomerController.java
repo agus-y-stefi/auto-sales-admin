@@ -2,10 +2,7 @@ package org.code.customer_service.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.code.customer_service.dtos.CustomPagedDTO;
-import org.code.customer_service.dtos.CustomerDto;
-import org.code.customer_service.dtos.CustomerDtoCreate;
-import org.code.customer_service.dtos.CustomerDtoUpdate;
+import org.code.customer_service.dtos.*;
 import org.code.customer_service.services.CustomerService;
 import org.code.customer_service.specifications.criteria.CustomerSearchCriteria;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
@@ -14,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -74,5 +72,10 @@ public class CustomerController {
     public ResponseEntity<Void> deleteCustomer(@PathVariable Integer id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/names")
+    public ResponseEntity<List<CustomerNameDTO>> getCustomersNames(@RequestParam List<Integer> ids){
+        return ResponseEntity.ok(customerService.getCustomersNames(ids));
     }
 }

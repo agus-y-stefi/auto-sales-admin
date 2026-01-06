@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.code.customer_service.dtos.CustomerDto;
 import org.code.customer_service.dtos.CustomerDtoCreate;
 import org.code.customer_service.dtos.CustomerDtoUpdate;
+import org.code.customer_service.dtos.CustomerNameDTO;
 import org.code.customer_service.mappers.CustomerMapper;
 import org.code.customer_service.models.Customer;
 import org.code.customer_service.repositories.CustomerRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -114,5 +116,19 @@ public class CustomerService {
         }
 
         return PageRequest.of(pageNumber, size, Sort.unsorted());
+    }
+
+    public List<CustomerNameDTO> getCustomersNames(List<Integer> ids) {
+        List<Customer> customers = customerRepository.findAllById(ids);
+
+        return customers.stream()
+                .map(c -> CustomerNameDTO.builder()
+                        .customerNumber(Long.valueOf(c.getCustomerNumber()))
+                        .customerName(c.getCustomerName())
+                        .build()
+                )
+                .toList();
+
+
     }
 }
