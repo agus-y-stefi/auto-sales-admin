@@ -1,50 +1,42 @@
-import type { IProductTableHome } from "@/contracts"
+import { ITableColums } from "@/components/table-provider"
 
-export interface IProductTableHomeConfig {
-    key: keyof IProductTableHome
-    label: string
-    sortable?: boolean
-    className?: string
-}
+export const columnsProductsTableHome: ITableColums[] = [
+    {
 
-export const productTableHomeConfig: IProductTableHomeConfig[] = [
-    {
-        key: "productCode",
-        label: "Código",
-        sortable: true,
-        className: "w-[120px]",
-    },
-    {
-        key: "productName",
-        label: "Nombre",
+        uid: "productCode",
+        name: "Código",
         sortable: true,
     },
     {
-        key: "productLine",
-        label: "Línea",
+        uid: "productName",
+        name: "Nombre",
         sortable: true,
     },
     {
-        key: "productVendor",
-        label: "Proveedor",
+        uid: "productLine",
+        name: "Línea",
         sortable: true,
     },
     {
-        key: "status",
-        label: "Estado",
+        uid: "productVendor",
+        name: "Proveedor",
         sortable: true,
     },
     {
-        key: "buyPrice",
-        label: "Precio Compra",
+        uid: "status",
+        name: "Estado",
         sortable: true,
-        className: "text-right",
     },
     {
-        key: "MSRP",
-        label: "Precio Venta",
+        
+        uid: "buyPrice",
+        name: "Precio Compra",
         sortable: true,
-        className: "text-right",
+    },
+    {
+        uid: "MSRP",
+        name: "Precio Venta",
+        sortable: true,
     },
 ]
 

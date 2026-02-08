@@ -1,6 +1,6 @@
 "use client";
 import {usePathname, useRouter, useSearchParams} from "next/navigation"
-import {useMemo, useState} from "react"
+import {useMemo} from "react"
 import {useDebouncedCallback} from "use-debounce";
 
 export const useHandleParams = () => {
@@ -13,6 +13,9 @@ export const useHandleParams = () => {
     const statusFilter = useMemo(() => new Set(statusParam?.split(",") ?? []), [statusParam])
 
     const query  = searchParams.get("query");
+
+    const sort = searchParams.get("sort");
+    const dir = searchParams.get("dir");
 
 
     const handleStatusFilter = (uid: string) => {
@@ -61,6 +64,29 @@ export const useHandleParams = () => {
         replace(`${pathname}?${param.toString()}`);
     }
 
+    const handleSort = (sortKey: string) => {
+        const param = new URLSearchParams(searchParams);
+        const currentSort = param.get("sort");
+        const currentDir = param.get("dir");
+        
+        if (currentSort === sortKey) {
+            // Toggle direction
+            if (currentDir === "asc") {
+                param.set("dir", "desc");
+            } else {
+                param.set("dir", "asc");
+            }
+        } else {
+            // Set new sort key and default to ascending
+            param.set("sort", sortKey);
+            param.set("dir", "asc");
+        }
 
-    return {handleSearch, handleStatusFilter, handleLimitPage, statusFilter, query}
+        replace(`${pathname}?${param.toString()}`);
+    }
+
+    
+
+
+    return {handleSearch, handleStatusFilter, handleLimitPage, statusFilter, query, handleSort, sort, dir}
 }

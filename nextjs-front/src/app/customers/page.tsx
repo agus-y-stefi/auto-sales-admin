@@ -8,16 +8,20 @@ export default async function Page(props: {
         page?: string;
         limit?: string;
         status?: string;
+        sort?: string;
+        dir?: "asc" | "desc";
     }>;
 }) {
     const searchParams = await props.searchParams;
-    const { page, limit = "5", query, status } = searchParams || {};
+    const { page, limit = "5", query, status, sort, dir } = searchParams || {};
 
     const customers = await getCustomersHomeTable(
         parseInt(page || "0"),
         parseInt(limit),
         status,
-        query
+        query,
+        sort,
+        dir
     );
 
     return (

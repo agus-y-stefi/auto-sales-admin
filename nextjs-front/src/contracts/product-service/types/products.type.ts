@@ -11,14 +11,20 @@ export interface IProduct {
     productLineDescription: string;
 }
 
-export interface IProductTableHome extends Omit<IProduct,
-    "productScale" | "productDescription" | "productLineDescription" | "msrp"
-> {
+export interface IProductTableHome
+    extends Omit<
+        IProduct,
+        | "productScale"
+        | "productDescription"
+        | "productLineDescription"
+        | "msrp"
+    > {
     MSRP: number;
     status: string;
 }
 
-export interface IProductTableNewOrder extends Omit<IProductTableHome,
-    "productVendor" | "buyPrice" | "status"
-> {
-}
+export interface IProductTableNewOrder
+    extends Omit<IProductTableHome, "productVendor" | "buyPrice" | "status"> {}
+
+export interface IProductCreateUpdate
+    extends Omit<IProduct, "productLineDescription"> {}

@@ -1,26 +1,25 @@
+"use client"
+
 import {Input} from "@/components/ui/input"
 import {Search, X} from "lucide-react"
 import {Button} from "@/components/ui/button";
 import {useHandleParams} from "@/hooks/use_handle_params";
-import {useState} from "react";
 
 export function ClearableInput() {
 
-// En tu componente:
     const {handleSearch, query} = useHandleParams();
-
-    const [q, setQ] = useState(query || "");
 
     return (
         <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4"/>
             <Input
-                value={q}
+                // value={q}
+                defaultValue={query || ""}
                 placeholder="Buscar por número o cliente..."
                 className="pl-10 min-w-[200px]"
                 onChange={(e) =>
                 {
-                    setQ(e.target.value)
+                    // setQ(e.target.value)
                     handleSearch(e.target.value)
                 }}
             />
@@ -31,7 +30,7 @@ export function ClearableInput() {
                     className="absolute right-0 top-0 h-full w-10 hover:bg-transparent"
                     onClick={() => {
                         handleSearch("")
-                        setQ("")
+                        // setQ("")
                     }}
                     type="button"
                 >

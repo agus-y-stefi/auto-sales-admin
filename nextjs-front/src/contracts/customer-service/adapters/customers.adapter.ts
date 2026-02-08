@@ -17,14 +17,19 @@ export const getCustomersHomeTable = async (
     page?: number,
     size?: number,
     status?: string,
-    query?: string
+    query?: string,
+    sort?: string,
+    dir?: "asc" | "desc"
 ) => {
     const statusArray = status ? status.split(",") : undefined;
+    const sortInfo = sort ? { sortBy: sort, sortDir: dir || "asc" } : {};
+
     const response = await getAllCustomers({
         size: size,
         page: page ? page - 1 : undefined,
         status: statusArray,
         q: query,
+        ...sortInfo
     });
     if (!response || !response.data) {
         throw new Error("Failed to fetch customers data");

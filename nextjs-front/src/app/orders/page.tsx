@@ -1,25 +1,28 @@
 import OrdersTable from "@/components/orders-home/orders_table";
 import {getOrdersHomeTable} from "@/contracts/orders-service/adapters/orders.adapter";
 
+interface PageProps {
+    searchParams?: {
+        query?: string;
+        page?: string;
+        limit?: string;
+        status?: string
+        sort?: string
+        dir?: string
+    };
+}
 
-export default async function Page(props: {
-    searchParams?: Promise<{
-        query: string;
-        page: string;
-        limit: string;
-        status: string
-    }>;
-}) {
+export default async function Page(props: PageProps) {
     const searchParams = await props.searchParams;
-    const {page="1", limit="5", query, status=""} = searchParams || {
+    const {page="1", limit="5", query, status="", sort, dir} = searchParams || {
         page: "1",
         limit: "5",
-        status: ""
+        status: "",
     };
 
     const statusParam = status.split(",");
 
-    const orders = await  getOrdersHomeTable(parseInt(page) - 1, parseInt(limit), statusParam, query);
+    const orders = await getOrdersHomeTable(parseInt(page) - 1, parseInt(limit), statusParam, query, sort, dir);
 
     return (
         <div className="container mx-auto p-10">

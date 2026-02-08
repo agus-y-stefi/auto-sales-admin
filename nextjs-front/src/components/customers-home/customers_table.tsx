@@ -1,18 +1,11 @@
-"use client";
-
-import React, { type JSX, useState } from "react";
+import React, { type JSX } from "react";
 import {
-    Table,
-    TableBody,
     TableCell,
-    TableHead,
-    TableHeader,
     TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Eye } from "lucide-react";
 
-import { TableTopContent } from "./table-top-customers";
 import { formatCurrency } from "@/lib/format";
 import type { IPage, ICustomersTableHome } from "@/contracts";
 import {
@@ -20,22 +13,16 @@ import {
     columnsCustomersTableHome,
     statusOptionsTableHome,
 } from "@/lib/config/tables/customer-home.config";
-import { NewCustomerModal } from "@/components/customers-home/new/new-customer-modal";
-import { PaginationBottom } from "@/components/pagination_bottom";
-import { useSortedItems } from "@/hooks/use_sort";
 import Link from "next/link";
+import { TableTopContent } from "./table-top-customers";
+import { TableProvider } from "../table-provider";
 
 export function CustomersTable({
     customersPage,
 }: {
     customersPage: IPage<ICustomersTableHome>;
 }) {
-    const [isNewCustomerModalOpen, setIsNewCustomerModalOpen] = useState(false);
-
     const customers = customersPage.content;
-
-    const { sortedItems, sortDescriptor, handleSort } =
-        useSortedItems(customers);
 
     const renderCell = (
         uid: CellKey,
@@ -100,100 +87,47 @@ export function CustomersTable({
 
     return (
         <React.Fragment>
-            <NewCustomerModal
-                open={isNewCustomerModalOpen}
-                onOpenChange={setIsNewCustomerModalOpen}
-            />
             <div className="space-y-4">
-                <TableTopContent
-                    customersLength={customers.length}
-                    setIsNewCustomerModalOpen={setIsNewCustomerModalOpen}
-                />
-
-                <div className="border rounded-lg">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
+                <TableTopContent customersLength={customers.length} />
+                <TableProvider
+                    columns={columnsCustomersTableHome}
+                    pages={customersPage.metadata.totalPages || 1}
+                >
+                    {customersPage.content.length === 0 ? (
+                        <TableRow>
+                            <TableCell
+                                colSpan={columnsCustomersTableHome.length}
+                                className="text-center py-8"
+                            >
+                                No se encontraron clientes
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        customersPage.content.map((item) => (
+                            <TableRow key={item.customerNumber}>
                                 {columnsCustomersTableHome.map((column) => (
-                                    <TableHead
+                                    <TableCell
                                         key={column.uid}
-                                        className={`${
+                                        className={
                                             column.uid === "actions"
                                                 ? "text-center"
-                                                : "text-left"
-                                        } ${
-                                            column.sortable
-                                                ? "cursor-pointer hover:bg-muted/50"
                                                 : ""
-                                        }`}
-                                        onClick={
-                                            column.sortable
-                                                ? () => handleSort(column.uid)
-                                                : undefined
                                         }
                                     >
-                                        <div className="flex items-center gap-2">
-                                            {column.name}
-                                            {column.sortable &&
-                                                sortDescriptor.column ===
-                                                    column.uid && (
-                                                    <span className="text-xs">
-                                                        {sortDescriptor.direction ===
-                                                        "ascending"
-                                                            ? "↑"
-                                                            : "↓"}
-                                                    </span>
-                                                )}
-                                        </div>
-                                    </TableHead>
+                                        {renderCell(
+                                            column.uid as CellKey,
+                                            item
+                                        )}
+                                    </TableCell>
                                 ))}
                             </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {sortedItems.length === 0 ? (
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={
-                                            columnsCustomersTableHome.length
-                                        }
-                                        className="text-center py-8"
-                                    >
-                                        No se encontraron clientes
-                                    </TableCell>
-                                </TableRow>
-                            ) : (
-                                sortedItems.map((item) => (
-                                    <TableRow key={item.customerNumber}>
-                                        {columnsCustomersTableHome.map(
-                                            (column) => (
-                                                <TableCell
-                                                    key={column.uid}
-                                                    className={
-                                                        column.uid === "actions"
-                                                            ? "text-center"
-                                                            : ""
-                                                    }
-                                                >
-                                                    {renderCell(
-                                                        column.uid as CellKey,
-                                                        item
-                                                    )}
-                                                </TableCell>
-                                            )
-                                        )}
-                                    </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-
-                <PaginationBottom
-                    pages={customersPage.metadata.totalPages || 1}
-                />
+                        ))
+                    )}
+                </TableProvider>
             </div>
         </React.Fragment>
     );
 }
+
 
 export default CustomersTable;

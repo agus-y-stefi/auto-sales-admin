@@ -25,40 +25,14 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> getAllProducts(
-            @RequestParam(required = false) String productCode,
-            @RequestParam(required = false) String productName,
-            @RequestParam(required = false) String productLine,
-            @RequestParam(required = false) String productScale,
-            @RequestParam(required = false) String productVendor,
-            @RequestParam(required = false) String productDescription,
-            @RequestParam(required = false) Short minQuantityInStock,
-            @RequestParam(required = false) Short maxQuantityInStock,
-            @RequestParam(required = false) Boolean inStock,
-            @RequestParam(required = false) BigDecimal minBuyPrice,
-            @RequestParam(required = false) BigDecimal maxBuyPrice,
-            @RequestParam(required = false) BigDecimal minMsrp,
-            @RequestParam(required = false) BigDecimal maxMsrp,
-            @RequestParam(required = false, defaultValue = "false") Boolean exactMatch,
+            @RequestParam(required = false) String q,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortDir
     ) {
         ProductSearchCriteria criteria = ProductSearchCriteria.builder()
-                .productCode(productCode)
-                .productName(productName)
-                .productLine(productLine)
-                .productScale(productScale)
-                .productVendor(productVendor)
-                .productDescription(productDescription)
-                .minQuantityInStock(minQuantityInStock)
-                .maxQuantityInStock(maxQuantityInStock)
-                .inStock(inStock)
-                .minBuyPrice(minBuyPrice)
-                .maxBuyPrice(maxBuyPrice)
-                .minMsrp(minMsrp)
-                .maxMsrp(maxMsrp)
-                .exactMatch(exactMatch)
+                .q(q)
                 .build();
 
         return ResponseEntity.ok(
@@ -71,40 +45,14 @@ public class ProductController {
 
     @GetMapping("/summary")
     public ResponseEntity<Page<ProductSummaryDTO>> getAllProductsSummary(
-            @RequestParam(required = false) String productCode,
-            @RequestParam(required = false) String productName,
-            @RequestParam(required = false) String productLine,
-            @RequestParam(required = false) String productScale,
-            @RequestParam(required = false) String productVendor,
-            @RequestParam(required = false) String productDescription,
-            @RequestParam(required = false) Short minQuantityInStock,
-            @RequestParam(required = false) Short maxQuantityInStock,
-            @RequestParam(required = false) Boolean inStock,
-            @RequestParam(required = false) BigDecimal minBuyPrice,
-            @RequestParam(required = false) BigDecimal maxBuyPrice,
-            @RequestParam(required = false) BigDecimal minMsrp,
-            @RequestParam(required = false) BigDecimal maxMsrp,
-            @RequestParam(required = false, defaultValue = "false") Boolean exactMatch,
+            @RequestParam(required = false) String q,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortDir
     ) {
         ProductSearchCriteria criteria = ProductSearchCriteria.builder()
-                .productCode(productCode)
-                .productName(productName)
-                .productLine(productLine)
-                .productScale(productScale)
-                .productVendor(productVendor)
-                .productDescription(productDescription)
-                .minQuantityInStock(minQuantityInStock)
-                .maxQuantityInStock(maxQuantityInStock)
-                .inStock(inStock)
-                .minBuyPrice(minBuyPrice)
-                .maxBuyPrice(maxBuyPrice)
-                .minMsrp(minMsrp)
-                .maxMsrp(maxMsrp)
-                .exactMatch(exactMatch)
+                .q(q)
                 .build();
 
         return ResponseEntity.ok(

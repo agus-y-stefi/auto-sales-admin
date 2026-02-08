@@ -27,13 +27,19 @@ export const getOrdersHomeTable = async (
     page: number,
     limit: number,
     status?: string[],
-    q?: string
+    q?: string,
+    sort?:string,
+    dir?:string
 ): Promise<IPage<IOrderTableHome>> => {
+
+    const sortParam = sort ? { sortBy: sort, sortDir: dir || "asc" } : {};
+
     const response = await getAllOrdersResume({
         page: page,
         size: limit,
         status: status,
         q: q,
+        ...sortParam
     });
 
     if (!response || !response.data) {

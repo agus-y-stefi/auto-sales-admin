@@ -1,10 +1,17 @@
-import {getAllProducts} from "@/contracts/orders-service/generated/api";
-import {toProductsHomeTable, toProductsNewOrderTable} from "@/contracts/product-service/mappers/product.mappers";
-import {IPage, IProductTableNewOrder} from "@/contracts";
-import {IProductTableHome} from "@/contracts/product-service/types/products.type";
+import { getAllProducts } from "@/contracts/orders-service/generated/api";
+import {
+    toProductsHomeTable,
+    toProductsNewOrderTable,
+} from "@/contracts/product-service/mappers/product.mappers";
+import { IPage, IProductTableNewOrder } from "@/contracts";
+import { IProductTableHome } from "@/contracts/product-service/types/products.type";
 
-export const getProductsHomeTable = async (page:number, size:number) : Promise<IPage<IProductTableHome>> =>{
-    const response = await getAllProducts({page, size});
+export const getProductsHomeTable = async (
+    page: number,
+    size: number,
+    query?: string
+): Promise<IPage<IProductTableHome>> => {
+    const response = await getAllProducts({ q: query, page, size });
     if (!response || !response.data) {
         throw new Error("No products found");
     }
@@ -17,15 +24,16 @@ export const getProductsHomeTable = async (page:number, size:number) : Promise<I
             size: products.size || 0,
             totalElements: products.totalElements || 0,
             totalPages: products.totalPages || 0,
-
-        }
+        },
     };
-}
+};
 
-export const getProductsNewOrderTable = async (query: string) : Promise<IPage<IProductTableNewOrder>> =>{
-    const q = (query == "")? undefined : query;
+export const getProductsNewOrderTable = async (
+    query: string
+): Promise<IPage<IProductTableNewOrder>> => {
+    const q = query == "" ? undefined : query;
 
-    const response = await getAllProducts({productCode: query});
+    const response = await getAllProducts({ productCode: query });
     if (!response || !response.data) {
         throw new Error("No products found");
     }
@@ -38,6 +46,6 @@ export const getProductsNewOrderTable = async (query: string) : Promise<IPage<IP
             size: products.size || 0,
             totalElements: products.totalElements || 0,
             totalPages: products.totalPages || 0,
-        }
-    }
-}
+        },
+    };
+};
