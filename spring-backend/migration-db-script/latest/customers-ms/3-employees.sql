@@ -1,0 +1,26 @@
+-- Establecer el schema para customers_service
+SET search_path TO customers_service, public;
+insert into employees (employee_number, last_name, first_name, extension, office_code)
+values  (1002, 'Murphy', 'Diane', 'x5800', '1'),
+        (1056, 'Patterson', 'Mary', 'x4611', '1'),
+        (1076, 'Firrelli', 'Jeff', 'x9273', '1'),
+        (1088, 'Patterson', 'William', 'x4871', '6'),
+        (1102, 'Bondur', 'Gerard', 'x5408', '4'),
+        (1143, 'Bow', 'Anthony', 'x5428', '1'),
+        (1165, 'Jennings', 'Leslie', 'x3291', '1'),
+        (1166, 'Thompson', 'Leslie', 'x4065', '1'),
+        (1188, 'Firrelli', 'Julie', 'x2173', '2'),
+        (1216, 'Patterson', 'Steve', 'x4334', '2'),
+        (1286, 'Tseng', 'Foon Yue', 'x2248', '3'),
+        (1323, 'Vanauf', 'George', 'x4102', '3'),
+        (1337, 'Bondur', 'Loui', 'x6493', '4'),
+        (1370, 'Hernandez', 'Gerard', 'x2028', '4'),
+        (1401, 'Castillo', 'Pamela', 'x2759', '4'),
+        (1501, 'Bott', 'Larry', 'x2311', '7'),
+        (1504, 'Jones', 'Barry', 'x102', '7'),
+        (1611, 'Fixter', 'Andy', 'x101', '6'),
+        (1612, 'Marsh', 'Peter', 'x102', '6'),
+        (1619, 'King', 'Tom', 'x103', '6'),
+        (1621, 'Nishi', 'Mami', 'x101', '5'),
+        (1625, 'Kato', 'Yoshimi', 'x102', '5'),
+        (1702, 'Gerard', 'Martin', 'x2312', '4');
