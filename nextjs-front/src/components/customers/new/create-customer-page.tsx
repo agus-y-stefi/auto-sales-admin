@@ -3,8 +3,9 @@
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
-import { createCustomer } from "@/contracts/customer-service/api";
+import { createCustomerAction } from "@/lib/actions/customer.actions";
 import type { CustomerDtoCreate } from "@/contracts/customer-service/models";
 import { CreateCustomerHeader } from "./create-customer-header";
 import { CustomerFormCard } from "./customer-form-card";
@@ -31,6 +32,8 @@ const customerSchema = z.object({
 type CustomerSchema = z.infer<typeof customerSchema>;
 
 function useCustomerForm() {
+    const router = useRouter();
+
     return useForm({
         defaultValues: {
             customerName: "",
@@ -42,10 +45,38 @@ function useCustomerForm() {
             creditLimit: "",
         } as CustomerSchema,
         validators: {
-            onSubmit: customerSchema,
+            onChange: customerSchema,
         },
-        onSubmit: async ({ value }) => {
-            // Transformar datos si es necesario (ej. creditLimit string -> number)
+        onSubmit: async ({ value, formApi }) => {
+            const payload: CustomerDtoCreate = {
+                ...value,
+                creditLimit: value.creditLimit ? parseFloat(value.creditLimit) : undefined,
+            };
+
+            const result = await createCustomerAction(payload);
+
+            if (result.success) {
+                toast.success("Cliente creado exitosamente");
+                router.push("/customers");
+                return;
+            }
+
+            if (result.validationErrors) {
+                Object.entries(result.validationErrors).forEach(([field, message]) => {
+                    if (field in value) {
+                        // @ts-expect-error: pushFieldMeta might not be in the type definition but is available in runtime
+                        formApi.pushFieldMeta(field as keyof CustomerSchema, (prev: any) => ({
+                            ...prev,
+                            errorMap: { server: message },
+                        }));
+                    }
+                });
+                toast.error("Por favor corrija los errores en el formulario");
+                return;
+            }
+
+            toast.error(result.error);
+            return;
         },
     });
 }
