@@ -41,8 +41,8 @@ export default {
     "customer-service": {
         input: `${currentEndpoints.customers}/api-docs`,
         output: {
-            target: "./src/contracts/customer-service/generated/api.ts",
-            schemas: "./src/contracts/customer-service/generated/models",
+            target: "./src/contracts/customer-service/api.ts",
+            schemas: "./src/contracts/customer-service/models",
             client: "fetch",
             baseUrl: currentEndpoints.customers,
             override: {
@@ -55,8 +55,8 @@ export default {
     "orders-service": {
         input: `${currentEndpoints.orders}/api-docs`,
         output: {
-            target: "./src/contracts/orders-service/generated/api.ts",
-            schemas: "./src/contracts/orders-service/generated/models",
+            target: "./src/contracts/orders-service/api.ts",
+            schemas: "./src/contracts/orders-service/models",
             client: "fetch",
             baseUrl: currentEndpoints.orders,
             override: {
@@ -69,8 +69,8 @@ export default {
     "product-service": {
         input: `${currentEndpoints.products}/api-docs`,
         output: {
-            target: "./src/contracts/product-service/generated/api.ts",
-            schemas: "./src/contracts/product-service/generated/models",
+            target: "./src/contracts/product-service/api.ts",
+            schemas: "./src/contracts/product-service/models",
             client: "fetch",
             baseUrl: currentEndpoints.products,
             override: {

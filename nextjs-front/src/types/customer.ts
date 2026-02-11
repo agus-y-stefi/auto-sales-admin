@@ -1,21 +1,23 @@
 export interface Customer {
-    customerId: number;
-    companyName: string;
-    companyType: string | null;
+    customerNumber: number;
+    customerName: string;
     contactLastName: string;
     contactFirstName: string;
-    contactRole: string | null;
     phone: string | null;
     city: string | null;
     country: string | null;
     creditLimit: number | null;
-    status: "Active" | "Inactive" | "Pending";
+    status: string;
 }
 
 export interface PaginatedResponse<T> {
     content: T[];
     totalElements: number;
     totalPages: number;
-    page: number;
+    number: number;
     size: number;
+    first: boolean;
+    last: boolean;
+    hasNext: boolean;
+    hasPrev: boolean;
 }

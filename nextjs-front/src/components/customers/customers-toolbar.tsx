@@ -2,6 +2,8 @@
 
 import { useQueryState } from "nuqs";
 import { Search, LayoutGrid, List, Download } from "lucide-react";
+import { useDebouncedCallback } from "use-debounce";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,90 +13,79 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { searchParamsParsers } from "@/app/customers/search-params";
 
 export function CustomersToolbar() {
-    const [searchQuery, setSearchQuery] = useQueryState("q", {
-        defaultValue: "",
-        parse: (value) => value || "",
-        shallow: false, // Update URL immediately
-        throttleMs: 300,
-    });
-
-    const [statusFilter, setStatusFilter] = useQueryState("status", {
-        defaultValue: "all",
-        parse: (value) => value || "all",
+    // shallow: false forces a server-side navigation (refresh)
+    const [q, setQ] = useQueryState("q", { ...searchParamsParsers.q, shallow: false });
+    const [status, setStatus] = useQueryState("status", {
+        ...searchParamsParsers.status,
         shallow: false,
     });
+    const [, setPage] = useQueryState("page", { ...searchParamsParsers.page, shallow: false });
 
-    const [, setPage] = useQueryState("page", {
-        defaultValue: 1,
-        parse: (value) => Number(value) || 1,
-        shallow: false,
-    });
+    const handleSearch = useDebouncedCallback((term: string) => {
+        setQ(term || null);
+        setPage(1); // Reset to page 1 on search
+    }, 300);
+
+    const handleStatusChange = (val: string) => {
+        setStatus(val === "all" ? null : val);
+        setPage(1); // Reset to page 1 on filter
+    };
 
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow-sm bg-white dark:bg-zinc-900 p-4">
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                {/* Buscador */}
-                <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="bg-card rounded-xl border shadow-sm p-4 space-y-4 md:space-y-0 md:flex md:items-center md:justify-between gap-4">
+            {/* Search + Filter Group */}
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-1">
+                <div className="relative w-full sm:w-80">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                         placeholder="Buscar cliente, ID o empresa..."
-                        className="pl-9 bg-background"
-                        value={searchQuery}
-                        onChange={(e) => {
-                            setSearchQuery(e.target.value);
-                            setPage(1); // Reset page on search
-                        }}
+                        className="pl-9 bg-background/50"
+                        defaultValue={q ?? ""}
+                        onChange={(e) => handleSearch(e.target.value)}
                     />
                 </div>
 
-                {/* Filtro de Estado */}
-                <Select
-                    value={statusFilter}
-                    onValueChange={(value) => {
-                        setStatusFilter(value);
-                        setPage(1); // Reset page on filter change
-                    }}
-                >
-                    <SelectTrigger className="w-full sm:w-44 bg-background">
+                <Select value={status ?? "all"} onValueChange={handleStatusChange}>
+                    <SelectTrigger className="w-full sm:w-[180px] bg-background/50">
                         <SelectValue placeholder="Todos los Estados" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">Todos los Estados</SelectItem>
-                        <SelectItem value="Active">Activo</SelectItem>
-                        <SelectItem value="Inactive">Inactivo</SelectItem>
-                        <SelectItem value="Pending">Pendiente</SelectItem>
+                        <SelectItem value="active">Activo</SelectItem>
+                        <SelectItem value="inactive">Inactivo</SelectItem>
+                        <SelectItem value="new">Nuevo</SelectItem>
+                        <SelectItem value="vip">VIP</SelectItem>
+                        <SelectItem value="overdue">Moroso</SelectItem>
+                        <SelectItem value="review">En Revisión</SelectItem>
                     </SelectContent>
                 </Select>
+            </div>
 
-                {/* Spacer */}
-                <div className="hidden sm:flex flex-1" />
-
-                {/* Botones de vista y exportar */}
-                <div className="flex items-center gap-2">
-                    <div className="flex items-center border rounded-md bg-background">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-9 w-9 rounded-none rounded-l-md border-r hover:bg-muted"
-                        >
-                            <List className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-9 w-9 rounded-none rounded-r-md hover:bg-muted text-muted-foreground"
-                        >
-                            <LayoutGrid className="h-4 w-4" />
-                        </Button>
-                    </div>
-
-                    <Button variant="outline" size="sm" className="h-9 gap-1.5 bg-background">
-                        <Download className="h-4 w-4" />
-                        Exportar
+            {/* View + Export Actions */}
+            <div className="flex items-center gap-2 w-full md:w-auto justify-end">
+                <div className="flex items-center rounded-lg border bg-background/50 p-1">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 rounded-md bg-white shadow-sm dark:bg-accent dark:text-accent-foreground"
+                    >
+                        <List className="h-4 w-4" />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 rounded-md text-muted-foreground hover:bg-transparent"
+                    >
+                        <LayoutGrid className="h-4 w-4" />
                     </Button>
                 </div>
+                <Button variant="outline" className="bg-background/50 gap-2 shadow-none">
+                    <Download className="h-4 w-4" />
+                    <span className="hidden sm:inline">Exportar</span>
+                </Button>
             </div>
         </div>
     );

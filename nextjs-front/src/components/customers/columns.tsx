@@ -30,31 +30,24 @@ function getAvatarColor(name: string): string {
 
 export const columns: ColumnDef<Customer>[] = [
     {
-        accessorKey: "customerId",
+        accessorKey: "customerNumber",
         header: "ID",
         cell: ({ row }) => (
             <span className="font-mono text-xs text-muted-foreground">
-                #{row.getValue("customerId")}
+                #{row.getValue("customerNumber")}
             </span>
         ),
     },
     {
-        accessorKey: "companyName",
+        accessorKey: "customerName",
         header: "COMPAÑÍA",
-        cell: ({ row }) => (
-            <div>
-                <div className="font-medium">{row.getValue("companyName")}</div>
-                {row.original.companyType && (
-                    <div className="text-xs text-muted-foreground">{row.original.companyType}</div>
-                )}
-            </div>
-        ),
+        cell: ({ row }) => <div className="font-medium">{row.getValue("customerName")}</div>,
     },
     {
         id: "contact",
         header: "CONTACTO",
         cell: ({ row }) => {
-            const { contactFirstName, contactLastName, contactRole } = row.original;
+            const { contactFirstName, contactLastName } = row.original;
             const fullName = `${contactFirstName} ${contactLastName}`;
             const initials = getInitials(contactFirstName, contactLastName);
             const colorClass = getAvatarColor(fullName);
@@ -66,12 +59,7 @@ export const columns: ColumnDef<Customer>[] = [
                             {initials}
                         </AvatarFallback>
                     </Avatar>
-                    <div>
-                        <div className="font-medium text-sm">{fullName}</div>
-                        {contactRole && (
-                            <div className="text-xs text-muted-foreground">{contactRole}</div>
-                        )}
-                    </div>
+                    <div className="font-medium text-sm">{fullName}</div>
                 </div>
             );
         },

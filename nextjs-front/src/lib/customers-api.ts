@@ -1,5 +1,6 @@
-import { mockCustomers } from "@/lib/mock-customers";
+import { getAllCustomers } from "@/contracts/customer-service/api";
 import { Customer, PaginatedResponse } from "@/types/customer";
+import { CustomPagedDTOCustomerDto } from "@/contracts/customer-service/models";
 
 interface GetCustomersParams {
     page?: number;
@@ -8,46 +9,34 @@ interface GetCustomersParams {
     status?: string;
 }
 
+/**
+ * Fetches customers from the backend API via Orval-generated client.
+ * Handles page indexing: frontend uses 1-based, backend uses 0-based.
+ */
 export async function getCustomers({
     page = 1,
     size = 10,
     q = "",
     status = "all",
 }: GetCustomersParams): Promise<PaginatedResponse<Customer>> {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    const response = await getAllCustomers({
+        page: page - 1, // Backend is 0-indexed
+        size,
+        q: q || undefined, // Don't send empty string
+        status: status !== "all" ? [status] : undefined, // Backend expects string[]
+    });
 
-    let filteredData = [...mockCustomers];
-
-    // Filter by status
-    if (status !== "all") {
-        filteredData = filteredData.filter((customer) => customer.status === status);
-    }
-
-    // Filter by search query
-    if (q) {
-        const query = q.toLowerCase();
-        filteredData = filteredData.filter(
-            (customer) =>
-                customer.companyName.toLowerCase().includes(query) ||
-                customer.contactFirstName.toLowerCase().includes(query) ||
-                customer.contactLastName.toLowerCase().includes(query) ||
-                String(customer.customerId).includes(query),
-        );
-    }
-
-    // Pagination
-    const totalElements = filteredData.length;
-    const totalPages = Math.ceil(totalElements / size);
-    const startIndex = (page - 1) * size;
-    const endIndex = startIndex + size;
-    const content = filteredData.slice(startIndex, endIndex);
+    const data = response.data as unknown as CustomPagedDTOCustomerDto;
 
     return {
-        content,
-        totalElements,
-        totalPages,
-        page,
-        size,
+        content: (data.content ?? []) as Customer[],
+        totalElements: data.totalElements ?? 0,
+        totalPages: data.totalPages ?? 0,
+        number: data.number ?? 0,
+        size: data.size ?? size,
+        first: data.first ?? true,
+        last: data.last ?? true,
+        hasNext: data.hasNext ?? false,
+        hasPrev: data.hasPrev ?? false,
     };
 }
