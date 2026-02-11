@@ -45,7 +45,7 @@ export function CreditStatusCard({ form }: { form: CustomerForm }) {
                                     <Input
                                         id={field.name}
                                         name={field.name}
-                                        value={field.state.value}
+                                        value={field.state.value ?? ""}
                                         onBlur={field.handleBlur}
                                         onChange={(e) => field.handleChange(e.target.value)}
                                         placeholder="0.00"
@@ -55,7 +55,9 @@ export function CreditStatusCard({ form }: { form: CustomerForm }) {
                                         MXN
                                     </span>
                                 </div>
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>
@@ -67,7 +69,7 @@ export function CreditStatusCard({ form }: { form: CustomerForm }) {
                                 <FieldLabel htmlFor={field.name}>Estado</FieldLabel>
                                 <Select
                                     name={field.name}
-                                    value={field.state.value}
+                                    value={field.state.value ?? ""}
                                     onValueChange={field.handleChange}
                                 >
                                     <SelectTrigger id={field.name}>
@@ -81,7 +83,9 @@ export function CreditStatusCard({ form }: { form: CustomerForm }) {
                                         ))}
                                     </SelectContent>
                                 </Select>
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>

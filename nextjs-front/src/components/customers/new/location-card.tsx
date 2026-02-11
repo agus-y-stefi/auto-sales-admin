@@ -35,12 +35,14 @@ export function LocationCard({ form }: { form: CustomerForm }) {
                                     <Input
                                         id={field.name}
                                         name={field.name}
-                                        value={field.state.value}
+                                        value={field.state.value ?? ""}
                                         onBlur={field.handleBlur}
                                         onChange={(e) => field.handleChange(e.target.value)}
                                         placeholder="Calle, Número, Colonia"
                                     />
-                                    <FieldError errors={field.state.meta.errors} />
+                                    {field.state.meta.errors.length > 0 && (
+                                        <FieldError errors={field.state.meta.errors} />
+                                    )}
                                 </Field>
                             )}
                         </form.Field>
@@ -54,12 +56,14 @@ export function LocationCard({ form }: { form: CustomerForm }) {
                                 <Input
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
+                                    value={field.state.value ?? ""}
                                     onBlur={field.handleBlur}
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     placeholder="Ej. Monterrey"
                                 />
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>
@@ -72,12 +76,14 @@ export function LocationCard({ form }: { form: CustomerForm }) {
                                 <Input
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
+                                    value={field.state.value ?? ""}
                                     onBlur={field.handleBlur}
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     placeholder="Ej. Nuevo León"
                                 />
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>
@@ -90,12 +96,14 @@ export function LocationCard({ form }: { form: CustomerForm }) {
                                 <Input
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
+                                    value={field.state.value ?? ""}
                                     onBlur={field.handleBlur}
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     placeholder="Ej. 64000"
                                 />
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>
@@ -108,7 +116,7 @@ export function LocationCard({ form }: { form: CustomerForm }) {
                                     <FieldLabel htmlFor={field.name}>País</FieldLabel>
                                     <Select
                                         name={field.name}
-                                        value={field.state.value}
+                                        value={field.state.value ?? ""}
                                         onValueChange={field.handleChange}
                                     >
                                         <SelectTrigger id={field.name}>
@@ -122,7 +130,9 @@ export function LocationCard({ form }: { form: CustomerForm }) {
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <FieldError errors={field.state.meta.errors} />
+                                    {field.state.meta.errors.length > 0 && (
+                                        <FieldError errors={field.state.meta.errors} />
+                                    )}
                                 </Field>
                             )}
                         </form.Field>

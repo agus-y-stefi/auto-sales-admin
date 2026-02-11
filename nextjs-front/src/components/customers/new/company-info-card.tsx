@@ -28,12 +28,14 @@ export function CompanyInfoCard({ form }: { form: CustomerForm }) {
                                     <Input
                                         id={field.name}
                                         name={field.name}
-                                        value={field.state.value}
+                                        value={field.state.value ?? ""}
                                         onBlur={field.handleBlur}
                                         onChange={(e) => field.handleChange(e.target.value)}
                                         placeholder="Ej. AutoMotores Del Sur S.A."
                                     />
-                                    <FieldError errors={field.state.meta.errors} />
+                                    {field.state.meta.errors.length > 0 && (
+                                        <FieldError errors={field.state.meta.errors} />
+                                    )}
                                 </Field>
                             )}
                         </form.Field>
@@ -41,20 +43,24 @@ export function CompanyInfoCard({ form }: { form: CustomerForm }) {
 
                     {/* Nombre de Contacto */}
                     <form.Field name="contactFirstName">
-                        {(field) => (
-                            <Field data-invalid={field.state.meta.errors.length > 0}>
-                                <FieldLabel htmlFor={field.name}>Nombre de Contacto</FieldLabel>
-                                <Input
-                                    id={field.name}
-                                    name={field.name}
-                                    value={field.state.value}
-                                    onBlur={field.handleBlur}
-                                    onChange={(e) => field.handleChange(e.target.value)}
-                                    placeholder="Ej. Juan"
-                                />
-                                <FieldError errors={field.state.meta.errors} />
-                            </Field>
-                        )}
+                        {(field) => {
+                            return (
+                                <Field data-invalid={field.state.meta.errors.length > 0}>
+                                    <FieldLabel htmlFor={field.name}>Nombre de Contacto</FieldLabel>
+                                    <Input
+                                        id={field.name}
+                                        name={field.name}
+                                        value={field.state.value ?? ""}
+                                        onBlur={field.handleBlur}
+                                        onChange={(e) => field.handleChange(e.target.value)}
+                                        placeholder="Ej. Juan"
+                                    />
+                                    {field.state.meta.errors.length > 0 && (
+                                        <FieldError errors={field.state.meta.errors} />
+                                    )}
+                                </Field>
+                            );
+                        }}
                     </form.Field>
 
                     {/* Apellido de Contacto */}
@@ -65,12 +71,14 @@ export function CompanyInfoCard({ form }: { form: CustomerForm }) {
                                 <Input
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
+                                    value={field.state.value ?? ""}
                                     onBlur={field.handleBlur}
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     placeholder="Ej. Pérez"
                                 />
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>
@@ -83,12 +91,14 @@ export function CompanyInfoCard({ form }: { form: CustomerForm }) {
                                 <Input
                                     id={field.name}
                                     name={field.name}
-                                    value={field.state.value}
+                                    value={field.state.value ?? ""}
                                     onBlur={field.handleBlur}
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     placeholder="+52 (55) 1234 5678"
                                 />
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>
@@ -102,12 +112,14 @@ export function CompanyInfoCard({ form }: { form: CustomerForm }) {
                                     id={field.name}
                                     name={field.name}
                                     type="email"
-                                    value={field.state.value}
+                                    value={field.state.value ?? ""}
                                     onBlur={field.handleBlur}
                                     onChange={(e) => field.handleChange(e.target.value)}
                                     placeholder="contacto@empresa.com"
                                 />
-                                <FieldError errors={field.state.meta.errors} />
+                                {field.state.meta.errors.length > 0 && (
+                                    <FieldError errors={field.state.meta.errors} />
+                                )}
                             </Field>
                         )}
                     </form.Field>
