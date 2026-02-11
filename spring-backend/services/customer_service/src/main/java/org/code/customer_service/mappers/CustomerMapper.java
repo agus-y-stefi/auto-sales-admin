@@ -61,7 +61,7 @@ public class CustomerMapper {
                 .city(customerDtoCreate.getCity())
                 .country(customerDtoCreate.getCountry())
                 .creditLimit(customerDtoCreate.getCreditLimit())
-                .status("Active")
+                .status("active")
                 .build();
     }
 
