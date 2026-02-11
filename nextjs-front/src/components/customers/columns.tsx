@@ -5,6 +5,7 @@ import { Customer } from "@/types/customer";
 import { StatusBadge } from "./status-badge";
 import { formatCurrency, formatLocation } from "@/lib/format";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Phone } from "lucide-react";
 
 function getInitials(firstName: string, lastName: string): string {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
@@ -41,7 +42,15 @@ export const columns: ColumnDef<Customer>[] = [
     {
         accessorKey: "customerName",
         header: "COMPAÑÍA",
-        cell: ({ row }) => <div className="font-medium">{row.getValue("customerName")}</div>,
+        cell: ({ row }) => (
+            <div className="flex flex-col">
+                <span className="font-medium">{row.getValue("customerName")}</span>
+                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+                    <Phone className="h-3 w-3" />
+                    <span>{row.original.phone}</span>
+                </div>
+            </div>
+        ),
     },
     {
         id: "contact",
@@ -59,7 +68,7 @@ export const columns: ColumnDef<Customer>[] = [
                             {initials}
                         </AvatarFallback>
                     </Avatar>
-                    <div className="font-medium text-sm">{fullName}</div>
+                    <span className="font-medium text-sm">{fullName}</span>
                 </div>
             );
         },
