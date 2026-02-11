@@ -7,6 +7,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { AppSidebar } from "@/components/app-sidebar";
 import { DynamicBreadcrumb } from "@/components/dynamic-breadcrumb";
 import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
                             <main className="flex-1 p-6">{children}</main>
                         </SidebarInset>
                     </SidebarProvider>
+                    <Toaster />
                 </NuqsAdapter>
             </body>
         </html>
