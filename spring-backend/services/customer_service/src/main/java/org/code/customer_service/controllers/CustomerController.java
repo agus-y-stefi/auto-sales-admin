@@ -20,7 +20,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-
     @PageableAsQueryParam
     @GetMapping
     public ResponseEntity<CustomPagedDTO<CustomerDto>> getAllCustomers(
@@ -29,8 +28,7 @@ public class CustomerController {
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String sortDir
-    ) {
+            @RequestParam(required = false) String sortDir) {
         CustomerSearchCriteria criteria = CustomerSearchCriteria.builder()
                 .status(status)
                 .q(q)
@@ -40,11 +38,11 @@ public class CustomerController {
                 CustomPagedDTO.from(
                         customerService.getAllCustomers(
                                 criteria,
-                                customerService.buildPageable(page, size, sortBy, sortDir) // retorna null si no se especifica size de la pagina
-                        ))
-        );
+                                customerService.buildPageable(page, size, sortBy, sortDir) // retorna null si no se
+                                                                                           // especifica size de la
+                                                                                           // pagina
+                        )));
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> getCustomerById(@PathVariable Integer id) {
@@ -61,8 +59,7 @@ public class CustomerController {
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDto> updateCustomer(
             @PathVariable Integer id,
-            @RequestBody CustomerDtoUpdate customerDto
-    ) {
+            @RequestBody CustomerDtoUpdate customerDto) {
         // Assuming there's an update method in the service
         CustomerDto updatedCustomer = customerService.updateCustomer(id, customerDto);
         return ResponseEntity.ok(updatedCustomer);
@@ -75,7 +72,7 @@ public class CustomerController {
     }
 
     @GetMapping("/names")
-    public ResponseEntity<List<CustomerNameDTO>> getCustomersNames(@RequestParam List<Integer> ids){
+    public ResponseEntity<List<CustomerNameDTO>> getCustomersNames(@RequestParam List<Integer> ids) {
         return ResponseEntity.ok(customerService.getCustomersNames(ids));
     }
 }

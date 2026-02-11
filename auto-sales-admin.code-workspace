@@ -1,11 +1,13 @@
 {
     "folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../MyVault/Proyectos/AutoSalesAdmin"
-		}
-	],
-    "settings": {}
+        {
+            "path": ".",
+        },
+        {
+            "path": "../MyVault/Proyectos/AutoSalesAdmin",
+        },
+    ],
+    "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic",
+    },
 }

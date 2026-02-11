@@ -2,33 +2,29 @@
 
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { createCustomer } from "@/contracts/customer-service/api";
+import type { CustomerDtoCreate } from "@/contracts/customer-service/models";
 import { CreateCustomerHeader } from "./create-customer-header";
-import { CompanyInfoCard } from "./company-info-card";
-import { LocationCard } from "./location-card";
-import { CreditStatusCard } from "./credit-status-card";
+import { CustomerFormCard } from "./customer-form-card";
 
-// definimos el schema con campos opcionales reales
+// definimos el schema simplificado (Match con Backend DTO)
 const customerSchema = z.object({
     customerName: z
         .string()
         .min(1, "El nombre de la empresa es obligatorio")
-        .max(100, "Máximo 100 caracteres"),
-    contactFirstName: z.string().min(1, "El nombre de contacto es obligatorio"),
-    contactLastName: z.string().min(1, "El apellido de contacto es obligatorio"),
-    phone: z.string().min(1, "El teléfono es obligatorio"),
-    // Email opcional pero si se escribe debe ser válido
-    email: z.string().email("Ingresa un email válido").optional().or(z.literal("")),
-    address: z.string().optional(),
-    city: z.string().min(1, "La ciudad es obligatoria"),
-    state: z.string().optional(),
-    postalCode: z.string().optional(),
-    country: z.string().min(1, "El país es obligatorio"),
+        .max(50, "Máximo 50 caracteres"),
+    contactFirstName: z.string().min(1, "El nombre de contacto es obligatorio").max(50),
+    contactLastName: z.string().min(1, "El apellido de contacto es obligatorio").max(50),
+    phone: z.string().min(1, "El teléfono es obligatorio").max(50),
+    city: z.string().min(1, "La ciudad es obligatoria").max(50),
+    country: z.string().min(1, "El país es obligatorio").max(50),
     // Credit limit opcional, si tiene valor debe ser numérico
     creditLimit: z
         .string()
         .refine((val) => val === "" || !isNaN(Number(val)), "Debe ser un número válido")
         .optional(),
-    status: z.string().min(1, "El estado es obligatorio"),
 });
 
 // Inferimos el tipo de TypeScript desde Zod
@@ -36,26 +32,20 @@ type CustomerSchema = z.infer<typeof customerSchema>;
 
 function useCustomerForm() {
     return useForm({
-        // Casteamos los valores por defecto al tipo inferido
         defaultValues: {
             customerName: "",
             contactFirstName: "",
             contactLastName: "",
             phone: "",
-            email: "",
-            address: "",
             city: "",
-            state: "",
-            postalCode: "",
             country: "",
             creditLimit: "",
-            status: "",
         } as CustomerSchema,
         validators: {
             onSubmit: customerSchema,
         },
         onSubmit: async ({ value }) => {
-            console.log("Form submitted:", value);
+            // Transformar datos si es necesario (ej. creditLimit string -> number)
         },
     });
 }
@@ -73,16 +63,11 @@ export function CreateCustomerPage() {
                 e.stopPropagation();
                 form.handleSubmit();
             }}
-            className="max-w-6xl mx-auto space-y-6"
+            className="max-w-4xl mx-auto space-y-6"
         >
             <CreateCustomerHeader />
 
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <CompanyInfoCard form={form} />
-                <LocationCard form={form} />
-            </div>
-
-            <CreditStatusCard form={form} />
+            <CustomerFormCard form={form} />
         </form>
     );
 }

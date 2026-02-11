@@ -29,7 +29,6 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
-
     public Page<CustomerDto> getAllCustomers(CustomerSearchCriteria criteria, Pageable pageable) {
         boolean hasFilters = !CustomerSpecifications.hasNoFilters(criteria);
         Specification<Customer> spec = hasFilters
@@ -61,15 +60,13 @@ public class CustomerService {
         return getAllCustomers(
                 CustomerSearchCriteria
                         .builder()
-                        .build()
-        );
+                        .build());
     }
 
     public CustomerDto getCustomerById(Integer id) {
         return customerMapper.toDto(
                 customerRepository.findById(id)
-                        .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id))
-        );
+                        .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id)));
     }
 
     public CustomerDto createCustomer(CustomerDtoCreate customerDto) {
@@ -89,8 +86,7 @@ public class CustomerService {
 
         // Guardar cambios
         return customerMapper.toDto(
-                customerRepository.save(customerUpdate)
-        );
+                customerRepository.save(customerUpdate));
     }
 
     public void deleteCustomer(Integer id) {
@@ -101,7 +97,8 @@ public class CustomerService {
     }
 
     public Pageable buildPageable(Integer page, Integer size, String sortBy, String sortDir) {
-        if (size == null) return null;
+        if (size == null)
+            return null;
 
         int pageNumber = (page != null) ? page : 0;
 
@@ -111,8 +108,7 @@ public class CustomerService {
                     size,
                     "desc".equalsIgnoreCase(sortDir)
                             ? Sort.by(sortBy).descending()
-                            : Sort.by(sortBy).ascending()
-            );
+                            : Sort.by(sortBy).ascending());
         }
 
         return PageRequest.of(pageNumber, size, Sort.unsorted());
@@ -125,10 +121,8 @@ public class CustomerService {
                 .map(c -> CustomerNameDTO.builder()
                         .customerNumber(Long.valueOf(c.getCustomerNumber()))
                         .customerName(c.getCustomerName())
-                        .build()
-                )
+                        .build())
                 .toList();
-
 
     }
 }

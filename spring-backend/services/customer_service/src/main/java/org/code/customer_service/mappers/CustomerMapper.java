@@ -26,8 +26,7 @@ public class CustomerMapper {
                 customer.getCity(),
                 customer.getCountry(),
                 customer.getCreditLimit(),
-                customer.getStatus()
-        );
+                customer.getStatus());
 
     }
 
@@ -62,7 +61,7 @@ public class CustomerMapper {
                 .city(customerDtoCreate.getCity())
                 .country(customerDtoCreate.getCountry())
                 .creditLimit(customerDtoCreate.getCreditLimit())
-                .status("active")
+                .status("Active")
                 .build();
     }
 
@@ -119,7 +118,6 @@ public class CustomerMapper {
         }
 
         return originalCustomer;
-
 
     }
 }
