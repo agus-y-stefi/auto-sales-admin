@@ -4,6 +4,8 @@ import { mockCustomers } from "@/lib/mock-customers";
 import { CustomerHeader } from "@/components/customers/details/customer-header";
 import { CustomerInfoCard } from "@/components/customers/details/customer-info-card";
 import { CustomerKpiCards } from "@/components/customers/details/customer-kpi-cards";
+import { RecentOrdersTable } from "@/components/customers/details/recent-orders-table";
+import { RecentPaymentsTable } from "@/components/customers/details/recent-payments-table";
 
 interface PageProps {
     params: Promise<{
@@ -41,6 +43,12 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                     <div className="lg:col-span-1">
                         <CustomerKpiCards customer={customer} />
                     </div>
+                </div>
+
+                {/* Transaction History Section (Phase 3) */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <RecentOrdersTable customerId={customerId} />
+                    <RecentPaymentsTable customerId={customerId} />
                 </div>
             </div>
         </div>
