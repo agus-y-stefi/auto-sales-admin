@@ -7,6 +7,7 @@ import { CustomerKpiCards } from "@/components/customers/details/customer-kpi-ca
 import { RecentOrdersTable } from "@/components/customers/details/recent-orders-table";
 import { RecentPaymentsTable } from "@/components/customers/details/recent-payments-table";
 import { TopProductsCard } from "@/components/customers/details/top-products-card";
+import { CustomerLifecycleActions } from "@/components/customers/details/customer-lifecycle-actions";
 
 interface PageProps {
     params: Promise<{
@@ -35,7 +36,6 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
         <div className="flex-1 overflow-y-auto p-6 md:p-8">
             <div className="max-w-7xl mx-auto space-y-6">
                 <CustomerHeader customer={customer} />
-
                 {/* Placeholders for future sections */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2">
@@ -45,7 +45,6 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                         <CustomerKpiCards customer={customer} />
                     </div>
                 </div>
-
                 {/* Product Analysis (Phase 4) */}
                 <TopProductsCard customerId={customerId} />
 
@@ -54,6 +53,8 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                     <RecentOrdersTable customerId={customerId} />
                     <RecentPaymentsTable customerId={customerId} />
                 </div>
+                {/* Lifecycle Management (Phase 5) */}
+                <CustomerLifecycleActions customerId={customerId} />
             </div>
         </div>
     );
