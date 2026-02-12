@@ -104,3 +104,24 @@ export const mockPayments: Payment[] = [
         paymentMethod: "Check",
     },
 ];
+
+export const mockProductStats = [
+    {
+        productName: "Ford Mustang 1968",
+        category: "Muscle Car",
+        quantity: 150,
+        categoryIcon: "Car",
+    },
+    {
+        productName: "Harley Davidson 2003",
+        category: "Motorcycles",
+        quantity: 98,
+        categoryIcon: "Bike",
+    },
+    {
+        productName: "Mack Truck R 1958",
+        category: "Trucks",
+        quantity: 75,
+        categoryIcon: "Truck",
+    },
+];

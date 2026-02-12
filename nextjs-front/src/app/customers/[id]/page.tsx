@@ -6,6 +6,7 @@ import { CustomerInfoCard } from "@/components/customers/details/customer-info-c
 import { CustomerKpiCards } from "@/components/customers/details/customer-kpi-cards";
 import { RecentOrdersTable } from "@/components/customers/details/recent-orders-table";
 import { RecentPaymentsTable } from "@/components/customers/details/recent-payments-table";
+import { TopProductsCard } from "@/components/customers/details/top-products-card";
 
 interface PageProps {
     params: Promise<{
@@ -44,6 +45,9 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                         <CustomerKpiCards customer={customer} />
                     </div>
                 </div>
+
+                {/* Product Analysis (Phase 4) */}
+                <TopProductsCard customerId={customerId} />
 
                 {/* Transaction History Section (Phase 3) */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
