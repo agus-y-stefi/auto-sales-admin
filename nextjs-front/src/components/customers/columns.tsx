@@ -3,31 +3,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Customer } from "@/types/customer";
 import { StatusBadge } from "./status-badge";
-import { formatCurrency, formatLocation } from "@/lib/format";
+import { formatCurrency, formatLocation, getInitials } from "@/lib/format";
+import { getAvatarColor } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Phone } from "lucide-react";
-
-function getInitials(firstName: string, lastName: string): string {
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-}
-
-function getAvatarColor(name: string): string {
-    const colors = [
-        "bg-blue-500",
-        "bg-emerald-500",
-        "bg-violet-500",
-        "bg-rose-500",
-        "bg-amber-500",
-        "bg-cyan-500",
-        "bg-pink-500",
-        "bg-indigo-500",
-    ];
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-        hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return colors[Math.abs(hash) % colors.length];
-}
 
 export const columns: ColumnDef<Customer>[] = [
     {
