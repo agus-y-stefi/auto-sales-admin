@@ -28,6 +28,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final org.code.customer_service.clients.OrdersClient ordersClient;
 
     public Page<CustomerDto> getAllCustomers(CustomerSearchCriteria criteria, Pageable pageable) {
         boolean hasFilters = !CustomerSpecifications.hasNoFilters(criteria);
@@ -100,6 +101,12 @@ public class CustomerService {
     public void deleteCustomer(Integer id) {
         if (!customerRepository.existsById(id))
             throw new EntityNotFoundException("Customer not found with id: " + id);
+
+        // Validar si tiene ordenes asociadas usando el cliente HTTP declarativo
+        if (ordersClient.checkOrdersExist(Long.valueOf(id))) {
+            throw new org.code.customer_service.exceptions.DeletionNotAllowedException(
+                    "No se puede eliminar el cliente porque tiene órdenes asociadas.");
+        }
 
         customerRepository.deleteById(id);
     }

@@ -15,9 +15,12 @@ public class OrderSearchCriteria {
     // Filtro por estado(s)
     private List<String> status;
 
-    public OrderSearchCriteria(String q, List<String> status) {
+    private Long customerNumber;
+
+    public OrderSearchCriteria(String q, List<String> status, Long customerNumber) {
         this.q = q;
         this.status = status;
+        this.customerNumber = customerNumber;
     }
 
 }

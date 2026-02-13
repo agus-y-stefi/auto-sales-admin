@@ -183,4 +183,9 @@ public class OrderService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public Boolean orderExistsByCustomer(Long customerNumber) {
+        return orderRepository.exists(OrderSpecifications.withCriteria(
+                OrderSearchCriteria.builder().customerNumber(customerNumber).build()));
+    }
 }

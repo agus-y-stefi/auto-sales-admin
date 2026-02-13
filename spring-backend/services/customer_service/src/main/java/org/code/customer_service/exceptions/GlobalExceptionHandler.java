@@ -71,6 +71,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(DeletionNotAllowedException.class)
+    public ResponseEntity<ApiErrorResponse> handleDeletionNotAllowedException(
+            DeletionNotAllowedException ex, HttpServletRequest request) {
+
+        ApiErrorResponse errorResponse = ApiErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CONFLICT.value())
+                .error("Deletion Not Allowed")
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGlobalException(
             Exception ex, HttpServletRequest request) {
