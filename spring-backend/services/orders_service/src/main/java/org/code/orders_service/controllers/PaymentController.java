@@ -1,6 +1,12 @@
 package org.code.orders_service.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.code.orders_service.dtos.ApiErrorResponse;
 import org.code.orders_service.dtos.PaymentDto;
 import org.code.orders_service.dtos.PaymentDtoCreateUpdate;
 import org.code.orders_service.services.PaymentService;
@@ -35,8 +41,7 @@ public class PaymentController {
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String sortDir
-    ) {
+            @RequestParam(required = false) String sortDir) {
         PaymentSearchCriteria criteria = PaymentSearchCriteria.builder()
                 .orderNumber(orderNumber)
                 .checkNumber(checkNumber)
@@ -50,16 +55,18 @@ public class PaymentController {
         return ResponseEntity.ok(
                 paymentService.getAllPayments(
                         criteria,
-                        paymentService.buildPageable(page, size, sortBy, sortDir)
-                )
-        );
+                        paymentService.buildPageable(page, size, sortBy, sortDir)));
     }
 
+    @Operation(summary = "Get recent payments", description = "Retrieves the most recent payments for a customer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Recent payments retrieved successfully", content = @Content(schema = @Schema(implementation = PaymentDto.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/recent/{customersId}")
     public ResponseEntity<List<PaymentDto>> getRecentPayments(
             @PathVariable Long customersId,
-            @RequestParam(required = false) Integer size
-    ) {
+            @RequestParam(required = false) Integer size) {
 
         return ResponseEntity.ok().body(paymentService.getRecentPayments(customersId, size));
     }
@@ -91,8 +98,7 @@ public class PaymentController {
     public ResponseEntity<PaymentDto> updatePayment(
             @PathVariable Long orderNumber,
             @PathVariable String checkNumber,
-            @RequestBody PaymentDtoCreateUpdate paymentDto
-    ) {
+            @RequestBody PaymentDtoCreateUpdate paymentDto) {
         PaymentDto updatedPayment = paymentService.updatePayment(orderNumber, checkNumber, paymentDto);
         return ResponseEntity.ok(updatedPayment);
     }

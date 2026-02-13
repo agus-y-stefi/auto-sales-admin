@@ -8,6 +8,7 @@ import org.code.orders_service.dtos.OrderDto;
 import org.code.orders_service.dtos.OrderDtoCreateUpdate;
 import org.code.orders_service.dtos.OrderDtoResume;
 import org.code.orders_service.dtos.OrderDtoWithPaymentResume;
+import org.code.orders_service.dtos.OrderRecentDto;
 import org.code.orders_service.mappers.OrderMapper;
 import org.code.orders_service.models.Order;
 import org.code.orders_service.models.OrderDetail;
@@ -45,7 +46,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final CustomersClient customersClient;
 
-//    private final CustomerClient customerClient;
+    // private final CustomerClient customerClient;
 
     public Page<OrderDto> getAllOrders(OrderSearchCriteria criteria, Pageable pageable) {
         boolean hasFilters = OrderSpecifications.hasFilters(criteria);
@@ -73,10 +74,9 @@ public class OrderService {
         Map<Long, BigDecimal> totalsMap = orderDetailRepository.findAllOrderTotals().stream()
                 .collect(Collectors.toMap(
                         row -> (Long) row[0],
-                        row -> (BigDecimal) row[1]
-                ));
+                        row -> (BigDecimal) row[1]));
 
-//        Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
+        // Map<Integer, String> allCustomersName = customerClient.getAllCustomersName();
 
         Page<OrderDto> orders = this.getAllOrders(criteria, pageable);
 
@@ -90,8 +90,7 @@ public class OrderService {
         Map<Long, String> allCustomersName = customers.stream()
                 .collect(Collectors.toMap(
                         CustomerNameDTO::getCustomerNumber,
-                        CustomerNameDTO::getCustomerName
-                ));
+                        CustomerNameDTO::getCustomerName));
 
         System.out.println(customers);
 
@@ -103,8 +102,7 @@ public class OrderService {
     public OrderDto getOrderById(Long id) {
         return orderMapper.toDto(
                 orderRepository.findById(id)
-                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id))
-        );
+                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id)));
     }
 
     public OrderDto createOrder(OrderDtoCreateUpdate orderDto) {
@@ -123,8 +121,7 @@ public class OrderService {
 
         // Guardar cambios
         return orderMapper.toDto(
-                orderRepository.save(orderUpdate)
-        );
+                orderRepository.save(orderUpdate));
     }
 
     public void deleteOrder(Long id) {
@@ -135,7 +132,8 @@ public class OrderService {
     }
 
     public Pageable buildPageable(Integer page, Integer size, String sortBy, String sortDir) {
-        if (size == null) return null;
+        if (size == null)
+            return null;
 
         int pageNumber = (page != null) ? page : 0;
 
@@ -145,8 +143,7 @@ public class OrderService {
                     size,
                     "desc".equalsIgnoreCase(sortDir)
                             ? Sort.by(sortBy).descending()
-                            : Sort.by(sortBy).ascending()
-            );
+                            : Sort.by(sortBy).ascending());
         }
 
         return PageRequest.of(pageNumber, size, Sort.unsorted());
@@ -156,44 +153,33 @@ public class OrderService {
 
         OrderDto order = orderMapper.toDto(
                 orderRepository.findById(id)
-                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id))
-        );
+                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id)));
 
         // Total Pagado
         BigDecimal totalPaidAmount = paymentRepository.findByOrderNumber(id).stream()
                 .map(Payment::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-
         // Total por Pagar
         BigDecimal totalOrden = orderDetailRepository.findByOrderNumber(id).stream()
                 .map(orderDetail -> orderDetail.getPriceEach()
                         .multiply(
-                                BigDecimal.valueOf(orderDetail.getQuantityOrdered())
-                        )
-                ).reduce(BigDecimal.ZERO, BigDecimal::add);
+                                BigDecimal.valueOf(orderDetail.getQuantityOrdered())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return orderMapper.toDtoWithPaymentResume(order, totalOrden, totalPaidAmount);
 
     }
 
-    public List<OrderDtoWithPaymentResume> getRecentOrders(int size, Long customerNumber) {
-        List<OrderSumaryProjection> projections =
-                orderRepository.findRecentOrdersWithTotals(size, customerNumber);
+    public List<OrderRecentDto> getRecentOrders(int size, Long customerNumber) {
+        List<OrderSumaryProjection> projections = orderRepository.findRecentOrdersWithTotals(size, customerNumber);
 
         return projections.stream()
-                .map(p -> OrderDtoWithPaymentResume.builder()
+                .map(p -> OrderRecentDto.builder()
                         .orderNumber(p.getOrderNumber())
                         .orderDate(p.getOrderDate())
-                        .requiredDate(p.getRequiredDate())
-                        .shippedDate(p.getShippedDate())
                         .status(p.getStatus())
-                        .customerNumber(p.getCustomerNumber())
-                        .salesRepEmployeeNumber(p.getSalesRepEmployeeNumber())
                         .totalPrice(p.getTotalOrden())
-                        .totalPaidAmount(p.getTotalPagado())
-                        .remainingAmount(p.getTotalOrden().subtract(p.getTotalPagado()))
-                        .isFullyPaid(p.getTotalOrden().subtract(p.getTotalPagado()).equals(BigDecimal.ZERO))
                         .build())
                 .collect(Collectors.toList());
     }
