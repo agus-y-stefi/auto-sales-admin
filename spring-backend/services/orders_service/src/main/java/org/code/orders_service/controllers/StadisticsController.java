@@ -40,6 +40,11 @@ public class StadisticsController {
         return ResponseEntity.ok(stadisticsService.getCustomerOrdersInfo(customerId));
     }
 
+    @Operation(summary = "Get top 3 products", description = "Retrieves the top 3 most purchased products for a customer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Top products retrieved successfully", content = @Content(schema = @Schema(implementation = TopProductCustomerDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/top-three-products/{customerNumber}")
     public ResponseEntity<List<TopProductCustomerDTO>> getTopThreeProductsByCustomer(
             @PathVariable("customerNumber") Long customerNumber) {
