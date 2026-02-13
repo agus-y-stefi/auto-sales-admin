@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.code.customer_service.dtos.*;
 import org.code.customer_service.services.CustomerService;
 import org.code.customer_service.specifications.criteria.CustomerSearchCriteria;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -78,6 +80,22 @@ public class CustomerController {
         // Assuming there's an update method in the service
         CustomerDto updatedCustomer = customerService.updateCustomer(id, customerDto);
         return ResponseEntity.ok(updatedCustomer);
+    }
+
+    @Operation(summary = "Update customer status", description = "Updates the status of a customer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Status updated successfully", content = @Content(schema = @Schema(implementation = CustomerDto.class))),
+            @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<CustomerDto> updateCustomerStatus(
+            @PathVariable Integer id,
+            @RequestBody Map<String, String> statusUpdate) {
+        String status = statusUpdate.get("status");
+        if (status == null || status.isBlank()) {
+            throw new IllegalArgumentException("Status is required");
+        }
+        return ResponseEntity.ok(customerService.updateCustomerStatus(id, status));
     }
 
     @DeleteMapping("/{id}")

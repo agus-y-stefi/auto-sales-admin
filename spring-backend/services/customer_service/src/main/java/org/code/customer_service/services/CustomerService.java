@@ -89,6 +89,14 @@ public class CustomerService {
                 customerRepository.save(customerUpdate));
     }
 
+    public CustomerDto updateCustomerStatus(Integer id, String status) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+
+        customer.setStatus(status);
+        return customerMapper.toDto(customerRepository.save(customer));
+    }
+
     public void deleteCustomer(Integer id) {
         if (!customerRepository.existsById(id))
             throw new EntityNotFoundException("Customer not found with id: " + id);
