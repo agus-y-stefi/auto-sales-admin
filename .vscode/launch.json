@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CustomerServiceApplication<customer_service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.code.customer_service.CustomerServiceApplication",
+            "projectName": "customer_service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OrdersServiceApplication<orders_service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.code.orders_service.OrdersServiceApplication",
+            "projectName": "orders_service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ProductServiceApplication<product_service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.code.product_service.ProductServiceApplication",
+            "projectName": "product_service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

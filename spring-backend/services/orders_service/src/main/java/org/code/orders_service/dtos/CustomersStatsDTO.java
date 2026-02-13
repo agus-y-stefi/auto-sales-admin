@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,5 +20,3 @@ public class CustomersStatsDTO {
     private BigDecimal totalPagado;
     private LocalDate ultimaOrdenFecha;
 }
-
-

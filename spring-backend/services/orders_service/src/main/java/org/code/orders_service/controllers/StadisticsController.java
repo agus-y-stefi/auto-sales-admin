@@ -1,7 +1,13 @@
 package org.code.orders_service.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.code.orders_service.clients.dto.ProductDTO;
+import org.code.orders_service.dtos.ApiErrorResponse;
 import org.code.orders_service.dtos.CustomersStatsDTO;
 import org.code.orders_service.dtos.TopProductCustomerDTO;
 import org.code.orders_service.services.StadisticsService;
@@ -18,24 +24,26 @@ import java.util.List;
 @RequestMapping("/api/stadistic")
 public class StadisticsController {
 
-
     private final StadisticsService stadisticsService;
 
-    @Autowired
     public StadisticsController(StadisticsService stadisticsService) {
         this.stadisticsService = stadisticsService;
     }
 
-
+    @Operation(summary = "Get customer financial statistics", description = "Retrieves aggregated order and payment statistics for a customer (Financial Diagnosis)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Statistics retrieved successfully", content = @Content(schema = @Schema(implementation = CustomersStatsDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/customer-orders-info/{customerId}")
-    public ResponseEntity<CustomersStatsDTO> getCustomerOrdersInfo(@PathVariable("customerId")  Long customerId) {
+    public ResponseEntity<CustomersStatsDTO> getCustomerOrdersInfo(@PathVariable("customerId") Long customerId) {
         return ResponseEntity.ok(stadisticsService.getCustomerOrdersInfo(customerId));
     }
 
     @GetMapping("/top-three-products/{customerNumber}")
-    public ResponseEntity<List<TopProductCustomerDTO>> getTopThreeProductsByCustomer(@PathVariable("customerNumber") Long customerNumber){
+    public ResponseEntity<List<TopProductCustomerDTO>> getTopThreeProductsByCustomer(
+            @PathVariable("customerNumber") Long customerNumber) {
         return ResponseEntity.ok(stadisticsService.getTopThreeProductsByCustomer(customerNumber));
     }
-
 
 }

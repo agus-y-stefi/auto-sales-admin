@@ -1,4 +1,4 @@
-package org.code.customer_service.dtos;
+package org.code.orders_service.dtos;
 
 import lombok.Builder;
 import lombok.Data;

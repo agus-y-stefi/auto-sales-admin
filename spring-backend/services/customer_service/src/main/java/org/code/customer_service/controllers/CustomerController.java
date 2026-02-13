@@ -49,6 +49,11 @@ public class CustomerController {
                         )));
     }
 
+    @Operation(summary = "Get customer by ID", description = "Retrieves a customer by their unique ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Customer found", content = @Content(schema = @Schema(implementation = CustomerDto.class))),
+            @ApiResponse(responseCode = "404", description = "Customer not found", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDto> getCustomerById(@PathVariable Integer id) {
         CustomerDto customer = customerService.getCustomerById(id);
