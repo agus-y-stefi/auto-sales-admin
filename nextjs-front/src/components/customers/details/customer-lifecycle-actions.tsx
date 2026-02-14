@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
     Select,
@@ -21,9 +22,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { TriangleAlert, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import {
+    updateCustomerStatusAction,
+    deleteCustomerAction,
+} from "@/lib/actions/customer.actions";
 
 interface CustomerLifecycleActionsProps {
     customerId: number;
+    currentStatus: string;
 }
 
 const statusOptions = [
@@ -35,28 +41,49 @@ const statusOptions = [
     { value: "review", label: "En Revisión" },
 ];
 
-export function CustomerLifecycleActions({}: CustomerLifecycleActionsProps) {
-    const [status, setStatus] = useState("active");
+export function CustomerLifecycleActions({
+    customerId,
+    currentStatus,
+}: CustomerLifecycleActionsProps) {
+    const router = useRouter();
+    const [status, setStatus] = useState(currentStatus);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isPendingStatus, startStatusTransition] = useTransition();
+    const [isPendingDelete, startDeleteTransition] = useTransition();
 
     const handleStatusChange = (value: string) => {
+        const prevStatus = status;
+        const label = statusOptions.find((o) => o.value === value)?.label;
+
+        // Optimistic update
         setStatus(value);
 
-        // Optimistic update with toast feedback
-        const label = statusOptions.find((o) => o.value === value)?.label;
-        toast.success(`Estado del cliente actualizado a ${label}.`);
+        startStatusTransition(async () => {
+            const result = await updateCustomerStatusAction(customerId, value);
 
-        // Here we would call the API
-        // If API fails, we revert: setStatus(prevStatus)
+            if (result.success) {
+                toast.success(`Estado del cliente actualizado a ${label}.`);
+            } else {
+                // Revert on error
+                setStatus(prevStatus);
+                toast.error(result.error);
+            }
+        });
     };
 
-    const handleDelete = async () => {
-        setIsLoading(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setIsLoading(false);
-        setIsDeleteDialogOpen(false);
+    const handleDelete = () => {
+        startDeleteTransition(async () => {
+            const result = await deleteCustomerAction(customerId);
+
+            if (result.success) {
+                toast.success("Cliente eliminado correctamente.");
+                setIsDeleteDialogOpen(false);
+                router.push("/customers");
+            } else {
+                setIsDeleteDialogOpen(false);
+                toast.error(result.error);
+            }
+        });
     };
 
     return (
@@ -76,7 +103,11 @@ export function CustomerLifecycleActions({}: CustomerLifecycleActionsProps) {
                     <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300 whitespace-nowrap">
                         Estado Actual
                     </span>
-                    <Select value={status} onValueChange={handleStatusChange}>
+                    <Select
+                        value={status}
+                        onValueChange={handleStatusChange}
+                        disabled={isPendingStatus}
+                    >
                         <SelectTrigger className="w-full sm:w-[180px] bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
                             <SelectValue placeholder="Seleccionar estado" />
                         </SelectTrigger>
@@ -96,6 +127,7 @@ export function CustomerLifecycleActions({}: CustomerLifecycleActionsProps) {
                     variant="outline"
                     className="w-full sm:w-auto bg-white hover:bg-red-50 text-red-600 border-red-200 dark:bg-transparent dark:border-red-800 dark:hover:bg-red-900/20 dark:text-red-400 hover:text-red-700"
                     onClick={() => setIsDeleteDialogOpen(true)}
+                    disabled={isPendingDelete}
                 >
                     <Trash2 className="h-4 w-4 mr-2" />
                     Eliminar Cliente
@@ -118,9 +150,10 @@ export function CustomerLifecycleActions({}: CustomerLifecycleActionsProps) {
                         </AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleDelete}
+                            disabled={isPendingDelete}
                             className="bg-red-600 hover:bg-red-700 text-white"
                         >
-                            {isLoading ? "Eliminando..." : "Eliminar"}
+                            {isPendingDelete ? "Eliminando..." : "Eliminar"}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

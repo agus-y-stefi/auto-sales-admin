@@ -5,7 +5,7 @@ import { CustomersTable } from "@/components/customers/customers-table";
 import { PaginationControl } from "@/components/customers/pagination-control";
 import { CustomersToolbar } from "@/components/customers/customers-toolbar";
 import { columns } from "@/components/customers/columns";
-import { getCustomers } from "@/lib/customers-api";
+import { getCustomers } from "@/lib/api/customers-api";
 import { searchParamsCache } from "./search-params";
 import { SearchParams } from "nuqs/server";
 

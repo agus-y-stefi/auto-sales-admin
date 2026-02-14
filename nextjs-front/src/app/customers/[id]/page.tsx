@@ -1,10 +1,12 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { getCustomer } from "@/lib/customers-api";
-import { getCustomerStats } from "@/lib/customer-stats-api";
+import { getCustomer } from "@/lib/api/customers-api";
 import { CustomerHeader } from "@/components/customers/details/customer-header";
 import { CustomerInfoCard } from "@/components/customers/details/customer-info-card";
-import { CustomerKpiCards } from "@/components/customers/details/customer-kpi-cards";
+import {
+    KpiCardsLoader,
+    KpiCardsSkeleton,
+} from "@/components/customers/details/customer-kpi-loader";
 import {
     RecentOrdersLoader,
     RecentOrdersSkeleton,
@@ -35,10 +37,7 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
 
     const customerId = parseInt(id, 10);
 
-    const [customer, stats] = await Promise.all([
-        getCustomer(customerId),
-        getCustomerStats(customerId),
-    ]);
+    const customer = await getCustomer(customerId);
 
     if (!customer) {
         return notFound();
@@ -54,7 +53,9 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                         <CustomerInfoCard customer={customer} />
                     </div>
                     <div className="lg:col-span-1">
-                        <CustomerKpiCards customer={customer} stats={stats} />
+                        <Suspense fallback={<KpiCardsSkeleton />}>
+                            <KpiCardsLoader customerId={customerId} />
+                        </Suspense>
                     </div>
                 </div>
                 {/* Product Analysis (Phase 4) */}
@@ -72,7 +73,7 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                     </Suspense>
                 </div>
                 {/* Lifecycle Management (Phase 5) */}
-                <CustomerLifecycleActions customerId={customerId} />
+                <CustomerLifecycleActions customerId={customerId} currentStatus={customer.status} />
             </div>
         </div>
     );
