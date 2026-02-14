@@ -1,6 +1,33 @@
-import { getAllCustomers } from "@/contracts/customer-service/api";
+import { getAllCustomers, getCustomerById } from "@/contracts/customer-service/api";
 import { Customer, PaginatedResponse } from "@/types/customer";
-import { CustomPagedDTOCustomerDto } from "@/contracts/customer-service/models";
+import type { CustomerDto, CustomPagedDTOCustomerDto } from "@/contracts/customer-service/models";
+
+function mapCustomerDtoToCustomer(dto: CustomerDto): Customer {
+    return {
+        customerNumber: dto.customerNumber,
+        customerName: dto.customerName,
+        contactFirstName: dto.contactFirstName,
+        contactLastName: dto.contactLastName,
+        phone: dto.phone?.trim() || null,
+        city: dto.city?.trim() || null,
+        country: dto.country?.trim() || null,
+        creditLimit: dto.creditLimit ?? null,
+        status: dto.status,
+    };
+}
+
+/**
+ * Fetches a single customer by ID.
+ * Returns null if not found or on error (caller should notFound()).
+ */
+export async function getCustomer(id: number): Promise<Customer | null> {
+    const response = await getCustomerById(id);
+    if (response.status === 404 || response.status !== 200) {
+        return null;
+    }
+    const dto = response.data as unknown as CustomerDto;
+    return mapCustomerDtoToCustomer(dto);
+}
 
 interface GetCustomersParams {
     page?: number;

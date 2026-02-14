@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { mockCustomers } from "@/lib/mock-customers";
+import { getCustomer } from "@/lib/customers-api";
 import { CustomerHeader } from "@/components/customers/details/customer-header";
 import { CustomerInfoCard } from "@/components/customers/details/customer-info-card";
 import { CustomerKpiCards } from "@/components/customers/details/customer-kpi-cards";
@@ -31,8 +31,7 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
 
     const customerId = parseInt(id, 10);
 
-    // mockCustomers uses numeric customerNumber
-    const customer = mockCustomers.find((c) => c.customerNumber === customerId);
+    const customer = await getCustomer(customerId);
 
     if (!customer) {
         return notFound();
