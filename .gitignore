@@ -2,3 +2,6 @@ node_modules
 .next
 *.class
 *.idea
+
+.cursor
+.github

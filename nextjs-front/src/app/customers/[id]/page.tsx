@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getCustomer } from "@/lib/customers-api";
+import { getCustomerStats } from "@/lib/customer-stats-api";
 import { CustomerHeader } from "@/components/customers/details/customer-header";
 import { CustomerInfoCard } from "@/components/customers/details/customer-info-card";
 import { CustomerKpiCards } from "@/components/customers/details/customer-kpi-cards";
@@ -34,7 +35,10 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
 
     const customerId = parseInt(id, 10);
 
-    const customer = await getCustomer(customerId);
+    const [customer, stats] = await Promise.all([
+        getCustomer(customerId),
+        getCustomerStats(customerId),
+    ]);
 
     if (!customer) {
         return notFound();
@@ -50,7 +54,7 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                         <CustomerInfoCard customer={customer} />
                     </div>
                     <div className="lg:col-span-1">
-                        <CustomerKpiCards customer={customer} />
+                        <CustomerKpiCards customer={customer} stats={stats} />
                     </div>
                 </div>
                 {/* Product Analysis (Phase 4) */}

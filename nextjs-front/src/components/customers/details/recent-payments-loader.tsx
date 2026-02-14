@@ -1,6 +1,6 @@
 import { CreditCard, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getRecentPayments } from "@/contracts/product-service/api";
+import { getRecentPayments } from "@/contracts/orders-service/api";
 import {
     RecentPaymentsTable,
     type RecentPaymentRow,

@@ -1,6 +1,6 @@
 import { Star, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getTopThreeProductsByCustomer } from "@/contracts/product-service/api";
+import { getTopThreeProductsByCustomer, getCustomerOrdersInfo  } from "@/contracts/orders-service/api";
 import { TopProductsCard, type TopProductRow } from "@/components/customers/details/top-products-card";
 
 interface TopProductsLoaderProps {
@@ -49,7 +49,7 @@ async function getTopProducts(customerId: number): Promise<TopProductRow[]> {
 
 function TopProductsError() {
     return (
-        <div className="bg-card rounded-xl border shadow-sm p-6 flex flex-col items-center justify-center text-center min-h-[200px]">
+        <div className="bg-card rounded-xl border shadow-sm p-6 flex flex-col items-center justify-center text-center min-h-50">
             <TriangleAlert className="h-6 w-6 text-red-500 mb-3" />
             <h3 className="text-sm font-semibold text-foreground">No se pudieron cargar los productos</h3>
             <p className="text-sm text-muted-foreground mt-2">Intenta nuevamente en unos minutos.</p>

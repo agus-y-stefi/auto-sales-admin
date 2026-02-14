@@ -1,6 +1,6 @@
 import { Package, TriangleAlert } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getRecentOrders } from "@/contracts/product-service/api";
+import { getRecentOrders } from "@/contracts/orders-service/api";
 import { RecentOrdersTable, type RecentOrderRow } from "@/components/customers/details/recent-orders-table";
 
 interface RecentOrdersLoaderProps {

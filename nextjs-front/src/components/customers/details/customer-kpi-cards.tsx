@@ -1,20 +1,22 @@
 import React from "react";
 import { Customer } from "@/types/customer";
+import type { CustomersStatsDTO } from "@/contracts/product-service/models";
 import { CheckCircle, Wallet, Banknote } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 interface CustomerKpiCardsProps {
     customer: Customer;
+    stats?: CustomersStatsDTO | null;
 }
 
-export function CustomerKpiCards({ customer }: CustomerKpiCardsProps) {
-    // Mock data currently, to be replaced with real aggregations later
-    const currentDebt = 0;
-    const totalSales = 145800;
+export function CustomerKpiCards({ customer, stats }: CustomerKpiCardsProps) {
+    const hasStats = Boolean(stats);
+    const totalSales = stats?.totalOrden ?? 0;
+    const totalPaid = stats?.totalPagado ?? 0;
+    const currentDebt = Math.max(totalSales - totalPaid, 0);
 
-    // Simple mock logic: if credit limit is high, assume good standing
-    const isUpToDate = (customer.creditLimit || 0) > 1000;
+    const isUpToDate = hasStats ? currentDebt <= 0 : (customer.creditLimit || 0) > 1000;
 
     return (
         <div className="space-y-4">
@@ -26,12 +28,14 @@ export function CustomerKpiCards({ customer }: CustomerKpiCardsProps) {
                         <span
                             className={cn(
                                 "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border",
-                                isUpToDate
-                                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
-                                    : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800",
+                                !hasStats
+                                    ? "bg-muted text-muted-foreground border-border"
+                                    : isUpToDate
+                                        ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
+                                        : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800",
                             )}
                         >
-                            {isUpToDate ? "Al Día" : "Deuda Pendiente"}
+                            {hasStats ? (isUpToDate ? "Al Día" : "Deuda Pendiente") : "Sin datos"}
                         </span>
                     </div>
                 </div>
@@ -45,7 +49,7 @@ export function CustomerKpiCards({ customer }: CustomerKpiCardsProps) {
                 <div>
                     <p className="text-sm font-medium text-muted-foreground">Deuda Actual</p>
                     <p className="text-2xl font-bold text-foreground mt-1">
-                        {formatCurrency(currentDebt)}
+                        {hasStats ? formatCurrency(currentDebt) : "—"}
                     </p>
                 </div>
                 <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-full text-blue-600 dark:text-blue-400">
@@ -58,7 +62,7 @@ export function CustomerKpiCards({ customer }: CustomerKpiCardsProps) {
                 <div>
                     <p className="text-sm font-medium text-muted-foreground">Ventas Totales</p>
                     <p className="text-2xl font-bold text-foreground mt-1">
-                        {formatCurrency(totalSales)}
+                        {hasStats ? formatCurrency(totalSales) : "—"}
                     </p>
                 </div>
                 <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-full text-purple-600 dark:text-purple-400">
