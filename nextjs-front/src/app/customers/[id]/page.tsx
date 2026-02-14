@@ -12,7 +12,10 @@ import {
     RecentPaymentsLoader,
     RecentPaymentsSkeleton,
 } from "@/components/customers/details/recent-payments-loader";
-import { TopProductsCard } from "@/components/customers/details/top-products-card";
+import {
+    TopProductsLoader,
+    TopProductsSkeleton,
+} from "@/components/customers/details/top-products-loader";
 import { CustomerLifecycleActions } from "@/components/customers/details/customer-lifecycle-actions";
 
 interface PageProps {
@@ -51,7 +54,9 @@ export default async function CustomerDetailsPage({ params }: PageProps) {
                     </div>
                 </div>
                 {/* Product Analysis (Phase 4) */}
-                <TopProductsCard customerId={customerId} />
+                <Suspense fallback={<TopProductsSkeleton />}>
+                    <TopProductsLoader customerId={customerId} />
+                </Suspense>
 
                 {/* Transaction History Section (Phase 3) */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
