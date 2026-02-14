@@ -1,9 +1,7 @@
 import React from "react";
-import { mockOrders } from "@/lib/mock-transactions";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Package, ArrowRight } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
 import {
@@ -16,15 +14,28 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 
-interface RecentOrdersTableProps {
-    customerId: number;
+export interface RecentOrderRow {
+    orderNumber: number;
+    orderDate: string;
+    status: string;
+    totalPrice: number;
 }
 
-export function RecentOrdersTable({ customerId }: RecentOrdersTableProps) {
-    const orders = mockOrders
-        .filter((o) => o.customerNumber === customerId)
-        .sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime())
-        .slice(0, 5);
+interface RecentOrdersTableProps {
+    customerId: number;
+    orders: RecentOrderRow[];
+}
+
+export function RecentOrdersTable({ customerId, orders }: RecentOrdersTableProps) {
+    const formatDate = (value: string) => {
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return "-";
+        }
+
+        return format(date, "dd MMM yyyy", { locale: es });
+    };
 
     const getStatusVariant = (status: string) => {
         switch (status) {
@@ -90,12 +101,10 @@ export function RecentOrdersTable({ customerId }: RecentOrdersTableProps) {
                                         #{order.orderNumber}
                                     </TableCell>
                                     <TableCell className="px-4 py-3 text-sm text-foreground">
-                                        {format(new Date(order.orderDate), "dd MMM yyyy", {
-                                            locale: es,
-                                        })}
+                                        {formatDate(order.orderDate)}
                                     </TableCell>
                                     <TableCell className="px-4 py-3 text-sm font-medium text-foreground">
-                                        {formatCurrency(order.total)}
+                                        {formatCurrency(order.totalPrice)}
                                     </TableCell>
                                     <TableCell className="px-4 py-3 text-center">
                                         <Badge

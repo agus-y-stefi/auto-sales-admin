@@ -1,10 +1,8 @@
 import React from "react";
-import { mockPayments } from "@/lib/mock-transactions";
 import { formatCurrency } from "@/lib/format";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { CreditCard, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
     Table,
@@ -15,22 +13,34 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-interface RecentPaymentsTableProps {
-    customerId: number;
+export interface RecentPaymentRow {
+    checkNumber: string;
+    paymentDate: string;
+    amount: number;
 }
 
-export function RecentPaymentsTable({ customerId }: RecentPaymentsTableProps) {
-    const payments = mockPayments
-        .filter((p) => p.customerNumber === customerId)
-        .sort((a, b) => new Date(b.paymentDate).getTime() - new Date(a.paymentDate).getTime())
-        .slice(0, 3);
+interface RecentPaymentsTableProps {
+    customerId: number;
+    payments: RecentPaymentRow[];
+}
+
+export function RecentPaymentsTable({ customerId, payments }: RecentPaymentsTableProps) {
+    const formatDate = (value: string) => {
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return "-";
+        }
+
+        return format(date, "dd MMM yyyy", { locale: es });
+    };
 
     return (
         <div className="bg-card rounded-xl border shadow-sm overflow-hidden flex flex-col h-full">
             <div className="p-4 border-b border-border bg-muted/30 flex justify-between items-center">
                 <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                     <CreditCard className="text-muted-foreground h-4 w-4" />
-                    Últimos Pagos
+                    Últimos 5 Pagos
                 </h3>
                 <Link
                     href={`/customers/${customerId}/payments`}
@@ -51,16 +61,13 @@ export function RecentPaymentsTable({ customerId }: RecentPaymentsTableProps) {
                         <TableHeader className="bg-muted/50">
                             <TableRow className="hover:bg-transparent border-none">
                                 <TableHead className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                    Referencia
+                                    ID Transacción
                                 </TableHead>
                                 <TableHead className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                                     Fecha
                                 </TableHead>
                                 <TableHead className="px-4 py-3 text-right text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                                     Monto
-                                </TableHead>
-                                <TableHead className="px-4 py-3 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                    Método
                                 </TableHead>
                             </TableRow>
                         </TableHeader>
@@ -74,15 +81,10 @@ export function RecentPaymentsTable({ customerId }: RecentPaymentsTableProps) {
                                         {payment.checkNumber}
                                     </TableCell>
                                     <TableCell className="px-4 py-3 text-sm text-foreground">
-                                        {format(new Date(payment.paymentDate), "dd MMM yyyy", {
-                                            locale: es,
-                                        })}
+                                        {formatDate(payment.paymentDate)}
                                     </TableCell>
                                     <TableCell className="px-4 py-3 text-sm font-medium text-right text-foreground">
                                         {formatCurrency(payment.amount)}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-3 text-sm text-center text-muted-foreground">
-                                        {payment.paymentMethod}
                                     </TableCell>
                                 </TableRow>
                             ))}

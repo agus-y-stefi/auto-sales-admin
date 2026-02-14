@@ -2,6 +2,17 @@ import { Customer } from "@/types/customer";
 
 export const mockCustomers: Customer[] = [
     {
+        customerNumber: 112,
+        customerName: "Cliente Demo EPC-02",
+        contactLastName: "Testing",
+        contactFirstName: "User",
+        phone: "+54 11 4000-0112",
+        city: "Buenos Aires",
+        country: "ARG",
+        creditLimit: 30000,
+        status: "Active",
+    },
+    {
         customerNumber: 1024,
         customerName: "AutoMotores Del Sur S.A.",
         contactLastName: "Pérez",
