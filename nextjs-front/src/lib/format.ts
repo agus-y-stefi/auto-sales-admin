@@ -29,3 +29,23 @@ export function formatLocation(city: string | null, country: string | null): str
     if (!country) return city;
     return `${city}, ${country}`;
 }
+
+/**
+ * Obtiene las iniciales de un nombre y apellido.
+ * Ejemplo: "Juan", "Pérez" → "JP"
+ */
+export function getInitials(firstName: string, lastName: string): string {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+}
+
+/**
+ * Obtiene las iniciales para una compañía o nombre único.
+ * Toma las primeras letras de las dos primeras palabras.
+ * Ejemplo: "AutoMotores Del Sur" → "AD"
+ */
+export function getAcronym(name: string): string {
+    const words = name.trim().split(/\s+/);
+    if (words.length === 0) return "";
+    if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
+    return (words[0][0] + words[1][0]).toUpperCase();
+}

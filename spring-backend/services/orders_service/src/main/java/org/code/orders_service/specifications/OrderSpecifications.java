@@ -19,11 +19,8 @@ public class OrderSpecifications {
                 predicates.add(
                         criteriaBuilder.like(
                                 criteriaBuilder.toString(root.get("orderNumber")),
-                                "%" + criteria.getQ() + "%"
-                        )
-                );
+                                "%" + criteria.getQ() + "%"));
             }
-
 
             // Filtro por status - maneja una lista
             if (criteria.getStatus() != null && !criteria.getStatus().isEmpty()) {
@@ -38,9 +35,12 @@ public class OrderSpecifications {
                 }
             }
 
+            if (criteria.getCustomerNumber() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("customerNumber"), criteria.getCustomerNumber()));
+            }
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
-
 
     }
 

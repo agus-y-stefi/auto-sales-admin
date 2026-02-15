@@ -32,10 +32,19 @@ export function DynamicBreadcrumb() {
     const segments = pathname.split("/").filter(Boolean);
 
     // Construir items con href acumulativo
-    const items = segments.map((segment, index) => ({
-        label: getLabel(segment),
-        href: "/" + segments.slice(0, index + 1).join("/"),
-    }));
+    const items = segments.map((segment, index) => {
+        let label = getLabel(segment);
+
+        // Si el segmento anterior es "customers" y el actual es un número, mostrar "Ficha de Cliente"
+        if (index > 0 && segments[index - 1] === "customers" && !isNaN(Number(segment))) {
+            label = "Ficha de Cliente";
+        }
+
+        return {
+            label,
+            href: "/" + segments.slice(0, index + 1).join("/"),
+        };
+    });
 
     return (
         <Breadcrumb>

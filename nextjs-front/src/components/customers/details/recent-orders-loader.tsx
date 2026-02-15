@@ -1,0 +1,130 @@
+import { Package, TriangleAlert } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getRecentOrders } from "@/contracts/orders-service/api";
+import { RecentOrdersTable, type RecentOrderRow } from "@/components/customers/details/recent-orders-table";
+
+interface RecentOrdersLoaderProps {
+    customerId: number;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === "object" && value !== null;
+}
+
+function toNumber(value: unknown, fallback = 0): number {
+    if (typeof value === "number" && Number.isFinite(value)) {
+        return value;
+    }
+
+    if (typeof value === "string" && value.trim().length > 0) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    return fallback;
+}
+
+function toString(value: unknown, fallback = "-"): string {
+    return typeof value === "string" && value.trim().length > 0 ? value : fallback;
+}
+
+function toDateString(value: unknown, fallback = "-"): string {
+    if (typeof value === "string" && value.trim().length > 0) {
+        return value;
+    }
+
+    if (Array.isArray(value) && value.length >= 3) {
+        const [year, month, day] = value;
+        if (
+            typeof year === "number" &&
+            typeof month === "number" &&
+            typeof day === "number" &&
+            Number.isFinite(year) &&
+            Number.isFinite(month) &&
+            Number.isFinite(day)
+        ) {
+            const paddedMonth = String(month).padStart(2, "0");
+            const paddedDay = String(day).padStart(2, "0");
+            return `${year}-${paddedMonth}-${paddedDay}`;
+        }
+    }
+
+    if (isRecord(value)) {
+        const year = toNumber(value.year, NaN);
+        const monthValue = toNumber(value.monthValue, NaN);
+        const month = Number.isNaN(monthValue) ? toNumber(value.month, NaN) : monthValue;
+        const dayValue = toNumber(value.dayOfMonth, NaN);
+        const day = Number.isNaN(dayValue) ? toNumber(value.day, NaN) : dayValue;
+
+        if (!Number.isNaN(year) && !Number.isNaN(month) && !Number.isNaN(day)) {
+            const paddedMonth = String(month).padStart(2, "0");
+            const paddedDay = String(day).padStart(2, "0");
+            return `${year}-${paddedMonth}-${paddedDay}`;
+        }
+    }
+
+    return fallback;
+}
+
+async function getRecentCustomerOrders(customerId: number, size = 5): Promise<RecentOrderRow[]> {
+    const response = await getRecentOrders(customerId, { size });
+
+    if (response.status !== 200) {
+        throw new Error(`Unexpected status when fetching recent orders: ${response.status}`);
+    }
+
+    if (!Array.isArray(response.data)) {
+        return [];
+    }
+
+    return response.data
+        .filter(isRecord)
+        .map((order) => ({
+            orderNumber: toNumber(order.orderNumber),
+            orderDate: toDateString(order.orderDate),
+            status: toString(order.status),
+            totalPrice: toNumber(order.totalPrice),
+        }))
+        .filter((order) => order.orderNumber > 0);
+}
+
+function RecentOrdersError() {
+    return (
+        <div className="bg-card rounded-xl border shadow-sm p-6 flex flex-col items-center justify-center text-center h-full min-h-[280px]">
+            <TriangleAlert className="h-6 w-6 text-red-500 mb-3" />
+            <h3 className="text-sm font-semibold text-foreground">No se pudieron cargar las órdenes</h3>
+            <p className="text-sm text-muted-foreground mt-2">Intenta nuevamente en unos minutos.</p>
+        </div>
+    );
+}
+
+export function RecentOrdersSkeleton() {
+    return (
+        <div className="bg-card rounded-xl border shadow-sm overflow-hidden flex flex-col h-full min-h-[280px]">
+            <div className="p-4 border-b border-border bg-muted/30 flex items-center gap-2">
+                <Package className="text-muted-foreground h-4 w-4" />
+                <h3 className="text-sm font-semibold text-foreground">Últimas 5 Órdenes</h3>
+            </div>
+            <div className="p-4 space-y-3">
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+            </div>
+        </div>
+    );
+}
+
+export async function RecentOrdersLoader({ customerId }: RecentOrdersLoaderProps) {
+    let orders: RecentOrderRow[];
+
+    try {
+        orders = await getRecentCustomerOrders(customerId, 5);
+    } catch (error) {
+        console.error("Error fetching recent orders", { customerId, error });
+        return <RecentOrdersError />;
+    }
+
+    return <RecentOrdersTable customerId={customerId} orders={orders} />;
+}

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ficha de Cliente Dragon Souveniers</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "zinc": {
+                            950: '#09090b',
+                            900: '#18181b',
+                            800: '#27272a',
+                            700: '#3f3f46',
+                            600: '#52525b',
+                            500: '#71717a',
+                            400: '#a1a1aa',
+                            300: '#d4d4d8',
+                            200: '#e4e4e7',
+                            100: '#f4f4f5',
+                            50: '#fafafa',
+                        }
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }.no-scrollbar {
+            -ms-overflow-style: none;scrollbar-width: none;}
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-zinc-900 dark:text-zinc-50 flex h-screen overflow-hidden">
+<aside class="w-64 bg-slate-900 text-white flex flex-col flex-shrink-0 h-full border-r border-slate-800">
+<div class="h-16 flex items-center px-6 border-b border-slate-800">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center mr-3 shadow-lg shadow-blue-900/50">
+<span class="material-symbols-outlined text-white text-xl">directions_car</span>
+</div>
+<span class="font-bold text-lg tracking-tight">AutoSales Admin</span>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 no-scrollbar">
+<div class="px-4 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Menú Principal</div>
+<ul class="space-y-1 px-3">
+<li>
+<a class="flex items-center px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px] group-hover:text-white transition-colors">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-3 py-2 bg-primary text-white rounded-lg shadow-md shadow-primary/20 transition-colors group" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px] fill-1">group</span>
+<span class="text-sm font-medium">Clientes</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px] group-hover:text-white transition-colors">inventory_2</span>
+<span class="text-sm font-medium">Catálogo</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px] group-hover:text-white transition-colors">shopping_cart</span>
+<span class="text-sm font-medium">Ordenes</span>
+<span class="ml-auto bg-slate-800 text-slate-300 text-xs font-bold px-2 py-0.5 rounded-full border border-slate-700">3</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-3 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px] group-hover:text-white transition-colors">bar_chart</span>
+<span class="text-sm font-medium">Reportes</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="border-t border-slate-800 p-4">
+<div class="flex items-center gap-3">
+<img alt="Admin Profile" class="w-9 h-9 rounded-full border border-slate-600" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgvoyV2thwstblTasXPrODsMRM6bjiYtXeVOgkDEZ_eEwpwW99OxWXBSXu_tKRWeLEMpPOzri2izwbde9Ei99O3AGa2qby_6myhFkN_3pVF2TPQczbKn-vRu0s5NnxB3IFr4evKjPZsX4j-VlHVLVXJglEMYdv6NAkx-XOrhXxA2ae9ggbMxSV6P6PgDovh6cRlUoDrQwMLmyChR8c0-HFzELVQWfSyMMw2kvz1YOvNJmg9TmHdDLEYIMikECS0lpuSw-Xbh1wZP8"/>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-white">Roberto G.</span>
+<span class="text-xs text-slate-400">Administrador</span>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-zinc-50 dark:bg-zinc-950">
+<header class="h-16 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6 flex-shrink-0 z-10">
+<div class="flex items-center gap-4">
+<button class="text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-white">
+<span class="material-symbols-outlined">menu_open</span>
+</button>
+<nav aria-label="Breadcrumb" class="flex">
+<ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center text-sm font-medium text-zinc-500 hover:text-primary dark:text-zinc-400 dark:hover:text-white" href="#">
+                            Inicio
+                        </a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-zinc-400 text-lg">chevron_right</span>
+<a class="ms-1 text-sm font-medium text-zinc-500 hover:text-primary md:ms-2 dark:text-zinc-400 dark:hover:text-white" href="#">Clientes</a>
+</div>
+</li>
+<li aria-current="page">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-zinc-400 text-lg">chevron_right</span>
+<span class="ms-1 text-sm font-medium text-zinc-900 md:ms-2 dark:text-white">Ficha de Cliente</span>
+</div>
+</li>
+</ol>
+</nav>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 md:p-8">
+<div class="max-w-7xl mx-auto space-y-6">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-xl border border-indigo-200 dark:border-indigo-800">
+                        D
+                    </div>
+<div>
+<h1 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">Dragon Souveniers, Ltd.</h1>
+<p class="text-sm text-zinc-500 dark:text-zinc-400">ID Cliente: #1024 • Alta: 12 Ene 2021</p>
+</div>
+</div>
+<button class="border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-4 py-2.5 rounded-lg flex items-center gap-2 text-sm font-medium shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[20px]">print</span>
+                    Imprimir Ficha
+                </button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6 relative">
+<button class="absolute top-6 right-6 text-zinc-400 hover:text-primary transition-colors p-1 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<h3 class="text-base font-semibold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-zinc-400">badge</span>
+                        Información del Cliente
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">Compañía</span>
+<span class="text-sm font-medium text-zinc-900 dark:text-white">Dragon Souveniers, Ltd.</span>
+</div>
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">Contacto Principal</span>
+<div class="flex items-center gap-2">
+<img class="w-6 h-6 rounded-full object-cover border border-zinc-200 dark:border-zinc-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9n16eHgiaayfA--oihUV0OUGSQQWlx1iM0FYAoGIFZDkpGQ6MdqZDU-Uvy6km-9aERtdh5YZbzhTE7K17_AmjqmERH--Nbwt3v2JOAcDKwVB_uRyaXZaNukkMl7NNpYAf-5RETs7x4Lren8g86ryausxk8LvkOY5UinDfaBA82GIQhDGx3wlX_XfmNMXehNWe2oAS-4iG99qyE-A-KebtJcmjomzhjjJsXHcWRaON-v9WkfclYoQUdcw76J7-3X-bqj4dcwCFf8w"/>
+<span class="text-sm font-medium text-zinc-900 dark:text-white">Maria Anders</span>
+</div>
+</div>
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">Teléfono</span>
+<span class="text-sm text-zinc-700 dark:text-zinc-300">030-0074321</span>
+</div>
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">Correo Electrónico</span>
+<span class="text-sm text-zinc-700 dark:text-zinc-300">m.anders@dragon.com</span>
+</div>
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">Dirección</span>
+<span class="text-sm text-zinc-700 dark:text-zinc-300">Walserweg 21</span>
+</div>
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">Ciudad</span>
+<span class="text-sm text-zinc-700 dark:text-zinc-300">Aachen</span>
+</div>
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">País</span>
+<span class="text-sm text-zinc-700 dark:text-zinc-300">Alemania</span>
+</div>
+<div>
+<span class="text-xs font-medium text-zinc-500 uppercase tracking-wide block mb-1">Límite de Crédito</span>
+<span class="text-sm font-bold text-emerald-600 dark:text-emerald-400">$60,000.00</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 space-y-4">
+<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-5 flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Estado de Cuenta</p>
+<div class="mt-1">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800">
+                                    Al Día
+                                </span>
+</div>
+</div>
+<div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-full text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined block">check_circle</span>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-5 flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Deuda Actual</p>
+<p class="text-2xl font-bold text-zinc-900 dark:text-white mt-1">$0.00</p>
+</div>
+<div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-full text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined block">account_balance_wallet</span>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-5 flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Ventas Totales</p>
+<p class="text-2xl font-bold text-zinc-900 dark:text-white mt-1">$145,800.00</p>
+</div>
+<div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-full text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined block">payments</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6">
+<h3 class="text-base font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-zinc-400 text-[20px]">stars</span>
+                    Top 3 Productos Más Comprados
+                </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex items-center gap-3 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
+<div class="h-12 w-12 rounded bg-white dark:bg-zinc-700 flex items-center justify-center border border-zinc-200 dark:border-zinc-600">
+<span class="material-symbols-outlined text-zinc-400">directions_car</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-zinc-900 dark:text-white truncate">Ford Mustang 1968</p>
+<p class="text-xs text-zinc-500">Muscle Car</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-zinc-900 dark:text-white">150</p>
+<p class="text-[10px] text-zinc-400 uppercase">Cant.</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
+<div class="h-12 w-12 rounded bg-white dark:bg-zinc-700 flex items-center justify-center border border-zinc-200 dark:border-zinc-600">
+<span class="material-symbols-outlined text-zinc-400">two_wheeler</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-zinc-900 dark:text-white truncate">Harley Davidson 2003</p>
+<p class="text-xs text-zinc-500">Motorcycles</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-zinc-900 dark:text-white">98</p>
+<p class="text-[10px] text-zinc-400 uppercase">Cant.</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
+<div class="h-12 w-12 rounded bg-white dark:bg-zinc-700 flex items-center justify-center border border-zinc-200 dark:border-zinc-600">
+<span class="material-symbols-outlined text-zinc-400">local_shipping</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-zinc-900 dark:text-white truncate">Mack Truck R 1958</p>
+<p class="text-xs text-zinc-500">Trucks</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-zinc-900 dark:text-white">75</p>
+<p class="text-[10px] text-zinc-400 uppercase">Cant.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden flex flex-col">
+<div class="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center bg-zinc-50 dark:bg-zinc-800/30">
+<h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Últimas 5 Órdenes</h3>
+<a class="text-xs text-primary hover:text-blue-600 font-medium" href="#">Ver todas</a>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800">
+<thead class="bg-zinc-50 dark:bg-zinc-800/50">
+<tr>
+<th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase">ID</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase">Fecha</th>
+<th class="px-4 py-3 text-right text-xs font-semibold text-zinc-500 uppercase">Total</th>
+<th class="px-4 py-3 text-center text-xs font-semibold text-zinc-500 uppercase">Estado</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+<tr>
+<td class="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">#10440</td>
+<td class="px-4 py-3 text-sm text-zinc-500">10 Mar 2024</td>
+<td class="px-4 py-3 text-sm text-right text-zinc-900 dark:text-white">$5,200.00</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">Enviado</span>
+</td>
+</tr>
+<tr>
+<td class="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">#10441</td>
+<td class="px-4 py-3 text-sm text-zinc-500">12 Feb 2024</td>
+<td class="px-4 py-3 text-sm text-right text-zinc-900 dark:text-white">$1,850.50</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">Entregado</span>
+</td>
+</tr>
+<tr>
+<td class="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">#10442</td>
+<td class="px-4 py-3 text-sm text-zinc-500">20 Ene 2024</td>
+<td class="px-4 py-3 text-sm text-right text-zinc-900 dark:text-white">$3,100.00</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">Entregado</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden flex flex-col">
+<div class="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center bg-zinc-50 dark:bg-zinc-800/30">
+<h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Últimos Pagos</h3>
+<a class="text-xs text-primary hover:text-blue-600 font-medium" href="#">Ver historial</a>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800">
+<thead class="bg-zinc-50 dark:bg-zinc-800/50">
+<tr>
+<th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase">Referencia</th>
+<th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase">Fecha</th>
+<th class="px-4 py-3 text-right text-xs font-semibold text-zinc-500 uppercase">Monto</th>
+<th class="px-4 py-3 text-center text-xs font-semibold text-zinc-500 uppercase">Método</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+<tr>
+<td class="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">REF-9921</td>
+<td class="px-4 py-3 text-sm text-zinc-500">15 Mar 2024</td>
+<td class="px-4 py-3 text-sm text-right text-zinc-900 dark:text-white">$5,200.00</td>
+<td class="px-4 py-3 text-center text-sm text-zinc-500">Wire</td>
+</tr>
+<tr>
+<td class="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">REF-8832</td>
+<td class="px-4 py-3 text-sm text-zinc-500">28 Feb 2024</td>
+<td class="px-4 py-3 text-sm text-right text-zinc-900 dark:text-white">$1,850.50</td>
+<td class="px-4 py-3 text-center text-sm text-zinc-500">Check</td>
+</tr>
+<tr>
+<td class="px-4 py-3 text-sm font-medium text-zinc-900 dark:text-white">REF-7741</td>
+<td class="px-4 py-3 text-sm text-zinc-500">05 Feb 2024</td>
+<td class="px-4 py-3 text-sm text-right text-zinc-900 dark:text-white">$3,100.00</td>
+<td class="px-4 py-3 text-center text-sm text-zinc-500">Wire</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="border border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/10 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+<div>
+<h3 class="text-base font-bold text-red-700 dark:text-red-400 flex items-center gap-2">
+<span class="material-symbols-outlined">warning</span>
+                        Zona de Riesgo
+                    </h3>
+<p class="text-sm text-red-600/80 dark:text-red-400/70 mt-1 max-w-xl">
+                        Estas acciones son críticas y pueden afectar la visibilidad del cliente en el sistema o eliminar sus datos permanentemente.
+                    </p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">Cuenta Activa</span>
+<button aria-checked="true" class="bg-primary relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+<div class="h-8 w-px bg-red-200 dark:bg-red-800 hidden sm:block"></div>
+<button class="bg-white hover:bg-red-50 text-red-600 border border-red-200 dark:bg-transparent dark:border-red-800 dark:hover:bg-red-900/20 dark:text-red-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Eliminar Cliente
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

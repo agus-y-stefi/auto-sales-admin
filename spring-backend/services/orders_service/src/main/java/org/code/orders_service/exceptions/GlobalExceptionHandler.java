@@ -1,8 +1,8 @@
-package org.code.customer_service.exceptions;
+package org.code.orders_service.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import org.code.customer_service.dtos.ApiErrorResponse;
+import org.code.orders_service.dtos.ApiErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -55,37 +55,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
-    public ResponseEntity<ApiErrorResponse> handleDataIntegrityViolationException(
-            org.springframework.dao.DataIntegrityViolationException ex, HttpServletRequest request) {
-
-        ApiErrorResponse errorResponse = ApiErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.CONFLICT.value())
-                .error("Data Integrity Violation")
-                .message(
-                        "Cannot delete or update resource because it is referenced by other records (e.g., existing orders).")
-                .path(request.getRequestURI())
-                .build();
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(DeletionNotAllowedException.class)
-    public ResponseEntity<ApiErrorResponse> handleDeletionNotAllowedException(
-            DeletionNotAllowedException ex, HttpServletRequest request) {
-
-        ApiErrorResponse errorResponse = ApiErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.CONFLICT.value())
-                .error("Deletion Not Allowed")
-                .message(ex.getMessage())
-                .path(request.getRequestURI())
-                .build();
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
-    }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGlobalException(
             Exception ex, HttpServletRequest request) {
@@ -94,7 +63,9 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .error("Internal Server Error")
-                .message(ex.getMessage()) // Be careful exposing internal error messages in prod
+                // Be careful ex.getMessage() could expose internal details in PROD
+                // For a dev app, it's fine.
+                .message(ex.getMessage())
                 .path(request.getRequestURI())
                 .build();
 

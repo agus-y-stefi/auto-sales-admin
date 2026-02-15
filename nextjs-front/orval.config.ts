@@ -16,8 +16,8 @@ const USE_ENVIRONMENT: keyof ApiEndpoints = "local";
 const API_ENDPOINTS: ApiEndpoints = {
     local: {
         customers: "http://localhost:8081",
-        orders: "http://localhost:8083",
-        products: "http://localhost:8082",
+        orders: "http://localhost:8082",
+        products: "http://localhost:8083",
     },
     production: {
         customers: "https://auto-sales-admin-customer-service.onrender.com/",

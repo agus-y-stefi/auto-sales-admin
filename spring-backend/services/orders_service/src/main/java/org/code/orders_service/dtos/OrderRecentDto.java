@@ -12,11 +12,9 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomersStatsDTO {
-    private Long cantidadOrdenes;
-    private Long ordenesCompletadas;
-    private BigDecimal precioPromedio;
-    private BigDecimal totalOrden;
-    private BigDecimal totalPagado;
-    private LocalDate ultimaOrdenFecha;
+public class OrderRecentDto {
+    private Long orderNumber;
+    private LocalDate orderDate;
+    private BigDecimal totalPrice;
+    private String status;
 }
