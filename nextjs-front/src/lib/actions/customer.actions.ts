@@ -1,5 +1,6 @@
 import {
     createCustomer,
+    updateCustomer,
     deleteCustomer,
     updateCustomerStatus,
 } from "@/contracts/customer-service/api";
@@ -7,6 +8,7 @@ import {
     ApiErrorResponse,
     CustomerDto,
     CustomerDtoCreate,
+    CustomerDtoUpdate,
 } from "@/contracts/customer-service/models";
 
 export type ActionResponse<T> =
@@ -33,6 +35,37 @@ export async function createCustomerAction(
         }
     } catch (error) {
         console.error("Error creating customer:", error);
+        return { success: false, error: "Error de conexión o del servidor" };
+    }
+}
+
+export async function updateCustomerAction(
+    customerId: number,
+    payload: CustomerDtoUpdate,
+): Promise<ActionResponse<CustomerDto>> {
+    try {
+        const res = await updateCustomer(customerId, payload);
+
+        if (res.status === 200) {
+            return { success: true, data: res.data as unknown as CustomerDto };
+        } else if (res.status === 400) {
+            const errorResponse = res.data as unknown as ApiErrorResponse;
+            return {
+                success: false,
+                error: errorResponse.message || "Error de validación",
+                validationErrors: errorResponse.validationErrors,
+            };
+        } else if (res.status === 404) {
+            const errorResponse = res.data as unknown as ApiErrorResponse;
+            return {
+                success: false,
+                error: errorResponse.message || "Cliente no encontrado",
+            };
+        } else {
+            return { success: false, error: "Error al actualizar el cliente" };
+        }
+    } catch (error) {
+        console.error("Error updating customer:", error);
         return { success: false, error: "Error de conexión o del servidor" };
     }
 }
