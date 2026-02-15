@@ -6,7 +6,8 @@ import { StatusBadge } from "./status-badge";
 import { formatCurrency, formatLocation, getInitials } from "@/lib/format";
 import { getAvatarColor } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Phone } from "lucide-react";
+import { Phone, Eye } from "lucide-react";
+import Link from "next/link";
 
 export const columns: ColumnDef<Customer>[] = [
     {
@@ -76,5 +77,18 @@ export const columns: ColumnDef<Customer>[] = [
         accessorKey: "status",
         header: "ESTADO",
         cell: ({ row }) => <StatusBadge status={row.getValue("status")} />,
+    },
+    {
+        id: "actions",
+        header: "",
+        cell: ({ row }) => (
+            <Link
+                href={`/customers/${row.original.customerNumber}`}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+                <Eye className="h-3.5 w-3.5" />
+                Ver
+            </Link>
+        ),
     },
 ];

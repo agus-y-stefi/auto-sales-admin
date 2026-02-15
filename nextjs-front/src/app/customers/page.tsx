@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { CustomersTable } from "@/components/customers/customers-table";
 import { PaginationControl } from "@/components/customers/pagination-control";
 import { CustomersToolbar } from "@/components/customers/customers-toolbar";
@@ -35,9 +36,11 @@ export default async function CustomersPage({ searchParams }: PageProps) {
                         Gestiona y visualiza la información de tus clientes activos.
                     </p>
                 </div>
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-none">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Nuevo Cliente
+                <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white shadow-none">
+                    <Link href="/customers/new">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Nuevo Cliente
+                    </Link>
                 </Button>
             </div>
 
