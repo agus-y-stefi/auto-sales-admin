@@ -120,6 +120,10 @@ public class OrderDetailService {
         orderDetailRepository.deleteByOrderNumber(orderNumber);
     }
 
+    public boolean existsByProductCode(String productCode) {
+        return orderDetailRepository.existsByProductCode(productCode);
+    }
+
     public Pageable buildPageable(Integer page, Integer size, String sortBy, String sortDir) {
         if (size == null) return null;
 

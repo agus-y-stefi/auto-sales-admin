@@ -18,6 +18,8 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, OrderD
     List<OrderDetail> findByOrderNumber(Long orderNumber);
     void deleteByOrderNumber(Long orderNumber);
 
+    boolean existsByProductCode(String productCode);
+
     @Query("""
         SELECT d.order.orderNumber, SUM(d.priceEach * d.quantityOrdered)
         FROM OrderDetail d

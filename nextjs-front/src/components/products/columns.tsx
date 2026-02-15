@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Product } from "@/types/product";
 import { StockBadge } from "./stock-badge";
 import { formatCurrency } from "@/lib/format";
+import { Eye } from "lucide-react";
 import Link from "next/link";
 
 export const columns: ColumnDef<Product>[] = [
@@ -77,6 +78,19 @@ export const columns: ColumnDef<Product>[] = [
             <div className="text-right tabular-nums text-sm">
                 {formatCurrency(row.getValue("msrp"))}
             </div>
+        ),
+    },
+    {
+        id: "actions",
+        header: "",
+        cell: ({ row }) => (
+            <Link
+                href={`/products/${row.original.productCode}`}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+                <Eye className="h-3.5 w-3.5" />
+                Ver
+            </Link>
         ),
     },
 ];

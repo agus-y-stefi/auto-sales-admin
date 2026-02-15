@@ -107,5 +107,9 @@ public class OrderDetailController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/product/{productCode}/exists")
+    public ResponseEntity<Boolean> existsByProductCode(@PathVariable String productCode) {
+        boolean exists = orderDetailService.existsByProductCode(productCode);
+        return ResponseEntity.ok(exists);
+    }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Product } from "@/types/product";
-import { ArrowLeft, Edit, Package } from "lucide-react";
+import { ArrowLeft, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -59,11 +59,6 @@ export function ProductHeader({ product }: ProductHeaderProps) {
                         <ArrowLeft className="h-4 w-4" />
                         Volver
                     </Link>
-                </Button>
-                {/* TODO: link to edit page when implemented */}
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                    <Edit className="h-4 w-4" />
-                    Editar Producto
                 </Button>
             </div>
         </div>
