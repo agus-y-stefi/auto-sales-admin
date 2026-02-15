@@ -1,14 +1,18 @@
 package org.code.product_service.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.code.product_service.dto.ProductLineDTO;
-import org.code.product_service.dto.ProductLineDtoCreateUpdate;
+import org.code.product_service.dto.*;
 import org.code.product_service.services.ProductLineService;
 import org.code.product_service.specifications.criteria.ProductLineSearchCriteria;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import jakarta.validation.Valid;
 
@@ -19,8 +23,9 @@ public class ProductLineController {
 
     private final ProductLineService productLineService;
 
+    @Operation(summary = "List all product lines", description = "Returns a paginated list of product lines with optional filters")
     @GetMapping
-    public ResponseEntity<Page<ProductLineDTO>> getAllProductLines(
+    public ResponseEntity<CustomPagedDTO<ProductLineDTO>> getAllProductLines(
             @RequestParam(required = false) String productLine,
             @RequestParam(required = false) String textDescription,
             @RequestParam(required = false) Boolean hasProducts,
@@ -38,13 +43,20 @@ public class ProductLineController {
                 .build();
 
         return ResponseEntity.ok(
-                productLineService.getAllProductLines(
-                        criteria,
-                        productLineService.buildPageable(page, size, sortBy, sortDir)
+                CustomPagedDTO.from(
+                        productLineService.getAllProductLines(
+                                criteria,
+                                productLineService.buildPageable(page, size, sortBy, sortDir)
+                        )
                 )
         );
     }
 
+    @Operation(summary = "Get product line by ID", description = "Retrieves a product line by its unique identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product line found"),
+            @ApiResponse(responseCode = "404", description = "Product line not found", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/{id}")
     public ResponseEntity<ProductLineDTO> getProductLineById(@PathVariable String id) {
         ProductLineDTO productLine = productLineService.getProductLineById(id);

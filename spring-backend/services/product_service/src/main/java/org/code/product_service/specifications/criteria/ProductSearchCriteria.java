@@ -1,17 +1,17 @@
 package org.code.product_service.specifications.criteria;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.math.BigDecimal;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductSearchCriteria {
-
     private String q;
-    
-    public ProductSearchCriteria(String q) {
-        this.q = q;
-    }
+    private String productLine;
+    private String productVendor;
+    private String productScale;
 }

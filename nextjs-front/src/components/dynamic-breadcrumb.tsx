@@ -15,6 +15,7 @@ import {
 // Solo tenés que agregar nuevos segmentos acá cuando se creen nuevas rutas.
 const segmentLabels: Record<string, string> = {
     customers: "Clientes",
+    products: "Catálogo",
     new: "Nuevo",
     catalog: "Catálogo",
     orders: "Órdenes",
@@ -38,6 +39,11 @@ export function DynamicBreadcrumb() {
         // Si el segmento anterior es "customers" y el actual es un número, mostrar "Ficha de Cliente"
         if (index > 0 && segments[index - 1] === "customers" && !isNaN(Number(segment))) {
             label = "Ficha de Cliente";
+        }
+
+        // Si el segmento anterior es "products" y el actual es un código, mostrar "Ficha de Producto"
+        if (index > 0 && segments[index - 1] === "products" && segment !== "new") {
+            label = "Ficha de Producto";
         }
 
         return {

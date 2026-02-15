@@ -19,11 +19,36 @@ public class ProductSpecification {
                 return criteriaBuilder.conjunction();
             }
 
-            // Filtrar por productCode y productName
+            // Text search on productCode and productName
             if (criteria.getQ() != null && !criteria.getQ().isEmpty()) {
+                String pattern = "%" + criteria.getQ().toLowerCase() + "%";
                 predicates.add(criteriaBuilder.or(
-                        criteriaBuilder.like(root.get("productCode"), "%" + criteria.getQ() + "%"),
-                        criteriaBuilder.like(root.get("productName"), "%" + criteria.getQ() + "%")
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("productCode")), pattern),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), pattern)
+                ));
+            }
+
+            // Filter by productLine (exact match on FK)
+            if (criteria.getProductLine() != null && !criteria.getProductLine().trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(
+                        root.get("productLine").get("productLine"),
+                        criteria.getProductLine().trim()
+                ));
+            }
+
+            // Filter by productVendor (LIKE, case-insensitive)
+            if (criteria.getProductVendor() != null && !criteria.getProductVendor().trim().isEmpty()) {
+                predicates.add(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("productVendor")),
+                        "%" + criteria.getProductVendor().trim().toLowerCase() + "%"
+                ));
+            }
+
+            // Filter by productScale (exact match)
+            if (criteria.getProductScale() != null && !criteria.getProductScale().trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(
+                        root.get("productScale"),
+                        criteria.getProductScale().trim()
                 ));
             }
 

@@ -1,19 +1,20 @@
 package org.code.product_service.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.code.product_service.dto.ProductDTO;
-import org.code.product_service.dto.ProductDtoCreateUpdate;
-import org.code.product_service.dto.ProductSummaryDTO;
+import org.code.product_service.dto.*;
 import org.code.product_service.services.ProductService;
 import org.code.product_service.specifications.criteria.ProductSearchCriteria;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import jakarta.validation.Valid;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,9 +24,13 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @Operation(summary = "List all products", description = "Returns a paginated list of products with optional filters")
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> getAllProducts(
+    public ResponseEntity<CustomPagedDTO<ProductDTO>> getAllProducts(
             @RequestParam(required = false) String q,
+            @RequestParam(required = false) String productLine,
+            @RequestParam(required = false) String productVendor,
+            @RequestParam(required = false) String productScale,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
@@ -33,19 +38,28 @@ public class ProductController {
     ) {
         ProductSearchCriteria criteria = ProductSearchCriteria.builder()
                 .q(q)
+                .productLine(productLine)
+                .productVendor(productVendor)
+                .productScale(productScale)
                 .build();
 
         return ResponseEntity.ok(
-                productService.getAllProducts(
-                        criteria,
-                        productService.buildPageable(page, size, sortBy, sortDir)
+                CustomPagedDTO.from(
+                        productService.getAllProducts(
+                                criteria,
+                                productService.buildPageable(page, size, sortBy, sortDir)
+                        )
                 )
         );
     }
 
+    @Operation(summary = "List products summary", description = "Returns a paginated summary list (fewer fields) with optional filters")
     @GetMapping("/summary")
-    public ResponseEntity<Page<ProductSummaryDTO>> getAllProductsSummary(
+    public ResponseEntity<CustomPagedDTO<ProductSummaryDTO>> getAllProductsSummary(
             @RequestParam(required = false) String q,
+            @RequestParam(required = false) String productLine,
+            @RequestParam(required = false) String productVendor,
+            @RequestParam(required = false) String productScale,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortBy,
@@ -53,22 +67,37 @@ public class ProductController {
     ) {
         ProductSearchCriteria criteria = ProductSearchCriteria.builder()
                 .q(q)
+                .productLine(productLine)
+                .productVendor(productVendor)
+                .productScale(productScale)
                 .build();
 
         return ResponseEntity.ok(
-                productService.getAllProductsSummary(
-                        criteria,
-                        productService.buildPageable(page, size, sortBy, sortDir)
+                CustomPagedDTO.from(
+                        productService.getAllProductsSummary(
+                                criteria,
+                                productService.buildPageable(page, size, sortBy, sortDir)
+                        )
                 )
         );
     }
 
+    @Operation(summary = "Get product by code", description = "Retrieves a product by its unique code")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product found", content = @Content(schema = @Schema(implementation = ProductDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable String id) {
         ProductDTO product = productService.getProductById(id);
         return ResponseEntity.ok(product);
     }
 
+    @Operation(summary = "Create a new product", description = "Creates a new product with the provided details")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Product created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDtoCreateUpdate productDto) {
         ProductDTO createdProduct = productService.createProduct(productDto);
