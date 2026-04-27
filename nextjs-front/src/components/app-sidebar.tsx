@@ -20,11 +20,9 @@ import {
 import Link from "next/link";
 
 const menuItems = [
-    { title: "Dashboard", url: "/", icon: Home },
     { title: "Clientes", url: "/customers", icon: Users },
-    { title: "Catálogo", url: "/products", icon: Package },
+    { title: "Productos", url: "/products", icon: Package },
     { title: "Órdenes", url: "/orders", icon: ShoppingCart },
-    { title: "Reportes", url: "/reports", icon: FileText },
 ];
 
 const user = {
